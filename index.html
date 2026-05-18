@@ -6,7 +6,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Claude — M</title>
+<title>Claude Lite — MISAKROOS</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -403,7 +403,7 @@ header{
         <div class="login-icon">⚡</div>
         <h1>Claude Lite <span>MISAKROOS</span></h1>
       </div>
-      <p class="login-sub">powered by Claude</p>
+      <p class="login-sub">IA sin límites · powered by Claude</p>
       <div class="fg"><label>Usuario</label><input type="text" id="loginUser" placeholder="Tu usuario" autocomplete="username" autocapitalize="none" autocorrect="off"/></div>
       <div class="fg"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña" autocomplete="current-password"/></div>
       <button class="btn btn-p" id="loginBtn" onclick="doLogin()">Ingresar</button>
@@ -511,7 +511,7 @@ header{
         <div class="cfg-card">
           <h3>🔑 API Key de Claude</h3>
           <div class="fg"><label>API Key (Anthropic)</label><div class="key-row"><input type="password" id="cfgKey" placeholder="sk-ant-api03-..."/><button class="btn btn-s btn-xs" onclick="toggleKeyVis()">👁</button></div></div>
-          <div class="fg"><label>Modelo por defecto</label><select id="cfgModel"><option value="claude-sonnet-4-20250514">Sonnet 4 — Recomendado ⚡</option><option value="claude-opus-4-20250514">Opus 4 — Máxima inteligencia 🧠</option><option value="claude-haiku-4-5-20251001">Haiku 4.5 — Ultra rápido 🚀</option></select></div>
+          <div class="fg"><label>Modelo por defecto</label><select id="cfgModel"><option value="claude-sonnet-4-6">Sonnet 4 — Recomendado ⚡</option><option value="claude-opus-4-6">Opus 4 — Máxima inteligencia 🧠</option><option value="claude-haiku-4-5">Haiku 4.5 — Ultra rápido 🚀</option></select></div>
           <button class="btn btn-p" onclick="saveCfg()" style="padding:13px">Guardar configuración</button>
         </div>
         <div class="cfg-card">
@@ -600,9 +600,9 @@ header{
     </div>
     <div class="model-opts" id="welcomeModelOpts">
       <div class="mopt sel" onclick="selWModel(this,'auto')" data-model="auto"><div class="mopt-hdr"><span class="mopt-name">🤖 Automático</span><span class="mopt-badge">RECOMENDADO</span></div><div class="mopt-desc">Elige el mejor modelo según tu tarea.</div><div class="mopt-tok">~500–2000 tokens por respuesta</div></div>
-      <div class="mopt" onclick="selWModel(this,'claude-haiku-4-5-20251001')" data-model="claude-haiku-4-5-20251001"><div class="mopt-hdr"><span class="mopt-name">🚀 Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples y traducciones.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
-      <div class="mopt" onclick="selWModel(this,'claude-sonnet-4-20250514')" data-model="claude-sonnet-4-20250514"><div class="mopt-hdr"><span class="mopt-name">⚡ Sonnet 4</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para crear páginas web y código complejo.</div><div class="mopt-tok">~800–3000 tokens · ideal para código</div></div>
-      <div class="mopt" onclick="selWModel(this,'claude-opus-4-20250514')" data-model="claude-opus-4-20250514"><div class="mopt-hdr"><span class="mopt-name">🧠 Opus 4</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos complejos.</div><div class="mopt-tok">~2000–5000 tokens · consume más</div></div>
+      <div class="mopt" onclick="selWModel(this,'claude-haiku-4-5')" data-model="claude-haiku-4-5"><div class="mopt-hdr"><span class="mopt-name">🚀 Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples y traducciones.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
+      <div class="mopt" onclick="selWModel(this,'claude-sonnet-4-6')" data-model="claude-sonnet-4-6"><div class="mopt-hdr"><span class="mopt-name">⚡ Sonnet 4</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para crear páginas web y código complejo.</div><div class="mopt-tok">~800–3000 tokens · ideal para código</div></div>
+      <div class="mopt" onclick="selWModel(this,'claude-opus-4-6')" data-model="claude-opus-4-6"><div class="mopt-hdr"><span class="mopt-name">🧠 Opus 4</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos complejos.</div><div class="mopt-tok">~2000–5000 tokens · consume más</div></div>
     </div>
     <div style="display:flex;gap:10px;margin-top:16px">
       <button class="btn btn-p" onclick="saveWelcome()">Guardar y comenzar</button>
@@ -619,9 +619,9 @@ header{
     <div class="modal-hdr"><span class="modal-ttl">🤖 Elegir modelo</span><button class="btn-cls" onclick="closeModelModal()">✕</button></div>
     <div class="model-opts" id="modelPickerOpts">
       <div class="mopt" onclick="pickModel(this,'auto')" data-model="auto"><div class="mopt-hdr"><span class="mopt-name">🤖 Automático</span><span class="mopt-badge">RECOMENDADO</span></div><div class="mopt-desc">Elige el mejor modelo según tu tarea.</div><div class="mopt-tok">~500–2000 tokens por respuesta</div></div>
-      <div class="mopt" onclick="pickModel(this,'claude-haiku-4-5-20251001')" data-model="claude-haiku-4-5-20251001"><div class="mopt-hdr"><span class="mopt-name">🚀 Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
-      <div class="mopt" onclick="pickModel(this,'claude-sonnet-4-20250514')" data-model="claude-sonnet-4-20250514"><div class="mopt-hdr"><span class="mopt-name">⚡ Sonnet 4</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para páginas web y código complejo.</div><div class="mopt-tok">~800–3000 tokens</div></div>
-      <div class="mopt" onclick="pickModel(this,'claude-opus-4-20250514')" data-model="claude-opus-4-20250514"><div class="mopt-hdr"><span class="mopt-name">🧠 Opus 4</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos complejos.</div><div class="mopt-tok">~2000–5000 tokens</div></div>
+      <div class="mopt" onclick="pickModel(this,'claude-haiku-4-5')" data-model="claude-haiku-4-5"><div class="mopt-hdr"><span class="mopt-name">🚀 Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
+      <div class="mopt" onclick="pickModel(this,'claude-sonnet-4-6')" data-model="claude-sonnet-4-6"><div class="mopt-hdr"><span class="mopt-name">⚡ Sonnet 4</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para páginas web y código complejo.</div><div class="mopt-tok">~800–3000 tokens</div></div>
+      <div class="mopt" onclick="pickModel(this,'claude-opus-4-6')" data-model="claude-opus-4-6"><div class="mopt-hdr"><span class="mopt-name">🧠 Opus 4</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos complejos.</div><div class="mopt-tok">~2000–5000 tokens</div></div>
     </div>
   </div>
 </div>
@@ -691,7 +691,10 @@ function modelLabel(m){
   return m;
 }
 function resolveModel(m){
-  if(!m||m==='auto')return'claude-sonnet-4-20250514';
+  if(!m||m==='auto')return'claude-sonnet-4-6';
+  if(m==='claude-sonnet-4-20250514')return'claude-sonnet-4-6';
+  if(m==='claude-opus-4-20250514')return'claude-opus-4-6';
+  if(m==='claude-haiku-4-5-20251001')return'claude-haiku-4-5';
   return m;
 }
 
@@ -723,7 +726,7 @@ async function restoreSession(session){
       const{data:op}=await sb.from('operador').select('*').eq('usuario',session.user).eq('clave',session.pass).single();
       if(op){
         role='operator';curUser=session.user;apiKey=op.api_key||'';
-        activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-20250514';
+        activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';
         sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
         document.getElementById('loadingScreen').classList.add('hidden');
         startOperator();return;
@@ -766,7 +769,7 @@ async function doLogin(){
   const{data:op}=await sb.from('operador').select('*').eq('usuario',user).eq('clave',pass).single();
   if(op){
     role='operator';curUser=user;apiKey=op.api_key||'';
-    activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-20250514';
+    activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';
     sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
     saveSession({role:'operator',user,pass});
     document.getElementById('loginScreen').classList.add('hidden');
@@ -816,7 +819,7 @@ function startOperator(){
   document.getElementById('roleBadge').textContent='⚙ Operador';
   document.getElementById('roleBadge').className='role-badge rb-op';
   document.getElementById('cfgKey').value=apiKey;
-  document.getElementById('cfgModel').value=activeModel==='auto'?'claude-sonnet-4-20250514':activeModel;
+  document.getElementById('cfgModel').value=activeModel==='auto'?'claude-sonnet-4-6':activeModel;
   document.getElementById('cfgPrompt').value=sysPrompt;
   loadDash();
   refreshInt=setInterval(()=>{if(document.getElementById('tab-dash').classList.contains('active'))loadDash();},20000);

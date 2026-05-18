@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroChat — IA Sin Límites</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09090f;
+    --surface: #111118;
+    --surface2: #1a1a26;
+    --border: #2a2a3d;
+    --accent: #7c5cfc;
+    --accent2: #00e5ff;
+    --accent3: #ff4b6e;
+    --text: #e8e8f0;
+    --text-muted: #6b6b8a;
+    --glow: rgba(124, 92, 252, 0.3);
+    --glow2: rgba(0, 229, 255, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(124,92,252,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 80%, rgba(0,229,255,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 60% 30%, rgba(255,75,110,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Grid overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(124,92,252,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,92,252,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Header */
+  header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(9,9,15,0.8);
+    backdrop-filter: blur(20px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 0 20px var(--glow);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px var(--glow); }
+    50% { box-shadow: 0 0 35px rgba(124,92,252,0.5), 0 0 60px rgba(0,229,255,0.2); }
+  }
+
+  .logo span { color: var(--accent2); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 6px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .status-dot.offline { background: var(--accent3); animation: none; }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* API Key modal */
+  .api-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(9,9,15,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .api-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .api-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+
+  .api-card h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .api-card p {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .api-card a {
+    color: var(--accent2);
+    text-decoration: none;
+  }
+
+  .model-selector {
+    margin-bottom: 16px;
+  }
+
+  .model-selector label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .model-selector select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b8a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    transition: border-color 0.2s;
+  }
+
+  .model-selector select:focus { border-color: var(--accent); }
+
+  .api-input-group { margin-bottom: 20px; }
+
+  .api-input-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .api-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .api-input-wrapper input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 44px 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .api-input-wrapper input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.15);
+  }
+
+  .toggle-vis {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 16px;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+
+  .toggle-vis:hover { color: var(--text); }
+
+  .btn-connect {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #5a3fd4);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(124,92,252,0.3);
+  }
+
+  .btn-connect:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(124,92,252,0.4);
+  }
+
+  .btn-connect:active { transform: translateY(0); }
+
+  .error-msg {
+    color: var(--accent3);
+    font-size: 12px;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    display: none;
+  }
+
+  /* Main layout */
+  .app {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 65px);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    display: none;
+  }
+
+  /* Chat area */
+  .chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* Messages */
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+  }
+
+  .messages::-webkit-scrollbar { width: 4px; }
+  .messages::-webkit-scrollbar-track { background: transparent; }
+  .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* Welcome screen */
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    text-align: center;
+    padding: 40px 20px;
+    gap: 16px;
+    animation: fade-in 0.6s ease;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .welcome-orb {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 0 40px var(--glow), 0 0 80px var(--glow2);
+    animation: orb-pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes orb-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 40px var(--glow), 0 0 80px var(--glow2); }
+    50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(124,92,252,0.5), 0 0 100px rgba(0,229,255,0.25); }
+  }
+
+  .welcome h1 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .welcome p {
+    color: var(--text-muted);
+    font-size: 14px;
+    max-width: 360px;
+    line-height: 1.6;
+  }
+
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .suggestion-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .suggestion-chip:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  /* Message bubbles */
+  .message {
+    display: flex;
+    gap: 12px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    animation: msg-in 0.3s ease;
+  }
+
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message.user { flex-direction: row-reverse; }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  .avatar.ai {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    box-shadow: 0 0 16px var(--glow);
+    font-size: 16px;
+  }
+
+  .avatar.user-av {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent2);
+  }
+
+  .bubble {
+    max-width: calc(100% - 50px);
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .message.ai .bubble {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px 14px 14px 14px;
+  }
+
+  .message.user .bubble {
+    background: linear-gradient(135deg, var(--accent), #5a3fd4);
+    border-radius: 14px 4px 14px 14px;
+    color: white;
+  }
+
+  .bubble pre {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    overflow-x: auto;
+    margin: 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .bubble code:not(pre code) {
+    background: rgba(124,92,252,0.15);
+    border: 1px solid rgba(124,92,252,0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent2);
+  }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: flex;
+    gap: 12px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .typing-bubble {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px 14px 14px 14px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: typing 1.2s ease-in-out infinite;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; background: var(--accent2); }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; background: var(--accent3); }
+
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Input area */
+  .input-area {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    background: rgba(9,9,15,0.8);
+    backdrop-filter: blur(20px);
+  }
+
+  .input-container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input-container:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+  }
+
+  #userInput {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    outline: none;
+    resize: none;
+    max-height: 120px;
+    line-height: 1.5;
+    min-height: 24px;
+  }
+
+  #userInput::placeholder { color: var(--text-muted); }
+
+  .input-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .char-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .btn-send {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #5a3fd4);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 12px rgba(124,92,252,0.3);
+  }
+
+  .btn-send:hover { transform: scale(1.05); box-shadow: 0 4px 18px rgba(124,92,252,0.4); }
+  .btn-send:active { transform: scale(0.97); }
+  .btn-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .btn-send svg { width: 16px; height: 16px; fill: white; }
+
+  .input-meta {
+    max-width: 800px;
+    margin: 8px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .model-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .model-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+  }
+
+  .btn-clear {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-clear:hover { color: var(--accent3); background: rgba(255,75,110,0.1); }
+
+  /* Token counter */
+  .token-info {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* System prompt modal */
+  .system-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .system-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Hidden */
+  .hidden { display: none !important; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 13px;
+    z-index: 200;
+    animation: toast-in 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .toast.error { border-color: var(--accent3); color: var(--accent3); }
+  .toast.success { border-color: #4ade80; color: #4ade80; }
+
+  /* Scrollbar for textarea */
+  #userInput::-webkit-scrollbar { width: 3px; }
+  #userInput::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  @media (max-width: 600px) {
+    .api-card { padding: 24px 20px; }
+    .welcome h1 { font-size: 20px; }
+    header { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- API Key Modal -->
+<div class="api-overlay" id="apiOverlay">
+  <div class="api-card">
+    <h2>⚡ Conectar IA</h2>
+    <p>
+      Ingresa tu API Key de Anthropic para usar Claude de forma ilimitada directamente desde tu navegador. 
+      Tu clave se guarda solo localmente. 
+      <a href="https://console.anthropic.com/account/keys" target="_blank">Obtener API Key →</a>
+    </p>
+
+    <div class="model-selector">
+      <label>Modelo</label>
+      <select id="modelSelect">
+        <option value="claude-sonnet-4-20250514">claude-sonnet-4 — Potente y rápido ⚡</option>
+        <option value="claude-opus-4-20250514">claude-opus-4 — Máxima inteligencia 🧠</option>
+        <option value="claude-haiku-4-5-20251001">claude-haiku-4.5 — Ultra rápido 🚀</option>
+      </select>
+    </div>
+
+    <div class="api-input-group">
+      <label>Anthropic API Key</label>
+      <div class="api-input-wrapper">
+        <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off" />
+        <button class="toggle-vis" onclick="toggleVis()" title="Mostrar/ocultar">👁</button>
+      </div>
+    </div>
+
+    <button class="btn-connect" onclick="connect()">Conectar y comenzar</button>
+    <p class="error-msg" id="errorMsg">⚠ API Key inválida o error de conexión</p>
+  </div>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    Neuro<span>Chat</span>
+  </div>
+  <div class="header-right">
+    <div class="status-badge">
+      <div class="status-dot offline" id="statusDot"></div>
+      <span id="statusText">Sin conectar</span>
+    </div>
+    <button class="system-btn" onclick="changeKey()">⚙ Config</button>
+  </div>
+</header>
+
+<!-- App -->
+<div class="app">
+  <div class="chat-area">
+    <div class="messages" id="messages">
+      <!-- Welcome -->
+      <div class="welcome" id="welcome">
+        <div class="welcome-orb">🧠</div>
+        <h1>IA sin límites</h1>
+        <p>Conectado a Claude via API. Sin límites de mensajes, sin suscripciones. Solo tú y la IA.</p>
+        <div class="suggestions">
+          <div class="suggestion-chip" onclick="suggest('Explícame cómo funciona una red neuronal')">🔬 Redes neuronales</div>
+          <div class="suggestion-chip" onclick="suggest('Escribe código Python para una API REST')">💻 Código Python</div>
+          <div class="suggestion-chip" onclick="suggest('Dame ideas para un negocio de streaming')">💡 Ideas de negocio</div>
+          <div class="suggestion-chip" onclick="suggest('Traduce este texto al inglés y francés')">🌐 Traducciones</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-container">
+        <textarea id="userInput" placeholder="Escribe tu mensaje... (Enter para enviar, Shift+Enter para nueva línea)" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <div class="input-actions">
+          <button class="btn-send" id="sendBtn" onclick="sendMessage()" disabled>
+            <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="input-meta">
+        <div class="model-tag" id="modelTag">Sin modelo</div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="token-info" id="tokenInfo">0 tokens</div>
+          <button class="btn-clear" onclick="clearChat()">✕ Limpiar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let apiKey = '';
+  let model = 'claude-sonnet-4-20250514';
+  let conversation = [];
+  let isLoading = false;
+  let totalTokens = 0;
+
+  // Load saved key
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('nc_api_key');
+    const savedModel = localStorage.getItem('nc_model');
+    if (saved) {
+      document.getElementById('apiKeyInput').value = saved;
+    }
+    if (savedModel) {
+      document.getElementById('modelSelect').value = savedModel;
+    }
+  });
+
+  function toggleVis() {
+    const input = document.getElementById('apiKeyInput');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  async function connect() {
+    const key = document.getElementById('apiKeyInput').value.trim();
+    const selectedModel = document.getElementById('modelSelect').value;
+
+    if (!key.startsWith('sk-ant-')) {
+      showError('La API Key debe comenzar con sk-ant-');
+      return;
+    }
+
+    const btn = document.querySelector('.btn-connect');
+    btn.textContent = 'Verificando...';
+    btn.disabled = true;
+
+    // Test the API key with a minimal request
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          max_tokens: 10,
+          messages: [{ role: 'user', content: 'Hi' }]
+        })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error?.message || 'Error de autenticación');
+      }
+
+      apiKey = key;
+      model = selectedModel;
+      localStorage.setItem('nc_api_key', key);
+      localStorage.setItem('nc_model', model);
+
+      document.getElementById('apiOverlay').classList.add('hidden');
+      document.getElementById('statusDot').classList.remove('offline');
+      document.getElementById('statusText').textContent = 'Conectado';
+      document.getElementById('sendBtn').disabled = false;
+
+      const modelNames = {
+        'claude-sonnet-4-20250514': 'claude-sonnet-4',
+        'claude-opus-4-20250514': 'claude-opus-4',
+        'claude-haiku-4-5-20251001': 'claude-haiku-4.5'
+      };
+      document.getElementById('modelTag').textContent = modelNames[model] || model;
+
+      showToast('✓ Conectado exitosamente', 'success');
+
+    } catch (e) {
+      showError(e.message || 'Error al conectar');
+      btn.textContent = 'Conectar y comenzar';
+      btn.disabled = false;
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = '⚠ ' + msg;
+    el.style.display = 'block';
+  }
+
+  function changeKey() {
+    document.getElementById('apiOverlay').classList.remove('hidden');
+    document.querySelector('.btn-connect').textContent = 'Reconectar';
+    document.querySelector('.btn-connect').disabled = false;
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function suggest(text) {
+    document.getElementById('userInput').value = text;
+    autoResize(document.getElementById('userInput'));
+    sendMessage();
+  }
+
+  function addMessage(role, content) {
+    const welcome = document.getElementById('welcome');
+    if (welcome) welcome.remove();
+
+    const messages = document.getElementById('messages');
+
+    const div = document.createElement('div');
+    div.className = `message ${role === 'user' ? 'user' : 'ai'}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = `avatar ${role === 'user' ? 'user-av' : 'ai'}`;
+    avatar.textContent = role === 'user' ? '👤' : '⚡';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+
+    // Simple markdown-like rendering
+    const formatted = content
+      .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\n/g, '<br>');
+
+    bubble.innerHTML = formatted;
+
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+
+    return bubble;
+  }
+
+  function showTyping() {
+    const messages = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.id = 'typingIndicator';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar ai';
+    avatar.textContent = '⚡';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'typing-bubble';
+    bubble.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage() {
+    if (isLoading || !apiKey) return;
+
+    const input = document.getElementById('userInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    isLoading = true;
+    input.value = '';
+    input.style.height = 'auto';
+    document.getElementById('sendBtn').disabled = true;
+
+    conversation.push({ role: 'user', content: text });
+    addMessage('user', text);
+    showTyping();
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: model,
+          max_tokens: 4096,
+          messages: conversation
+        })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error?.message || 'Error en la solicitud');
+      }
+
+      const data = await res.json();
+      const reply = data.content[0].text;
+
+      totalTokens += (data.usage?.input_tokens || 0) + (data.usage?.output_tokens || 0);
+      document.getElementById('tokenInfo').textContent = `${totalTokens.toLocaleString()} tokens`;
+
+      conversation.push({ role: 'assistant', content: reply });
+
+      removeTyping();
+      addMessage('assistant', reply);
+
+    } catch (e) {
+      removeTyping();
+      showToast('⚠ Error: ' + e.message, 'error');
+      conversation.pop(); // Remove failed user message
+    }
+
+    isLoading = false;
+    document.getElementById('sendBtn').disabled = false;
+    input.focus();
+  }
+
+  function clearChat() {
+    conversation = [];
+    totalTokens = 0;
+    document.getElementById('tokenInfo').textContent = '0 tokens';
+    const messages = document.getElementById('messages');
+    messages.innerHTML = `
+      <div class="welcome" id="welcome">
+        <div class="welcome-orb">🧠</div>
+        <h1>IA sin límites</h1>
+        <p>Conectado a Claude via API. Sin límites de mensajes, sin suscripciones. Solo tú y la IA.</p>
+        <div class="suggestions">
+          <div class="suggestion-chip" onclick="suggest('Explícame cómo funciona una red neuronal')">🔬 Redes neuronales</div>
+          <div class="suggestion-chip" onclick="suggest('Escribe código Python para una API REST')">💻 Código Python</div>
+          <div class="suggestion-chip" onclick="suggest('Dame ideas para un negocio de streaming')">💡 Ideas de negocio</div>
+          <div class="suggestion-chip" onclick="suggest('Traduce este texto al inglés y francés')">🌐 Traducciones</div>
+        </div>
+      </div>
+    `;
+    showToast('✓ Chat limpiado', 'success');
+  }
+
+  function showToast(msg, type = '') {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+  }
+</script>
+</body>
+</html>

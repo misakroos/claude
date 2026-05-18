@@ -7,606 +7,611 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Claude Lite — MISAKROOS</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
-  --bg:#0a0a0f;--sur:#12121a;--sur2:#1c1c28;--sur3:#242433;
-  --bdr:#2e2e42;--bdr2:#3d3d56;
-  --a:#00d4aa;--a2:#7c5cfc;--a3:#ff6b6b;--a4:#ffd93d;
-  --t:#f0f0f8;--t2:#a0a0c0;--t3:#606080;
-  --glow:rgba(0,212,170,.2);--glow2:rgba(124,92,252,.15);
-  --r:14px;--r2:10px;
+  --bg:#1a1a1a;
+  --bg2:#212121;
+  --bg3:#2a2a2a;
+  --bg4:#333;
+  --bdr:#383838;
+  --bdr2:#444;
+  --t:#ececec;
+  --t2:#b4b4b4;
+  --t3:#6e6e6e;
+  --t4:#3d3d3d;
+  --orange:#cc785c;
+  --orange2:#e8855f;
+  --red:#e57373;
+  --green:#66bb6a;
+  --blue:#64b5f6;
+  --r:8px;
   --iosb:env(safe-area-inset-bottom,0px);
   --iost:env(safe-area-inset-top,0px);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{height:100%;height:-webkit-fill-available;}
-body{
-  height:100%;height:-webkit-fill-available;
-  overflow:hidden;
-  background:var(--bg);color:var(--t);
-  font-family:'Outfit',sans-serif;font-size:16px;
-  -webkit-font-smoothing:antialiased;
-}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 10% 0%,rgba(0,212,170,.07) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 90% 100%,rgba(124,92,252,.06) 0%,transparent 60%);pointer-events:none;z-index:0;}
-input,select,textarea,button{font-family:'Outfit',sans-serif;font-size:16px;color:var(--t);}
-::-webkit-scrollbar{width:2px;height:2px;}
-::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:1px;}
+body{height:100%;height:-webkit-fill-available;overflow:hidden;background:var(--bg);color:var(--t);font-family:'Inter',sans-serif;font-size:15px;-webkit-font-smoothing:antialiased;}
+input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color:var(--t);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px;}
 .hidden{display:none!important;}
 
-/* ══ LOADING SCREEN ══ */
-#loadingScreen{
-  position:fixed;inset:0;z-index:100;
-  background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-}
-.loading-orb{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 40px var(--glow);animation:pulse 2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
-.loading-txt{font-size:13px;color:var(--t3);font-family:'JetBrains Mono',monospace;}
+/* ══ LOADING ══ */
+#loadingScreen{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+.loading-logo{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.loading-icon{width:48px;height:48px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:22px;animation:spin 2s linear infinite;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.loading-txt{font-size:14px;color:var(--t3);letter-spacing:.3px;}
 
 /* ══ LOGIN ══ */
-#loginScreen{
-  position:fixed;inset:0;z-index:50;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;
-  background:var(--bg);
-  padding-top:var(--iost);
-}
-.login-wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;padding:24px 16px 48px;}
-.login-card{
-  background:var(--sur);border:1px solid var(--bdr);border-radius:20px;
-  padding:28px 22px;width:100%;max-width:400px;
-  position:relative;overflow:hidden;animation:fadeUp .4s ease;
-}
-.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--a),var(--a2),var(--a3));}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:4px;}
-.login-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--a),var(--a2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 24px var(--glow);flex-shrink:0;}
-.login-logo h1{font-size:21px;font-weight:800;letter-spacing:-.3px;}
-.login-logo h1 span{color:var(--a);}
-.login-sub{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-bottom:24px;letter-spacing:.5px;}
-.fg{margin-bottom:16px;}
-.fg label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;font-family:'JetBrains Mono',monospace;}
-.fg input,.fg select,.fg textarea{
-  width:100%;background:var(--sur2);border:1.5px solid var(--bdr);border-radius:var(--r2);
-  color:var(--t);padding:14px 16px;outline:none;
-  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
-  font-size:16px;
-}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(0,212,170,.12);}
+#loginScreen{position:fixed;inset:0;z-index:50;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg);padding-top:var(--iost);}
+.login-wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;padding:40px 20px 60px;}
+.login-brand{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:32px;}
+.login-brand-icon{width:52px;height:52px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:24px;}
+.login-brand h1{font-size:22px;font-weight:600;color:var(--t);letter-spacing:-.3px;}
+.login-brand p{font-size:13px;color:var(--t3);text-align:center;}
+.login-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:24px 20px;width:100%;max-width:380px;}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:12px;font-weight:500;color:var(--t3);margin-bottom:6px;letter-spacing:.2px;}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);color:var(--t);padding:11px 14px;outline:none;transition:border-color .15s;-webkit-appearance:none;font-size:15px;line-height:1.4;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--orange);}
 .fg textarea{resize:none;line-height:1.5;}
-.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23606080' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer;padding-right:36px;}
-.fg select option{background:var(--sur2);}
-.btn{width:100%;padding:15px;border:none;border-radius:var(--r2);font-size:16px;font-weight:700;cursor:pointer;transition:all .18s;letter-spacing:.2px;}
-.btn-p{background:linear-gradient(135deg,var(--a),#00a882);color:#0a0a0f;box-shadow:0 4px 20px rgba(0,212,170,.3);}
-.btn-p:active{transform:scale(.97);}
-.btn-p:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.btn-s{background:var(--sur2);color:var(--t2);border:1.5px solid var(--bdr);}
-.btn-s:active{background:var(--sur3);}
-.btn-d{background:rgba(255,107,107,.12);color:var(--a3);border:1.5px solid rgba(255,107,107,.3);}
-.btn-d:active{background:rgba(255,107,107,.22);}
-.btn-sm{width:auto;padding:9px 18px;font-size:14px;border-radius:8px;}
-.btn-xs{width:auto;padding:7px 13px;font-size:12px;border-radius:7px;}
-.err{color:var(--a3);font-size:13px;margin-top:10px;font-family:'JetBrains Mono',monospace;text-align:center;}
+.fg select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e6e6e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.fg select option{background:var(--bg3);}
+.btn{width:100%;padding:12px;border:none;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;transition:all .15s;}
+.btn-p{background:var(--orange);color:#fff;}
+.btn-p:hover{background:var(--orange2);}
+.btn-p:active{opacity:.85;}
+.btn-p:disabled{opacity:.5;cursor:not-allowed;}
+.btn-s{background:var(--bg3);color:var(--t2);border:1px solid var(--bdr);}
+.btn-s:active{background:var(--bg4);}
+.btn-d{background:transparent;color:var(--red);border:1px solid rgba(229,115,115,.3);}
+.btn-d:active{background:rgba(229,115,115,.1);}
+.btn-sm{width:auto;padding:8px 16px;font-size:13px;border-radius:6px;}
+.btn-xs{width:auto;padding:6px 12px;font-size:12px;border-radius:6px;}
+.err{color:var(--red);font-size:12px;margin-top:8px;text-align:center;}
 
 /* FAQ */
-.faq-section{width:100%;max-width:400px;margin-top:20px;}
-.faq-ttl{font-size:12px;font-weight:700;color:var(--t3);margin-bottom:10px;text-align:center;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
-.faq-item{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;margin-bottom:8px;overflow:hidden;}
-.faq-q{padding:15px 16px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;user-select:none;}
-.faq-q:active{background:var(--sur2);}
-.faq-arrow{font-size:10px;color:var(--t3);flex-shrink:0;transition:transform .25s;}
-.faq-item.open .faq-arrow{transform:rotate(180deg);}
-.faq-a{padding:0 16px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:13px;color:var(--t2);line-height:1.65;}
-.faq-item.open .faq-a{max-height:300px;padding:0 16px 15px;}
+.faq-wrap{width:100%;max-width:380px;margin-top:20px;}
+.faq-head{font-size:11px;font-weight:600;color:var(--t3);text-align:center;margin-bottom:10px;letter-spacing:.8px;text-transform:uppercase;}
+.faq-item{border-bottom:1px solid var(--bdr);overflow:hidden;}
+.faq-item:first-of-type{border-top:1px solid var(--bdr);}
+.faq-q{padding:13px 4px;font-size:14px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--t2);user-select:none;}
+.faq-q:active{color:var(--t);}
+.faq-ico{font-size:11px;color:var(--t3);transition:transform .2s;flex-shrink:0;}
+.faq-item.open .faq-ico{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .28s ease,padding .28s;font-size:13px;color:var(--t3);line-height:1.65;padding:0 4px;}
+.faq-item.open .faq-a{max-height:300px;padding:0 4px 13px;}
 
-/* ══ APP SHELL ══ */
-#app{position:fixed;inset:0;display:flex;flex-direction:column;z-index:10;}
+/* ══ APP ══ */
+#app{position:fixed;inset:0;display:flex;flex-direction:column;}
 
-/* Header */
-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 16px;
-  padding-top:calc(10px + var(--iost));
-  background:rgba(10,10,15,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--bdr);
-  flex-shrink:0;z-index:20;
-  min-height:54px;
+/* Sidebar (desktop) */
+.sidebar{width:260px;background:var(--bg2);border-right:1px solid var(--bdr);display:flex;flex-direction:column;flex-shrink:0;}
+.sidebar-top{padding:14px 12px 8px;border-bottom:1px solid var(--bdr);}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .15s;}
+.sidebar-brand:hover{background:var(--bg3);}
+.sidebar-icon{width:28px;height:28px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.sidebar-brand-name{font-size:14px;font-weight:600;color:var(--t);}
+.sidebar-brand-sub{font-size:11px;color:var(--t3);}
+.new-chat-btn{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:14px;font-weight:500;transition:all .15s;border:none;background:none;width:100%;margin-top:6px;}
+.new-chat-btn:hover{background:var(--bg3);color:var(--t);}
+.new-chat-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;flex-shrink:0;}
+.sidebar-mem{padding:12px;border-top:1px solid var(--bdr);margin-top:auto;}
+.mem-badge{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--bg3);border-radius:8px;cursor:pointer;transition:background .15s;}
+.mem-badge:hover{background:var(--bg4);}
+.mem-icon{font-size:16px;}
+.mem-info{flex:1;min-width:0;}
+.mem-title{font-size:12px;font-weight:600;color:var(--t2);}
+.mem-sub{font-size:10px;color:var(--t3);}
+.sidebar-user{display:flex;align-items:center;gap:10px;padding:10px;border-top:1px solid var(--bdr);}
+.sidebar-avatar{width:30px;height:30px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--t2);flex-shrink:0;}
+.sidebar-user-info{flex:1;min-width:0;}
+.sidebar-username{font-size:13px;font-weight:500;color:var(--t);}
+.sidebar-role{font-size:11px;color:var(--t3);}
+.btn-logout-s{background:none;border:none;color:var(--t3);cursor:pointer;padding:6px;border-radius:6px;font-size:18px;transition:color .15s;}
+.btn-logout-s:hover{color:var(--red);}
+
+/* ══ MOBILE HEADER ══ */
+.mobile-header{display:none;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:calc(10px + var(--iost));background:var(--bg);border-bottom:1px solid var(--bdr);flex-shrink:0;min-height:52px;}
+.mhdr-left{display:flex;align-items:center;gap:10px;}
+.mhdr-icon{width:30px;height:30px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.mhdr-title{font-size:15px;font-weight:600;}
+.mhdr-right{display:flex;align-items:center;gap:8px;}
+.mhdr-badge{font-size:10px;font-weight:600;color:var(--t3);border:1px solid var(--bdr);border-radius:20px;padding:3px 9px;letter-spacing:.3px;}
+.btn-mlogout{background:none;border:none;color:var(--t3);cursor:pointer;padding:6px;font-size:16px;}
+
+@media(max-width:767px){
+  .sidebar{display:none;}
+  .mobile-header{display:flex;}
+  #app{flex-direction:column;}
+  .app-body{flex-direction:column!important;}
 }
-.hdr-logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:-.3px;flex-shrink:0;}
-.hdr-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--a),var(--a2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 14px var(--glow);}
-.hdr-logo span{color:var(--a);}
-.hdr-mid{flex:1;display:flex;justify-content:center;}
-.role-badge{padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
-.rb-op{background:rgba(255,217,61,.15);color:var(--a4);border:1px solid rgba(255,217,61,.3);}
-.rb-usr{background:rgba(0,212,170,.15);color:var(--a);border:1px solid rgba(0,212,170,.3);}
-.hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
-.btn-out{background:var(--sur2);border:1px solid var(--bdr);color:var(--t3);padding:7px 14px;border-radius:8px;font-size:13px;cursor:pointer;transition:all .2s;font-weight:600;}
-.btn-out:active{color:var(--a3);border-color:rgba(255,107,107,.4);}
+@media(min-width:768px){
+  .mobile-header{display:none;}
+  .app-body{flex-direction:row!important;}
+}
 
-/* ══ OPERATOR ══ */
-#operatorPanel{flex:1;overflow:hidden;display:flex;flex-direction:column;}
-.op-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 8px;}
+.app-body{display:flex;flex:1;overflow:hidden;}
+
+/* ══ OPERATOR PANEL ══ */
+#operatorPanel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+.op-nav{display:flex;background:var(--bg2);border-bottom:1px solid var(--bdr);flex-shrink:0;overflow-x:auto;}
+.op-nav::-webkit-scrollbar{height:0;}
+.op-tab{padding:12px 18px;font-size:13px;font-weight:500;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;border-right:none;border-left:none;border-top:none;background:none;}
+.op-tab:hover{color:var(--t2);}
+.op-tab.active{color:var(--t);border-bottom-color:var(--orange);}
+.op-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 16px;}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
 
-/* Bottom nav */
-.op-nav{
-  display:flex;background:rgba(10,10,15,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--bdr);
-  padding-bottom:var(--iosb);
-  flex-shrink:0;
+/* Op mobile bottom nav */
+.op-bottom-nav{display:none;background:var(--bg2);border-top:1px solid var(--bdr);padding-bottom:var(--iosb);flex-shrink:0;}
+@media(max-width:767px){
+  .op-nav{display:none;}
+  .op-bottom-nav{display:flex;}
 }
-.op-nav-btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;padding:10px 4px;
-  border:none;background:none;color:var(--t3);cursor:pointer;
-  transition:color .2s;min-height:56px;
-}
-.op-nav-btn.active{color:var(--a);}
-.op-nav-btn:active{opacity:.7;}
-.op-nav-icon{font-size:22px;line-height:1;}
-.op-nav-lbl{font-size:10px;font-weight:600;letter-spacing:.3px;}
+.op-bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;border:none;background:none;color:var(--t3);cursor:pointer;min-height:54px;}
+.op-bn-btn.active{color:var(--orange);}
+.op-bn-icon{font-size:20px;line-height:1;}
+.op-bn-lbl{font-size:10px;font-weight:500;}
 
 /* Dashboard */
-.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.dash-card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.dash-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;}
 .dash-card.full{grid-column:1/-1;}
-.dash-lbl{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;}
-.dash-val{font-size:24px;font-weight:800;}
-.dash-val.g{color:var(--a);}
-.dash-val.p{color:var(--a2);}
-.dash-val.r{color:var(--a3);}
-.dash-val.y{color:var(--a4);}
+@media(min-width:600px){.dash-grid{grid-template-columns:repeat(4,1fr);}}
+.dash-lbl{font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;}
+.dash-val{font-size:22px;font-weight:600;}
+.dash-val.g{color:var(--green);}
+.dash-val.b{color:var(--blue);}
+.dash-val.r{color:var(--red);}
+.dash-val.o{color:var(--orange);}
 .dash-sub{font-size:11px;color:var(--t3);margin-top:3px;font-family:'JetBrains Mono',monospace;}
-.macro-bar-lbls{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-bottom:6px;flex-wrap:wrap;gap:2px;}
-.macro-bar{height:10px;background:var(--sur3);border-radius:5px;overflow:hidden;display:flex;}
-.macro-bar-u{height:100%;background:linear-gradient(90deg,var(--a3),#ff9f43);transition:width .5s;}
-.macro-bar-d{height:100%;background:linear-gradient(90deg,var(--a2),var(--a));transition:width .5s;}
-.info-box{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:13px 15px;font-size:12px;color:var(--t3);line-height:1.6;margin-top:4px;}
+.macro-bar{height:8px;background:var(--bg4);border-radius:4px;overflow:hidden;display:flex;margin-top:10px;}
+.macro-bar-u{height:100%;background:var(--red);transition:width .5s;}
+.macro-bar-d{height:100%;background:var(--blue);transition:width .5s;}
+.macro-lbls{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);margin-top:6px;font-family:'JetBrains Mono',monospace;flex-wrap:wrap;gap:2px;}
+.info-note{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px;font-size:12px;color:var(--t3);line-height:1.6;margin-top:4px;}
 
-/* Section header */
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.sec-ttl{font-size:17px;font-weight:800;}
+.sec-ttl{font-size:16px;font-weight:600;}
 
 /* User cards */
-.user-cards{display:flex;flex-direction:column;gap:10px;}
-.uc{background:var(--sur);border:1.5px solid var(--bdr);border-radius:var(--r);padding:16px;transition:border-color .2s;}
-.uc.inactive{opacity:.55;}
+.user-list{display:flex;flex-direction:column;gap:8px;}
+.uc{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;}
+.uc.inactive{opacity:.5;}
 .uc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.uc-name{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;}
-.uc-dot{width:8px;height:8px;border-radius:50%;background:var(--a);flex-shrink:0;}
-.uc-dot.off{background:var(--a3);}
+.uc-name{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.uc-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.uc-dot.off{background:var(--red);}
 .uc-tags{display:flex;gap:5px;flex-wrap:wrap;}
-.uc-tag{font-size:9px;font-family:'JetBrains Mono',monospace;padding:3px 8px;border-radius:10px;font-weight:700;}
-.uc-tag.ex{background:rgba(255,107,107,.15);color:var(--a3);border:1px solid rgba(255,107,107,.3);}
-.uc-tag.di{background:rgba(255,107,107,.15);color:var(--a3);border:1px solid rgba(255,107,107,.3);}
-.uc-rows{display:flex;flex-direction:column;gap:6px;}
-.uc-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;}
+.uc-tag{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;}
+.uc-tag.ex{background:rgba(229,115,115,.15);color:var(--red);}
+.uc-tag.di{background:rgba(229,115,115,.15);color:var(--red);}
+.uc-rows{display:flex;flex-direction:column;gap:5px;}
+.uc-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;}
 .uc-rl{color:var(--t3);}
-.uc-rv{color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:12px;}
-.uc-bar{height:5px;background:var(--sur3);border-radius:3px;overflow:hidden;margin:2px 0 2px;}
-.uc-bar-f{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));border-radius:3px;transition:width .3s;}
-.uc-bar-f.low{background:linear-gradient(90deg,var(--a3),#ff9f43);}
+.uc-rv{color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:11px;}
+.uc-bar{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin:3px 0;}
+.uc-bar-f{height:100%;background:var(--orange);border-radius:2px;transition:width .3s;}
+.uc-bar-f.low{background:var(--red);}
 .uc-edit-btn{margin-top:12px;}
 
-/* Create form */
-.create-form{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;}
+/* Forms */
+.form-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:14px;}
+.form-card h3{font-size:14px;font-weight:600;margin-bottom:14px;color:var(--t2);}
 .fg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .fg-grid .full{grid-column:1/-1;}
 @media(max-width:360px){.fg-grid{grid-template-columns:1fr;}}
-.fg-small{font-size:11px;color:var(--t3);margin-top:5px;display:block;font-family:'JetBrains Mono',monospace;line-height:1.4;}
-
-/* Config */
-.cfg-card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:14px;}
-.cfg-card h3{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.fg-note{font-size:11px;color:var(--t3);margin-top:4px;display:block;line-height:1.4;}
 .key-row{display:flex;gap:8px;}
 .key-row input{flex:1;}
 
 /* ══ MODALS ══ */
-.mo{position:fixed;inset:0;background:rgba(10,10,15,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:200;display:flex;align-items:flex-end;justify-content:center;}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:flex-end;justify-content:center;}
 @media(min-width:600px){.mo{align-items:center;padding:24px;}}
-.modal{
-  background:var(--sur);border:1.5px solid var(--bdr);
-  border-radius:22px 22px 0 0;
-  padding:20px 20px calc(20px + var(--iosb));
-  width:100%;max-width:480px;
-  position:relative;
-  animation:slideUp .28s ease;
-  max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
-}
-@media(min-width:600px){.modal{border-radius:18px;padding:28px;animation:fadeUp .28s ease;max-height:85vh;}}
+.modal{background:var(--bg2);border:1px solid var(--bdr);border-radius:16px 16px 0 0;padding:20px 20px calc(20px + var(--iosb));width:100%;max-width:460px;position:relative;animation:slideUp .25s ease;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+@media(min-width:600px){.modal{border-radius:12px;padding:24px;animation:fadeUp .25s ease;}}
 @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
-.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--a2),var(--a));border-radius:22px 22px 0 0;}
-.modal-handle{width:36px;height:4px;background:var(--bdr2);border-radius:2px;margin:0 auto 18px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.modal-handle{width:32px;height:3px;background:var(--bdr2);border-radius:2px;margin:0 auto 16px;}
 @media(min-width:600px){.modal-handle{display:none;}}
-.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
-.modal-ttl{font-size:17px;font-weight:800;}
-.btn-cls{background:none;border:none;color:var(--t3);font-size:24px;cursor:pointer;padding:2px;line-height:1;width:auto;}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.modal-ttl{font-size:16px;font-weight:600;}
+.btn-cls{background:none;border:none;color:var(--t3);font-size:22px;cursor:pointer;padding:2px;line-height:1;width:auto;transition:color .15s;}
+.btn-cls:hover{color:var(--t);}
 
 /* Model options */
-.model-opts{display:flex;flex-direction:column;gap:10px;margin:14px 0;}
-.mopt{background:var(--sur2);border:2px solid var(--bdr);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:all .18s;user-select:none;}
-.mopt:active{transform:scale(.98);}
-.mopt.sel{border-color:var(--a);background:rgba(0,212,170,.08);}
-.mopt-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
-.mopt-name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;}
-.mopt-badge{font-size:10px;font-family:'JetBrains Mono',monospace;padding:3px 8px;border-radius:10px;background:var(--sur3);color:var(--t3);font-weight:700;}
-.mopt.sel .mopt-badge{background:rgba(0,212,170,.2);color:var(--a);}
-.mopt-desc{font-size:13px;color:var(--t3);line-height:1.45;}
-.mopt-tok{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--a4);margin-top:5px;}
+.model-opts{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.mopt{background:var(--bg3);border:1.5px solid var(--bdr);border-radius:var(--r);padding:13px 14px;cursor:pointer;transition:all .15s;user-select:none;}
+.mopt:active{opacity:.8;}
+.mopt.sel{border-color:var(--orange);background:rgba(204,120,92,.08);}
+.mopt-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.mopt-name{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.mopt-badge{font-size:10px;padding:2px 8px;border-radius:4px;background:var(--bg4);color:var(--t3);font-weight:600;letter-spacing:.3px;}
+.mopt.sel .mopt-badge{background:rgba(204,120,92,.2);color:var(--orange);}
+.mopt-desc{font-size:12px;color:var(--t3);line-height:1.4;}
+.mopt-tok{font-size:11px;color:var(--t2);margin-top:4px;font-family:'JetBrains Mono',monospace;}
 
-/* Welcome modal steps */
-.welcome-step{background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:12px;}
-.welcome-step h3{font-size:14px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:7px;}
-.welcome-step p{font-size:13px;color:var(--t3);line-height:1.5;}
+/* Memory modal */
+.mem-entry{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;margin-bottom:8px;position:relative;}
+.mem-entry-text{font-size:13px;color:var(--t2);line-height:1.5;padding-right:28px;}
+.mem-entry-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:16px;width:auto;padding:2px;line-height:1;}
+.mem-entry-del:hover{color:var(--red);}
+.mem-empty{text-align:center;padding:24px;color:var(--t3);font-size:13px;}
+.mem-note{font-size:12px;color:var(--t3);background:var(--bg3);border-radius:var(--r);padding:10px 12px;margin-bottom:12px;line-height:1.5;border:1px solid var(--bdr);}
 
 /* Edit modal */
 .edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .edit-grid .full{grid-column:1/-1;}
 @media(max-width:360px){.edit-grid{grid-template-columns:1fr;}}
 
-/* ══ USER CHAT ══ */
-#userChat{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+/* Welcome */
+.welcome-step{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.welcome-step h3{font-size:13px;font-weight:600;margin-bottom:5px;color:var(--t2);}
+.welcome-step p{font-size:12px;color:var(--t3);line-height:1.5;}
 
-/* Top bar */
-.chat-topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:8px 14px;
-  background:var(--sur);border-bottom:1px solid var(--bdr);
-  flex-shrink:0;gap:10px;min-height:46px;
-}
-.tok-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0;overflow:hidden;}
-.tok-lbl{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
-.tok-val{font-size:13px;color:var(--a);font-family:'JetBrains Mono',monospace;font-weight:700;white-space:nowrap;}
-.tok-mini{flex:1;max-width:80px;height:5px;background:var(--sur3);border-radius:3px;overflow:hidden;}
-.tok-mini-f{height:100%;background:linear-gradient(90deg,var(--a),var(--a2));border-radius:3px;transition:width .5s;}
-.tok-mini-f.low{background:linear-gradient(90deg,var(--a3),#ff9f43);}
-.mdl-chip{display:flex;align-items:center;gap:5px;background:var(--sur2);border:1.5px solid var(--bdr);border-radius:20px;padding:5px 12px;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--t3);cursor:pointer;flex-shrink:0;transition:all .2s;white-space:nowrap;}
-.mdl-chip:active{border-color:var(--a);color:var(--a);}
-.mdl-chip-dot{width:5px;height:5px;border-radius:50%;background:var(--a);}
+/* ══ USER CHAT ══ */
+#userChat{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+
+/* Chat topbar (mobile) */
+.chat-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--bdr);flex-shrink:0;gap:10px;}
+.tok-left{display:flex;align-items:center;gap:7px;flex:1;min-width:0;overflow:hidden;}
+.tok-lbl{font-size:11px;color:var(--t3);white-space:nowrap;}
+.tok-val{font-size:12px;color:var(--orange);font-family:'JetBrains Mono',monospace;font-weight:600;white-space:nowrap;}
+.tok-mini{flex:1;max-width:70px;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.tok-mini-f{height:100%;background:var(--orange);border-radius:2px;transition:width .5s;}
+.tok-mini-f.low{background:var(--red);}
+.mdl-chip{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--bdr);border-radius:20px;padding:5px 11px;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--t3);cursor:pointer;flex-shrink:0;transition:all .15s;white-space:nowrap;}
+.mdl-chip:active{border-color:var(--orange);color:var(--orange);}
+.mdl-dot{width:5px;height:5px;border-radius:50%;background:var(--orange);}
 .exp-lbl{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--t3);white-space:nowrap;flex-shrink:0;}
-.exp-lbl.warn{color:var(--a4);}
-.exp-lbl.exp{color:var(--a3);}
+.exp-lbl.warn{color:var(--orange);}
+.exp-lbl.exp{color:var(--red);}
 
 /* Messages */
-.msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 8px;display:flex;flex-direction:column;gap:12px;}
+.msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 16px 8px;display:flex;flex-direction:column;gap:20px;}
+@media(min-width:768px){.msgs{padding:28px 10% 8px;}}
 
 /* Welcome */
-.chat-welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:28px 20px;gap:12px;animation:fadeUp .5s ease;}
-.w-orb{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 40px var(--glow),0 0 80px var(--glow2);animation:pulse 4s ease-in-out infinite;}
-.chat-welcome h2{font-size:20px;font-weight:800;}
+.chat-welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:32px 20px;gap:14px;}
+.w-icon{width:52px;height:52px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:24px;}
+.chat-welcome h2{font-size:20px;font-weight:600;color:var(--t);}
 .chat-welcome p{color:var(--t3);font-size:13px;max-width:280px;line-height:1.6;}
 .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px;}
-.chip{background:var(--sur);border:1.5px solid var(--bdr);border-radius:20px;padding:9px 15px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .2s;font-family:'JetBrains Mono',monospace;user-select:none;}
-.chip:active{border-color:var(--a);color:var(--t);background:var(--sur2);}
+.chip{background:var(--bg2);border:1px solid var(--bdr);border-radius:20px;padding:9px 16px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;user-select:none;}
+.chip:active{background:var(--bg3);border-color:var(--bdr2);color:var(--t);}
 
-/* Messages */
-.msg{display:flex;gap:8px;width:100%;animation:msgIn .25s ease;}
-@keyframes msgIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+/* Message */
+.msg{display:flex;gap:12px;width:100%;animation:msgIn .2s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
 .msg.um{flex-direction:row-reverse;}
-.mav{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px;}
-.mav.ai{background:linear-gradient(135deg,var(--a),var(--a2));box-shadow:0 0 12px var(--glow);}
-.mav.u{background:var(--sur2);border:1.5px solid var(--bdr);color:var(--a2);font-size:12px;font-weight:700;}
-.bub{max-width:calc(100% - 44px);padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.7;word-break:break-word;}
-.msg.am .bub{background:var(--sur);border:1px solid var(--bdr);border-radius:4px 14px 14px 14px;}
-.msg.um .bub{background:linear-gradient(135deg,#00a882,var(--a));color:#0a0a0f;border-radius:14px 4px 14px 14px;font-weight:500;}
-.bub strong{font-weight:700;}
+.mav{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px;}
+.mav.ai{background:var(--orange);font-size:15px;}
+.mav.u{background:var(--bg3);border:1px solid var(--bdr);color:var(--t2);font-size:12px;font-weight:600;}
+.bub{max-width:calc(100% - 46px);padding:12px 14px;border-radius:12px;font-size:14px;line-height:1.75;word-break:break-word;}
+.msg.am .bub{background:transparent;padding-left:0;padding-right:0;}
+.msg.um .bub{background:var(--bg3);border:1px solid var(--bdr);border-radius:18px 18px 4px 18px;}
+.bub strong{font-weight:600;color:var(--t);}
 .bub em{font-style:italic;}
-.bub pre{background:rgba(0,0,0,.55);border:1px solid var(--bdr2);border-radius:8px;padding:10px 12px;overflow-x:auto;margin:8px 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.5;}
-.bub code:not(pre code){background:rgba(0,212,170,.12);border:1px solid rgba(0,212,170,.25);border-radius:4px;padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--a);}
+.bub h1,.bub h2,.bub h3{font-weight:600;margin:12px 0 6px;color:var(--t);}
+.bub h1{font-size:18px;}
+.bub h2{font-size:16px;}
+.bub h3{font-size:14px;}
+.bub ul,.bub ol{padding-left:20px;margin:6px 0;}
+.bub li{margin:3px 0;}
+.bub p{margin:4px 0;}
+.bub pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:12px;overflow-x:auto;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;}
+.bub code:not(pre code){background:var(--bg3);border:1px solid var(--bdr);border-radius:4px;padding:1px 5px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--orange);}
+.bub img{max-width:100%;border-radius:8px;margin-top:8px;display:block;}
+.bub a{color:var(--blue);text-decoration:underline;}
 
-/* Attached image preview */
-.bub img{max-width:100%;border-radius:8px;margin-top:6px;display:block;}
+/* Web search indicator */
+.search-ind{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--t3);margin-bottom:8px;padding:6px 10px;background:var(--bg2);border-radius:6px;border:1px solid var(--bdr);width:fit-content;}
+.search-ind-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:blink 1s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}
+}
 
 /* Code preview */
-.code-prev{background:var(--sur2);border:1px solid var(--bdr);border-radius:10px;margin-top:10px;overflow:hidden;}
-.code-prev-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--sur3);border-bottom:1px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);}
-.code-prev-hdr button{background:var(--a);border:none;border-radius:5px;color:#0a0a0f;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;}
+.code-prev{background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;margin-top:10px;overflow:hidden;}
+.code-prev-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg3);border-bottom:1px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);}
+.code-prev-hdr button{background:var(--orange);border:none;border-radius:4px;color:#fff;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;}
 .code-prev iframe{width:100%;height:260px;border:none;background:white;}
 
-/* File attachment preview in input */
-.attach-preview{max-width:680px;margin:0 auto 6px;display:flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--bdr);border-radius:10px;padding:8px 12px;}
-.attach-preview img{width:40px;height:40px;border-radius:6px;object-fit:cover;flex-shrink:0;}
-.attach-preview .attach-info{flex:1;min-width:0;}
-.attach-preview .attach-name{font-size:12px;color:var(--t2);font-family:'JetBrains Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.attach-preview .attach-type{font-size:10px;color:var(--t3);}
-.attach-preview .btn-rm{background:none;border:none;color:var(--a3);font-size:18px;cursor:pointer;padding:2px;width:auto;line-height:1;flex-shrink:0;}
+/* Attach preview */
+.attach-prev{max-width:680px;margin:0 auto 6px;display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:8px 12px;}
+.attach-prev img{width:38px;height:38px;border-radius:6px;object-fit:cover;flex-shrink:0;}
+.attach-info{flex:1;min-width:0;}
+.attach-name{font-size:12px;color:var(--t2);font-family:'JetBrains Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.attach-type{font-size:10px;color:var(--t3);}
+.btn-rm-attach{background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:2px;width:auto;line-height:1;flex-shrink:0;}
+.btn-rm-attach:hover{color:var(--red);}
 
 /* Typing */
-.typing-ind{display:flex;gap:8px;width:100%;}
-.typing-bub{background:var(--sur);border:1px solid var(--bdr);border-radius:4px 14px 14px 14px;padding:12px 16px;display:flex;align-items:center;gap:5px;}
-.td{width:6px;height:6px;border-radius:50%;animation:tdot 1.2s ease-in-out infinite;}
-.td:nth-child(1){background:var(--a);}
-.td:nth-child(2){background:var(--a2);animation-delay:.2s;}
-.td:nth-child(3){background:var(--a3);animation-delay:.4s;}
-@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-6px);opacity:1;}}
+.typing-ind{display:flex;gap:12px;width:100%;}
+.typing-bub{display:flex;align-items:center;gap:5px;padding:12px 14px;background:transparent;}
+.td{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:tdot 1.2s ease-in-out infinite;}
+.td:nth-child(2){animation-delay:.2s;}
+.td:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
 
-/* Input area */
-.chat-input-area{
-  padding:10px 14px calc(10px + var(--iosb));
-  border-top:1px solid var(--bdr);
-  background:rgba(10,10,15,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  flex-shrink:0;
-}
-.input-box{
-  max-width:680px;margin:0 auto;
-  background:var(--sur);border:1.5px solid var(--bdr);border-radius:16px;
-  padding:10px 10px 10px 14px;display:flex;align-items:flex-end;gap:8px;
-  transition:border-color .2s,box-shadow .2s;
-}
-.input-box:focus-within{border-color:var(--a);box-shadow:0 0 0 3px rgba(0,212,170,.1);}
-#chatInput{
-  flex:1;background:none;border:none;color:var(--t);font-size:16px;outline:none;
-  resize:none;max-height:120px;min-height:26px;line-height:1.5;
-  -webkit-appearance:none;
-}
+/* Input */
+.chat-input-area{padding:10px 14px calc(10px + var(--iosb));border-top:1px solid var(--bdr);background:var(--bg);flex-shrink:0;}
+@media(min-width:768px){.chat-input-area{padding:12px 10% calc(12px + var(--iosb));}}
+.input-box{max-width:680px;margin:0 auto;background:var(--bg2);border:1.5px solid var(--bdr);border-radius:14px;padding:10px 10px 10px 14px;display:flex;align-items:flex-end;gap:8px;transition:border-color .15s;}
+.input-box:focus-within{border-color:var(--bdr2);}
+#chatInput{flex:1;background:none;border:none;color:var(--t);font-size:15px;outline:none;resize:none;max-height:120px;min-height:24px;line-height:1.5;-webkit-appearance:none;}
 #chatInput::placeholder{color:var(--t3);}
-.input-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
-.btn-attach{width:38px;height:38px;border-radius:10px;background:var(--sur2);border:1.5px solid var(--bdr);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;flex-shrink:0;}
-.btn-attach:active{border-color:var(--a);background:rgba(0,212,170,.1);}
+.input-btns{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.btn-attach{width:34px;height:34px;border-radius:8px;background:var(--bg3);border:1px solid var(--bdr);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:all .15s;}
+.btn-attach:active{background:var(--bg4);}
 #fileInput{display:none;}
-.btn-send{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--a),#00a882);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;box-shadow:0 2px 14px rgba(0,212,170,.28);}
+.btn-send{width:36px;height:36px;border-radius:8px;background:var(--orange);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.btn-send:hover{background:var(--orange2);}
 .btn-send:active{transform:scale(.93);}
-.btn-send:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none;}
-.btn-send svg{width:18px;height:18px;fill:#0a0a0f;}
+.btn-send:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+.btn-send svg{width:16px;height:16px;fill:white;}
 .input-meta{max-width:680px;margin:6px auto 0;display:flex;justify-content:space-between;align-items:center;}
 .mdl-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);display:flex;align-items:center;gap:4px;}
-.mdl-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--a);}
-.btn-clr{background:none;border:none;color:var(--t3);font-size:11px;font-family:'JetBrains Mono',monospace;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .2s;}
-.btn-clr:active{color:var(--a3);background:rgba(255,107,107,.1);}
+.mdl-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--orange);}
+.wsearch-tag{font-size:10px;color:var(--blue);font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:3px;}
+.btn-clr{background:none;border:none;color:var(--t3);font-size:11px;font-family:'JetBrains Mono',monospace;cursor:pointer;padding:4px 8px;border-radius:5px;transition:all .15s;}
+.btn-clr:active{color:var(--red);}
+.input-meta-left{display:flex;align-items:center;gap:8px;}
 
 /* Blocked */
-.blocked{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:40px 24px;gap:14px;}
-.blocked-icon{font-size:52px;}
-.blocked h3{font-size:18px;font-weight:800;color:var(--a3);}
-.blocked p{color:var(--t3);font-size:14px;max-width:260px;line-height:1.6;}
+.blocked{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:40px 24px;gap:12px;}
+.blocked h3{font-size:17px;font-weight:600;color:var(--red);}
+.blocked p{color:var(--t3);font-size:13px;max-width:260px;line-height:1.6;}
 
 /* Toast */
-.toast{
-  position:fixed;bottom:calc(70px + var(--iosb));left:50%;transform:translateX(-50%);
-  background:var(--sur2);border:1.5px solid var(--bdr);border-radius:12px;
-  padding:11px 20px;font-size:13px;z-index:500;
-  animation:fadeUp .25s ease;white-space:nowrap;
-  max-width:88vw;text-align:center;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);
-}
-.toast.success{border-color:var(--a);color:var(--a);}
-.toast.error{border-color:var(--a3);color:var(--a3);}
-.toast.warn{border-color:var(--a4);color:var(--a4);}
-
-/* Desktop */
-@media(min-width:768px){
-  .op-nav{justify-content:center;gap:4px;padding:10px 16px;}
-  .op-nav-btn{flex:none;flex-direction:row;gap:6px;padding:10px 22px;border-radius:10px;min-height:auto;}
-  .op-nav-btn.active{background:rgba(0,212,170,.1);}
-  .op-nav-icon{font-size:18px;}
-  .op-nav-lbl{font-size:14px;}
-  .dash-grid{grid-template-columns:repeat(4,1fr);}
-  .toast{bottom:28px;}
-}
+.toast{position:fixed;bottom:calc(65px + var(--iosb));left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--bdr2);border-radius:8px;padding:10px 18px;font-size:13px;z-index:500;animation:fadeUp .2s ease;white-space:nowrap;max-width:88vw;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+.toast.success{border-color:var(--green);color:var(--green);}
+.toast.error{border-color:var(--red);color:var(--red);}
+.toast.warn{border-color:var(--orange);color:var(--orange);}
+@media(min-width:768px){.toast{bottom:24px;}}
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
 <div id="loadingScreen">
-  <div class="loading-orb">⚡</div>
-  <div class="loading-txt">Iniciando...</div>
+  <div class="loading-logo">
+    <div class="loading-icon">✦</div>
+    <div class="loading-txt">Iniciando Claude Lite...</div>
+  </div>
 </div>
 
 <!-- LOGIN -->
 <div id="loginScreen" class="hidden">
   <div class="login-wrap">
+    <div class="login-brand">
+      <div class="login-brand-icon">✦</div>
+      <h1>Claude Lite</h1>
+      <p>by MISAKROOS</p>
+    </div>
     <div class="login-card">
-      <div class="login-logo">
-        <div class="login-icon">⚡</div>
-        <h1>Claude Lite <span>MISAKROOS</span></h1>
-      </div>
-      <p class="login-sub">IA sin límites · powered by Claude</p>
       <div class="fg"><label>Usuario</label><input type="text" id="loginUser" placeholder="Tu usuario" autocomplete="username" autocapitalize="none" autocorrect="off"/></div>
       <div class="fg"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Tu contraseña" autocomplete="current-password"/></div>
-      <button class="btn btn-p" id="loginBtn" onclick="doLogin()">Ingresar</button>
+      <button class="btn btn-p" id="loginBtn" onclick="doLogin()">Continuar</button>
       <p class="err" id="loginErr"></p>
     </div>
-    <div class="faq-section">
-      <p class="faq-ttl">Preguntas frecuentes</p>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">¿Qué es Claude Lite MISAKROOS?<span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Es un asistente de inteligencia artificial basado en Claude (Anthropic), ofrecido por MISAKROOS. Podés pedirle que cree páginas web, escriba código, redacte textos, traduzca, responda preguntas y mucho más.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">¿Qué son los tokens?<span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Los tokens son la unidad de consumo de la IA. Cada mensaje que enviás y cada respuesta que recibís consume tokens. Aproximadamente 1000 tokens equivalen a unas 750 palabras. Tu plan incluye una cantidad definida.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">¿Cuánto dura mi acceso?<span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Tu acceso tiene una fecha de vencimiento visible una vez que ingresás. Cuando vence o te quedás sin tokens, contactá a MISAKROOS para renovar o recargar.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">¿Qué modelo debo elegir?<span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Automático elige el mejor según tu tarea. Haiku es rápido y económico para cosas simples. Sonnet es ideal para crear páginas web y código. Opus es el más potente pero consume más tokens.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">¿Puede crear páginas web?<span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Sí. Describís lo que querés y la IA genera el código completo. Podés previsualizarlo directamente en el chat antes de copiarlo.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">¿Mis conversaciones son privadas?<span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Las conversaciones no se guardan en servidores de MISAKROOS. Solo se registra el consumo de tokens. La IA no recuerda conversaciones anteriores entre sesiones.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">¿Cómo recargo o renuevo?<span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Contactá a MISAKROOS por WhatsApp o el canal que te indicaron. El operador puede recargar tus tokens o extender tu acceso en tiempo real.</div>
-      </div>
+    <div class="faq-wrap">
+      <p class="faq-head">Preguntas frecuentes</p>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿Qué es Claude Lite MISAKROOS?<span class="faq-ico">▼</span></div><div class="faq-a">Es un asistente de inteligencia artificial basado en Claude de Anthropic, ofrecido por MISAKROOS. Podés pedirle que cree páginas web, escriba código, redacte textos, busque información en internet, responda preguntas y mucho más.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿Puede buscar en internet?<span class="faq-ico">▼</span></div><div class="faq-a">Sí. Claude Lite incluye búsqueda web en tiempo real. Cuando hacés preguntas que requieren información actual (noticias, precios, horarios, clima, etc.), la IA busca automáticamente en internet y te da una respuesta actualizada.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿Qué son los tokens?<span class="faq-ico">▼</span></div><div class="faq-a">Los tokens son la unidad de consumo de la IA. Cada mensaje y cada respuesta consume tokens. Aproximadamente 1000 tokens equivalen a unas 750 palabras. Tu plan incluye una cantidad definida que podés ver al ingresar.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿La IA recuerda conversaciones anteriores?<span class="faq-ico">▼</span></div><div class="faq-a">La memoria es local: se guarda en tu dispositivo y solo está disponible en tu sesión actual. Si cerrás el chat o cambiás de dispositivo, la memoria no se transfiere. Es una memoria de sesión, no persistente entre dispositivos como en Claude Pro.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿Qué modelo debo elegir?<span class="faq-ico">▼</span></div><div class="faq-a">Automático elige el mejor según tu tarea. Haiku es ultra rápido y económico para preguntas simples. Sonnet es ideal para crear páginas web y código. Opus es el más potente para análisis y tareas muy complejas pero consume más tokens.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿Puede crear páginas web completas?<span class="faq-ico">▼</span></div><div class="faq-a">Sí. Describís lo que querés y la IA genera el código HTML, CSS y JavaScript completo. Podés previsualizarlo directamente en el chat antes de copiarlo.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿Cuánto dura mi acceso?<span class="faq-ico">▼</span></div><div class="faq-a">Tu acceso tiene una fecha de vencimiento visible en el chat. Cuando vence o te quedás sin tokens, contactá a MISAKROOS para renovar o recargar.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">¿Mis conversaciones son privadas?<span class="faq-ico">▼</span></div><div class="faq-a">Las conversaciones no se guardan en servidores de MISAKROOS. Solo se registra el consumo de tokens. La IA no tiene acceso a información personal tuya salvo lo que vos le escribas en el chat.</div></div>
     </div>
   </div>
 </div>
 
 <!-- APP -->
 <div id="app" class="hidden">
-  <header>
-    <div class="hdr-logo">
-      <div class="hdr-icon">⚡</div>
-      Claude <span>&nbsp;Lite</span>
+  <!-- Mobile header -->
+  <div class="mobile-header" id="mobileHeader">
+    <div class="mhdr-left">
+      <div class="mhdr-icon">✦</div>
+      <span class="mhdr-title">Claude Lite</span>
     </div>
-    <div class="hdr-mid">
-      <span class="role-badge" id="roleBadge">—</span>
-    </div>
-    <div class="hdr-right">
-      <button class="btn-out" onclick="doLogout()">Salir</button>
-    </div>
-  </header>
-
-  <!-- OPERATOR -->
-  <div id="operatorPanel" class="hidden">
-    <div class="op-content">
-
-      <div class="tab-panel active" id="tab-dash">
-        <div class="sec-hdr"><span class="sec-ttl">📊 Dashboard</span><button class="btn btn-s btn-xs" onclick="loadDash()">↻</button></div>
-        <div class="dash-grid">
-          <div class="dash-card"><div class="dash-lbl">USUARIOS</div><div class="dash-val g" id="dTotal">—</div></div>
-          <div class="dash-card"><div class="dash-lbl">ACTIVOS</div><div class="dash-val p" id="dActive">—</div></div>
-          <div class="dash-card"><div class="dash-lbl">TOKENS DISTRIBUIDOS</div><div class="dash-val y" id="dDist">—</div><div class="dash-sub" id="dDistSub"></div></div>
-          <div class="dash-card"><div class="dash-lbl">TOKENS CONSUMIDOS</div><div class="dash-val r" id="dUsed">—</div><div class="dash-sub" id="dUsedSub"></div></div>
-          <div class="dash-card full">
-            <div class="dash-lbl">DISTRIBUCIÓN VISUAL</div>
-            <div class="macro-bar-lbls">
-              <span id="bLblU">Consumido: 0%</span>
-              <span id="bLblD">Disponible: 0</span>
-              <span id="bLblT">Total distribuido: 0</span>
-            </div>
-            <div class="macro-bar">
-              <div class="macro-bar-u" id="bUsed" style="width:0%"></div>
-              <div class="macro-bar-d" id="bDist" style="width:0%"></div>
-            </div>
-            <div style="margin-top:10px;font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;" id="dCostNote"></div>
-          </div>
-        </div>
-        <div class="info-box">💡 <strong style="color:var(--t2)">Saldo API Anthropic:</strong> Revisá en <span style="color:var(--a);font-family:'JetBrains Mono',monospace">platform.claude.com</span> — Anthropic no permite consultarlo externamente.</div>
-      </div>
-
-      <div class="tab-panel" id="tab-users">
-        <div class="sec-hdr"><span class="sec-ttl">👥 Usuarios</span><button class="btn btn-s btn-xs" onclick="loadUsers()">↻</button></div>
-        <div class="user-cards" id="usersGrid"><p style="color:var(--t3);font-size:13px">Cargando...</p></div>
-      </div>
-
-      <div class="tab-panel" id="tab-create">
-        <div class="sec-hdr"><span class="sec-ttl">➕ Crear usuario</span></div>
-        <div class="create-form">
-          <div class="fg-grid">
-            <div class="fg"><label>Usuario</label><input type="text" id="nUser" placeholder="nombre_usuario" autocapitalize="none" autocorrect="off"/></div>
-            <div class="fg"><label>Contraseña</label><input type="text" id="nPass" placeholder="clave123"/></div>
-            <div class="fg"><label>Tokens</label><input type="number" id="nTokens" value="500000" min="1000"/></div>
-            <div class="fg"><label>Días acceso</label><input type="number" id="nDays" value="30" min="0" oninput="calcExpiry()"/></div>
-            <div class="fg full"><label>Vencimiento exacto (AR)</label><input type="datetime-local" id="nExpiry"/><span class="fg-small">Se calcula con los días. O elegí fecha manual.</span></div>
-          </div>
-          <button class="btn btn-p" onclick="createUser()">Crear usuario</button>
-          <p class="err" id="createErr"></p>
-        </div>
-      </div>
-
-      <div class="tab-panel" id="tab-config">
-        <div class="sec-hdr"><span class="sec-ttl">⚙️ Configuración</span></div>
-        <div class="cfg-card">
-          <h3>🔑 API Key de Claude</h3>
-          <div class="fg"><label>API Key (Anthropic)</label><div class="key-row"><input type="password" id="cfgKey" placeholder="sk-ant-api03-..."/><button class="btn btn-s btn-xs" onclick="toggleKeyVis()">👁</button></div></div>
-          <div class="fg"><label>Modelo por defecto</label><select id="cfgModel"><option value="claude-sonnet-4-6">Sonnet 4 — Recomendado ⚡</option><option value="claude-opus-4-6">Opus 4 — Máxima inteligencia 🧠</option><option value="claude-haiku-4-5">Haiku 4.5 — Ultra rápido 🚀</option></select></div>
-          <button class="btn btn-p" onclick="saveCfg()" style="padding:13px">Guardar configuración</button>
-        </div>
-        <div class="cfg-card">
-          <h3>💬 System prompt</h3>
-          <div class="fg"><label>Instrucciones para la IA</label><textarea id="cfgPrompt" rows="5" placeholder="Ej: Sos un asistente de MISAKROOS..."></textarea></div>
-          <button class="btn btn-p" onclick="savePrompt()" style="padding:13px">Guardar prompt</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="op-nav">
-      <button class="op-nav-btn active" id="nav-dash" onclick="switchTab('dash')"><span class="op-nav-icon">📊</span><span class="op-nav-lbl">Dashboard</span></button>
-      <button class="op-nav-btn" id="nav-users" onclick="switchTab('users')"><span class="op-nav-icon">👥</span><span class="op-nav-lbl">Usuarios</span></button>
-      <button class="op-nav-btn" id="nav-create" onclick="switchTab('create')"><span class="op-nav-icon">➕</span><span class="op-nav-lbl">Crear</span></button>
-      <button class="op-nav-btn" id="nav-config" onclick="switchTab('config')"><span class="op-nav-icon">⚙️</span><span class="op-nav-lbl">Config</span></button>
+    <div class="mhdr-right">
+      <span class="mhdr-badge" id="mhdrBadge">—</span>
+      <button class="btn-mlogout" onclick="doLogout()">⎋</button>
     </div>
   </div>
 
-  <!-- USER CHAT -->
-  <div id="userChat" class="hidden">
-    <div class="chat-topbar">
-      <div class="tok-left">
-        <span class="tok-lbl">Tokens:</span>
-        <span class="tok-val" id="tokVal">—</span>
-        <div class="tok-mini"><div class="tok-mini-f" id="tokBar" style="width:100%"></div></div>
+  <div class="app-body">
+    <!-- Sidebar (desktop) -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="sidebar-icon">✦</div>
+          <div>
+            <div class="sidebar-brand-name">Claude Lite</div>
+            <div class="sidebar-brand-sub">by MISAKROOS</div>
+          </div>
+        </div>
+        <button class="new-chat-btn" onclick="clearChat()">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Nuevo chat
+        </button>
       </div>
-      <div class="mdl-chip" onclick="openModelPicker()" id="modelChip"><div class="mdl-chip-dot"></div><span id="modelChipLbl">auto</span></div>
-      <div class="exp-lbl" id="expLbl">—</div>
+      <div class="sidebar-mem" id="sidebarMem">
+        <div class="mem-badge" onclick="openMemModal()">
+          <span class="mem-icon">🧠</span>
+          <div class="mem-info">
+            <div class="mem-title">Memoria local</div>
+            <div class="mem-sub" id="memSubLabel">0 recuerdos guardados</div>
+          </div>
+          <span style="color:var(--t3);font-size:12px;">›</span>
+        </div>
+      </div>
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="sidebar-avatar" id="sidebarAvatar">?</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-username" id="sidebarUsername">—</div>
+          <div class="sidebar-role" id="sidebarRole">—</div>
+        </div>
+        <button class="btn-logout-s" onclick="doLogout()" title="Salir">⎋</button>
+      </div>
     </div>
 
-    <div class="msgs" id="msgs">
-      <div class="chat-welcome" id="chatWelcome">
-        <div class="w-orb">🧠</div>
-        <h2>Claude Lite · MISAKROOS</h2>
-        <p>Tu asistente de IA. Pedime páginas web, código, textos, imágenes y más.</p>
-        <div class="chips">
-          <div class="chip" onclick="useSug('Creame una landing page moderna para un negocio de streaming')">🌐 Landing page</div>
-          <div class="chip" onclick="useSug('Código HTML para una tienda online simple')">🛒 Tienda online</div>
-          <div class="chip" onclick="useSug('Formulario de contacto bonito en HTML y CSS')">📋 Formulario</div>
-          <div class="chip" onclick="useSug('Explicame JavaScript de forma simple y con ejemplos')">💡 Aprender JS</div>
+    <!-- OPERATOR PANEL -->
+    <div id="operatorPanel" class="hidden">
+      <div class="op-nav">
+        <button class="op-tab active" id="otab-dash" onclick="switchTab('dash')">Dashboard</button>
+        <button class="op-tab" id="otab-users" onclick="switchTab('users')">Usuarios</button>
+        <button class="op-tab" id="otab-create" onclick="switchTab('create')">Crear</button>
+        <button class="op-tab" id="otab-config" onclick="switchTab('config')">Config</button>
+      </div>
+      <div class="op-content">
+
+        <div class="tab-panel active" id="tab-dash">
+          <div class="sec-hdr"><span class="sec-ttl">Dashboard</span><button class="btn btn-s btn-xs" onclick="loadDash()">↻ Actualizar</button></div>
+          <div class="dash-grid">
+            <div class="dash-card"><div class="dash-lbl">Usuarios</div><div class="dash-val g" id="dTotal">—</div></div>
+            <div class="dash-card"><div class="dash-lbl">Activos</div><div class="dash-val b" id="dActive">—</div></div>
+            <div class="dash-card"><div class="dash-lbl">Tokens distribuidos</div><div class="dash-val o" id="dDist">—</div><div class="dash-sub" id="dDistSub"></div></div>
+            <div class="dash-card"><div class="dash-lbl">Tokens consumidos</div><div class="dash-val r" id="dUsed">—</div><div class="dash-sub" id="dUsedSub"></div></div>
+            <div class="dash-card full">
+              <div class="dash-lbl">Distribución de tokens</div>
+              <div class="macro-bar"><div class="macro-bar-u" id="bUsed" style="width:0%"></div><div class="macro-bar-d" id="bDist" style="width:0%"></div></div>
+              <div class="macro-lbls"><span id="bLblU">Consumido: 0%</span><span id="bLblD">Disponible: 0</span><span id="bLblT">Total: 0</span></div>
+              <div style="margin-top:10px;font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;" id="dCostNote"></div>
+            </div>
+          </div>
+          <div class="info-note">💡 Saldo API: Revisalo en <strong>platform.claude.com</strong> — Anthropic no permite consultarlo desde apps externas.</div>
         </div>
+
+        <div class="tab-panel" id="tab-users">
+          <div class="sec-hdr"><span class="sec-ttl">Usuarios</span><button class="btn btn-s btn-xs" onclick="loadUsers()">↻</button></div>
+          <div class="user-list" id="usersGrid"><p style="color:var(--t3);font-size:13px">Cargando...</p></div>
+        </div>
+
+        <div class="tab-panel" id="tab-create">
+          <div class="sec-hdr"><span class="sec-ttl">Crear usuario</span></div>
+          <div class="form-card">
+            <div class="fg-grid">
+              <div class="fg"><label>Usuario</label><input type="text" id="nUser" placeholder="nombre_usuario" autocapitalize="none" autocorrect="off"/></div>
+              <div class="fg"><label>Contraseña</label><input type="text" id="nPass" placeholder="clave123"/></div>
+              <div class="fg"><label>Tokens</label><input type="number" id="nTokens" value="500000" min="1000"/></div>
+              <div class="fg"><label>Días de acceso</label><input type="number" id="nDays" value="30" min="0" oninput="calcExpiry()"/></div>
+              <div class="fg full"><label>Vencimiento exacto (AR)</label><input type="datetime-local" id="nExpiry"/><span class="fg-note">Se calcula automático con los días, o elegí fecha manual.</span></div>
+            </div>
+            <button class="btn btn-p" onclick="createUser()">Crear usuario</button>
+            <p class="err" id="createErr"></p>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-config">
+          <div class="sec-hdr"><span class="sec-ttl">Configuración</span></div>
+          <div class="form-card">
+            <h3>🔑 API Key de Claude (Anthropic)</h3>
+            <div class="fg"><label>API Key</label><div class="key-row"><input type="password" id="cfgKey" placeholder="sk-ant-api03-..."/><button class="btn btn-s btn-xs" onclick="toggleKeyVis()">👁</button></div></div>
+            <div class="fg"><label>Modelo por defecto</label><select id="cfgModel"><option value="claude-sonnet-4-6">Sonnet 4.6 — Recomendado</option><option value="claude-opus-4-6">Opus 4.6 — Máxima inteligencia</option><option value="claude-haiku-4-5">Haiku 4.5 — Ultra rápido</option></select></div>
+            <button class="btn btn-p" onclick="saveCfg()" style="padding:11px">Guardar</button>
+          </div>
+          <div class="form-card">
+            <h3>💬 System prompt personalizado</h3>
+            <div class="fg"><label>Instrucciones para la IA</label><textarea id="cfgPrompt" rows="5" placeholder="Ej: Sos un asistente de MISAKROOS..."></textarea></div>
+            <button class="btn btn-p" onclick="savePrompt()" style="padding:11px">Guardar prompt</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="op-bottom-nav">
+        <button class="op-bn-btn active" id="obn-dash" onclick="switchTab('dash')"><span class="op-bn-icon">📊</span><span class="op-bn-lbl">Dashboard</span></button>
+        <button class="op-bn-btn" id="obn-users" onclick="switchTab('users')"><span class="op-bn-icon">👥</span><span class="op-bn-lbl">Usuarios</span></button>
+        <button class="op-bn-btn" id="obn-create" onclick="switchTab('create')"><span class="op-bn-icon">➕</span><span class="op-bn-lbl">Crear</span></button>
+        <button class="op-bn-btn" id="obn-config" onclick="switchTab('config')"><span class="op-bn-icon">⚙️</span><span class="op-bn-lbl">Config</span></button>
       </div>
     </div>
 
-    <div class="chat-input-area">
-      <div class="attach-preview hidden" id="attachPreview">
-        <img id="attachThumb" src="" alt=""/>
-        <div class="attach-info">
-          <div class="attach-name" id="attachName"></div>
-          <div class="attach-type" id="attachType"></div>
+    <!-- USER CHAT -->
+    <div id="userChat" class="hidden">
+      <div class="chat-topbar">
+        <div class="tok-left">
+          <span class="tok-lbl">Tokens:</span>
+          <span class="tok-val" id="tokVal">—</span>
+          <div class="tok-mini"><div class="tok-mini-f" id="tokBar" style="width:100%"></div></div>
         </div>
-        <button class="btn-rm" onclick="removeAttach()">✕</button>
+        <div class="mdl-chip" onclick="openModelPicker()" id="modelChip"><div class="mdl-dot"></div><span id="modelChipLbl">auto</span></div>
+        <div class="exp-lbl" id="expLbl">—</div>
       </div>
-      <div class="input-box">
-        <textarea id="chatInput" placeholder="Escribí tu mensaje..." rows="1"
-          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-        <div class="input-actions">
-          <button class="btn-attach" onclick="document.getElementById('fileInput').click()" title="Adjuntar imagen">📎</button>
-          <input type="file" id="fileInput" accept="image/*,application/pdf" onchange="handleFile(event)"/>
-          <button class="btn-send" id="sendBtn" onclick="sendMsg()" disabled>
-            <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-          </button>
+
+      <div class="msgs" id="msgs">
+        <div class="chat-welcome" id="chatWelcome">
+          <div class="w-icon">✦</div>
+          <h2>¿En qué te puedo ayudar?</h2>
+          <p>Tengo búsqueda web en tiempo real. Preguntame lo que quieras.</p>
+          <div class="chips">
+            <div class="chip" onclick="useSug('Creame una landing page moderna para un negocio de streaming en Argentina')">Crear landing page</div>
+            <div class="chip" onclick="useSug('¿Cuál es el dólar blue hoy en Argentina?')">Dólar blue hoy</div>
+            <div class="chip" onclick="useSug('Escribime código HTML para una tienda online simple con carrito')">Tienda online HTML</div>
+            <div class="chip" onclick="useSug('¿Qué noticias hay hoy en Argentina?')">Noticias de hoy</div>
+          </div>
         </div>
       </div>
-      <div class="input-meta">
-        <div class="mdl-tag" id="mdlTag">—</div>
-        <button class="btn-clr" onclick="clearChat()">✕ Limpiar</button>
+
+      <div class="chat-input-area">
+        <div class="attach-prev hidden" id="attachPrev">
+          <img id="attachThumb" src="" alt=""/>
+          <div class="attach-info"><div class="attach-name" id="attachName"></div><div class="attach-type" id="attachType"></div></div>
+          <button class="btn-rm-attach" onclick="removeAttach()">✕</button>
+        </div>
+        <div class="input-box">
+          <textarea id="chatInput" placeholder="Escribí tu mensaje..." rows="1"
+            onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <div class="input-btns">
+            <button class="btn-attach" onclick="document.getElementById('fileInput').click()" title="Adjuntar imagen o PDF">📎</button>
+            <input type="file" id="fileInput" accept="image/*,application/pdf" onchange="handleFile(event)"/>
+            <button class="btn-send" id="sendBtn" onclick="sendMsg()" disabled>
+              <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="input-meta">
+          <div class="input-meta-left">
+            <div class="mdl-tag" id="mdlTag">—</div>
+            <div class="wsearch-tag">🔍 web</div>
+          </div>
+          <button class="btn-clr" onclick="clearChat()">✕ Limpiar</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- WELCOME MODAL (first login) -->
+<!-- WELCOME MODAL -->
 <div class="mo hidden" id="welcomeModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-hdr"><span class="modal-ttl">👋 Bienvenido/a</span></div>
+    <div class="modal-hdr"><span class="modal-ttl">Bienvenido/a</span></div>
     <div class="welcome-step">
-      <h3>🔐 Cambiá tu contraseña</h3>
+      <h3>🔐 Cambiar contraseña</h3>
       <p>Por seguridad podés cambiarla ahora o continuar con la actual.</p>
-      <div class="fg" style="margin-top:12px;margin-bottom:0"><label>Nueva contraseña (opcional)</label><input type="password" id="newPassWelcome" placeholder="Dejar vacío = no cambiar"/></div>
+      <div class="fg" style="margin-top:10px;margin-bottom:0"><label>Nueva contraseña (opcional)</label><input type="password" id="newPassWelcome" placeholder="Dejar vacío = no cambiar"/></div>
     </div>
-    <div class="welcome-step" style="margin-top:12px">
+    <div class="welcome-step" style="margin-top:10px">
       <h3>🤖 Elegí tu modelo de IA</h3>
-      <p>Podés cambiarlo cuando quieras en el chat.</p>
+      <p>Podés cambiarlo en cualquier momento desde el chat.</p>
     </div>
     <div class="model-opts" id="welcomeModelOpts">
-      <div class="mopt sel" onclick="selWModel(this,'auto')" data-model="auto"><div class="mopt-hdr"><span class="mopt-name">🤖 Automático</span><span class="mopt-badge">RECOMENDADO</span></div><div class="mopt-desc">Elige el mejor modelo según tu tarea.</div><div class="mopt-tok">~500–2000 tokens por respuesta</div></div>
-      <div class="mopt" onclick="selWModel(this,'claude-haiku-4-5')" data-model="claude-haiku-4-5"><div class="mopt-hdr"><span class="mopt-name">🚀 Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples y traducciones.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
-      <div class="mopt" onclick="selWModel(this,'claude-sonnet-4-6')" data-model="claude-sonnet-4-6"><div class="mopt-hdr"><span class="mopt-name">⚡ Sonnet 4</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para crear páginas web y código complejo.</div><div class="mopt-tok">~800–3000 tokens · ideal para código</div></div>
-      <div class="mopt" onclick="selWModel(this,'claude-opus-4-6')" data-model="claude-opus-4-6"><div class="mopt-hdr"><span class="mopt-name">🧠 Opus 4</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos complejos.</div><div class="mopt-tok">~2000–5000 tokens · consume más</div></div>
+      <div class="mopt sel" onclick="selWModel(this,'auto')" data-model="auto"><div class="mopt-hdr"><span class="mopt-name">✦ Automático</span><span class="mopt-badge">RECOMENDADO</span></div><div class="mopt-desc">Elige el mejor modelo según tu tarea automáticamente.</div><div class="mopt-tok">~500–2000 tokens por respuesta</div></div>
+      <div class="mopt" onclick="selWModel(this,'claude-haiku-4-5')" data-model="claude-haiku-4-5"><div class="mopt-hdr"><span class="mopt-name">⚡ Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples y traducciones.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
+      <div class="mopt" onclick="selWModel(this,'claude-sonnet-4-6')" data-model="claude-sonnet-4-6"><div class="mopt-hdr"><span class="mopt-name">◈ Sonnet 4.6</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para crear páginas web, código complejo y análisis.</div><div class="mopt-tok">~800–3000 tokens · ideal para código</div></div>
+      <div class="mopt" onclick="selWModel(this,'claude-opus-4-6')" data-model="claude-opus-4-6"><div class="mopt-hdr"><span class="mopt-name">◉ Opus 4.6</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos muy complejos.</div><div class="mopt-tok">~2000–5000 tokens · consume más</div></div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:16px">
+    <div style="display:flex;gap:10px;margin-top:14px">
       <button class="btn btn-p" onclick="saveWelcome()">Guardar y comenzar</button>
-      <button class="btn btn-s" onclick="skipWelcome()" style="flex:none;padding:15px 20px">Después</button>
+      <button class="btn btn-s" onclick="skipWelcome()" style="flex:none;padding:12px 18px">Después</button>
     </div>
     <p class="err" id="welcomeErr"></p>
   </div>
@@ -616,13 +621,28 @@ header{
 <div class="mo hidden" id="modelModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-hdr"><span class="modal-ttl">🤖 Elegir modelo</span><button class="btn-cls" onclick="closeModelModal()">✕</button></div>
+    <div class="modal-hdr"><span class="modal-ttl">Modelo de IA</span><button class="btn-cls" onclick="closeModelModal()">✕</button></div>
     <div class="model-opts" id="modelPickerOpts">
-      <div class="mopt" onclick="pickModel(this,'auto')" data-model="auto"><div class="mopt-hdr"><span class="mopt-name">🤖 Automático</span><span class="mopt-badge">RECOMENDADO</span></div><div class="mopt-desc">Elige el mejor modelo según tu tarea.</div><div class="mopt-tok">~500–2000 tokens por respuesta</div></div>
-      <div class="mopt" onclick="pickModel(this,'claude-haiku-4-5')" data-model="claude-haiku-4-5"><div class="mopt-hdr"><span class="mopt-name">🚀 Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
-      <div class="mopt" onclick="pickModel(this,'claude-sonnet-4-6')" data-model="claude-sonnet-4-6"><div class="mopt-hdr"><span class="mopt-name">⚡ Sonnet 4</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para páginas web y código complejo.</div><div class="mopt-tok">~800–3000 tokens</div></div>
-      <div class="mopt" onclick="pickModel(this,'claude-opus-4-6')" data-model="claude-opus-4-6"><div class="mopt-hdr"><span class="mopt-name">🧠 Opus 4</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos complejos.</div><div class="mopt-tok">~2000–5000 tokens</div></div>
+      <div class="mopt" onclick="pickModel(this,'auto')" data-model="auto"><div class="mopt-hdr"><span class="mopt-name">✦ Automático</span><span class="mopt-badge">RECOMENDADO</span></div><div class="mopt-desc">Elige el mejor modelo según tu tarea.</div><div class="mopt-tok">~500–2000 tokens por respuesta</div></div>
+      <div class="mopt" onclick="pickModel(this,'claude-haiku-4-5')" data-model="claude-haiku-4-5"><div class="mopt-hdr"><span class="mopt-name">⚡ Haiku 4.5</span><span class="mopt-badge">ECONÓMICO</span></div><div class="mopt-desc">Ultra rápido para preguntas simples.</div><div class="mopt-tok">~300–800 tokens · gasta menos</div></div>
+      <div class="mopt" onclick="pickModel(this,'claude-sonnet-4-6')" data-model="claude-sonnet-4-6"><div class="mopt-hdr"><span class="mopt-name">◈ Sonnet 4.6</span><span class="mopt-badge">EQUILIBRADO</span></div><div class="mopt-desc">Ideal para páginas web y código complejo.</div><div class="mopt-tok">~800–3000 tokens</div></div>
+      <div class="mopt" onclick="pickModel(this,'claude-opus-4-6')" data-model="claude-opus-4-6"><div class="mopt-hdr"><span class="mopt-name">◉ Opus 4.6</span><span class="mopt-badge">PREMIUM</span></div><div class="mopt-desc">Máxima inteligencia para proyectos complejos.</div><div class="mopt-tok">~2000–5000 tokens</div></div>
     </div>
+  </div>
+</div>
+
+<!-- MEMORY MODAL -->
+<div class="mo hidden" id="memModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr"><span class="modal-ttl">🧠 Memoria local</span><button class="btn-cls" onclick="closeMemModal()">✕</button></div>
+    <div class="mem-note">La memoria es <strong>local a este dispositivo</strong>. No se sincroniza entre dispositivos. Se incluye automáticamente en cada conversación para que Claude recuerde tus preferencias y contexto.</div>
+    <div id="memList"></div>
+    <div class="fg" style="margin-top:12px">
+      <label>Agregar recuerdo</label>
+      <textarea id="memInput" rows="2" placeholder="Ej: Me llamo Rodrigo, trabajo en MISAKROOS..."></textarea>
+    </div>
+    <button class="btn btn-p" onclick="addMemory()" style="padding:11px">Guardar recuerdo</button>
   </div>
 </div>
 
@@ -630,20 +650,20 @@ header{
 <div class="mo hidden" id="editModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-hdr"><span class="modal-ttl">✏️ Editar usuario</span><button class="btn-cls" onclick="closeEdit()">✕</button></div>
+    <div class="modal-hdr"><span class="modal-ttl">Editar usuario</span><button class="btn-cls" onclick="closeEdit()">✕</button></div>
     <div class="edit-grid">
       <div class="fg full"><label>Usuario</label><input type="text" id="eUser" disabled style="opacity:.5"/></div>
       <div class="fg full"><label>Nueva contraseña (vacío = no cambiar)</label><input type="text" id="ePass" placeholder="nueva_clave"/></div>
       <div class="fg"><label>Tokens totales</label><input type="number" id="eTok"/></div>
       <div class="fg"><label>Tokens usados</label><input type="number" id="eTokUsed"/></div>
-      <div class="fg full"><label>➕ Sumar tokens extra</label><input type="number" id="eAddTok" value="0"/><span class="fg-small">Se suman a los tokens totales actuales</span></div>
+      <div class="fg full"><label>➕ Sumar tokens extra</label><input type="number" id="eAddTok" value="0"/><span class="fg-note">Se suman a los tokens totales actuales</span></div>
       <div class="fg full"><label>Vencimiento (Hora Argentina)</label><input type="datetime-local" id="eExp"/></div>
-      <div class="fg full"><label>➕ Sumar días extra</label><input type="number" id="eAddDays" value="0"/><span class="fg-small">Se suman a la fecha de vencimiento actual</span></div>
+      <div class="fg full"><label>➕ Sumar días extra</label><input type="number" id="eAddDays" value="0"/><span class="fg-note">Se suman a la fecha actual de vencimiento</span></div>
       <div class="fg full"><label>Estado</label><select id="eActivo"><option value="true">✅ Activo</option><option value="false">❌ Desactivado</option></select></div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:16px">
+    <div style="display:flex;gap:10px;margin-top:14px">
       <button class="btn btn-p" onclick="saveEdit()">Guardar</button>
-      <button class="btn btn-d btn-sm" onclick="delUser()">🗑 Eliminar</button>
+      <button class="btn btn-d btn-sm" onclick="delUser()">Eliminar</button>
     </div>
     <p class="err" id="editErr"></p>
     <input type="hidden" id="eId"/>
@@ -655,21 +675,30 @@ header{
 const SB_URL='https://vxnevcoimljpowwceirv.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4bmV2Y29pbWxqcG93d2NlaXJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMTU0MTEsImV4cCI6MjA5NDY5MTQxMX0.0THQmWeRYOf3t9oeK2DXN1N0IV0B7D4cxMw0iGgOgS4';
 const sb=supabase.createClient(SB_URL,SB_KEY);
-const SESSION_KEY='cl_session';
+const SESSION_KEY='cl_session_v4';
+const MEM_KEY='cl_memory_v4';
 
 // ══ STATE ══
 let role=null,curUser=null,curUserId=null;
 let apiKey='',activeModel='auto';
-let sysPrompt='Sos un asistente de IA de MISAKROOS llamado Claude Lite. Ayudás a crear páginas web, código HTML/CSS/JS, textos, traducciones y cualquier tarea. Cuando generés código HTML completo siempre usá bloques ```html ... ``` para que se pueda previsualizar. Respondé siempre en español argentino.';
+let sysPrompt='Sos un asistente de IA llamado Claude Lite, parte del servicio MISAKROOS. Ayudás con cualquier tarea: crear páginas web (siempre usá bloques ```html ... ``` para el código HTML completo), escribir código, redactar textos, buscar información, responder preguntas. Respondé siempre en español rioplatense, de forma directa y clara.';
 let history=[],loading=false;
 let tokTotal=0,tokUsed=0,expiry=null;
 let wModelSel='auto';
 let refreshInt=null;
-let attachedFile=null; // {base64, mediaType, name, isImage}
+let attachedFile=null;
+let localMemory=[];
 
 // ══ HELPERS ══
 const pad=n=>String(n).padStart(2,'0');
-function toARG(iso){if(!iso)return null;return new Date(iso).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'});}
+
+function toARG(iso){
+  if(!iso)return null;
+  return new Date(iso).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'});
+}
+function nowARG(){
+  return new Date().toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires',weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
 function toDatetimeLocal(iso){
   if(!iso)return'';
   const d=new Date(iso);
@@ -698,41 +727,75 @@ function resolveModel(m){
   return m;
 }
 
-// ══ SESSION PERSISTENCE ══
-function saveSession(data){
-  try{localStorage.setItem(SESSION_KEY,JSON.stringify(data));}catch(e){}
+// ══ SYSTEM PROMPT CON HORA Y MEMORIA ══
+function buildSysPrompt(){
+  const hora=nowARG();
+  let prompt=sysPrompt+`\n\nFecha y hora actual en Argentina: ${hora}.`;
+  if(localMemory.length>0){
+    prompt+=`\n\nMemoria del usuario (guardada localmente en su dispositivo):\n${localMemory.map((m,i)=>`${i+1}. ${m}`).join('\n')}`;
+  }
+  return prompt;
 }
-function loadSession(){
-  try{const s=localStorage.getItem(SESSION_KEY);return s?JSON.parse(s):null;}catch(e){return null;}
+
+// ══ LOCAL MEMORY ══
+function loadMemory(){
+  try{const m=localStorage.getItem(MEM_KEY);localMemory=m?JSON.parse(m):[];}catch(e){localMemory=[];}
+  updateMemUI();
 }
-function clearSession(){
-  try{localStorage.removeItem(SESSION_KEY);}catch(e){}
+function saveMemory(){
+  try{localStorage.setItem(MEM_KEY,JSON.stringify(localMemory));}catch(e){}
+  updateMemUI();
 }
+function updateMemUI(){
+  const lbl=document.getElementById('memSubLabel');
+  if(lbl)lbl.textContent=`${localMemory.length} recuerdo${localMemory.length!==1?'s':''} guardado${localMemory.length!==1?'s':''}`;
+  renderMemList();
+}
+function renderMemList(){
+  const el=document.getElementById('memList');
+  if(!el)return;
+  if(localMemory.length===0){el.innerHTML='<div class="mem-empty">No hay recuerdos guardados aún.<br>Agregá información que quieras que Claude recuerde.</div>';return;}
+  el.innerHTML=localMemory.map((m,i)=>`<div class="mem-entry"><div class="mem-entry-text">${escH(m)}</div><button class="mem-entry-del" onclick="delMemory(${i})">✕</button></div>`).join('');
+}
+function addMemory(){
+  const inp=document.getElementById('memInput');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  localMemory.push(txt);
+  saveMemory();
+  inp.value='';
+  showToast('Recuerdo guardado','success');
+}
+function delMemory(i){
+  localMemory.splice(i,1);
+  saveMemory();
+}
+function openMemModal(){document.getElementById('memModal').classList.remove('hidden');renderMemList();}
+function closeMemModal(){document.getElementById('memModal').classList.add('hidden');}
+
+// ══ SESSION ══
+function saveSession(data){try{localStorage.setItem(SESSION_KEY,JSON.stringify(data));}catch(e){}}
+function loadSession(){try{const s=localStorage.getItem(SESSION_KEY);return s?JSON.parse(s):null;}catch(e){return null;}}
+function clearSession(){try{localStorage.removeItem(SESSION_KEY);}catch(e){}}
 
 // ══ INIT ══
 window.addEventListener('DOMContentLoaded',async()=>{
+  loadMemory();
   const session=loadSession();
-  if(session){
-    await restoreSession(session);
-  } else {
+  if(session){await restoreSession(session);}
+  else{
     document.getElementById('loadingScreen').classList.add('hidden');
     document.getElementById('loginScreen').classList.remove('hidden');
   }
 });
 
-async function restoreSession(session){
+async function restoreSession(s){
   try{
-    if(session.role==='operator'){
-      const{data:op}=await sb.from('operador').select('*').eq('usuario',session.user).eq('clave',session.pass).single();
-      if(op){
-        role='operator';curUser=session.user;apiKey=op.api_key||'';
-        activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';
-        sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
-        document.getElementById('loadingScreen').classList.add('hidden');
-        startOperator();return;
-      }
-    } else if(session.role==='user'){
-      const{data:u}=await sb.from('usuario').select('*').eq('usuario',session.user).eq('clave',session.pass).single();
+    if(s.role==='operator'){
+      const{data:op}=await sb.from('operador').select('*').eq('usuario',s.user).eq('clave',s.pass).single();
+      if(op){role='operator';curUser=s.user;apiKey=op.api_key||'';activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;document.getElementById('loadingScreen').classList.add('hidden');startOperator();return;}
+    }else if(s.role==='user'){
+      const{data:u}=await sb.from('usuario').select('*').eq('usuario',s.user).eq('clave',s.pass).single();
       if(u&&u.activo){
         role='user';curUser=u.usuario;curUserId=u.id;
         tokTotal=u.tokens_totales;tokUsed=u.tokens_usados;expiry=u.fecha_vencimiento;
@@ -765,37 +828,26 @@ async function doLogin(){
   if(!user||!pass){err.textContent='Completá usuario y contraseña';return;}
   btn.textContent='Ingresando...';btn.disabled=true;err.textContent='';
 
-  // Operator?
   const{data:op}=await sb.from('operador').select('*').eq('usuario',user).eq('clave',pass).single();
-  if(op){
-    role='operator';curUser=user;apiKey=op.api_key||'';
-    activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';
-    sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
-    saveSession({role:'operator',user,pass});
-    document.getElementById('loginScreen').classList.add('hidden');
-    startOperator();return;
-  }
+  if(op){role='operator';curUser=user;apiKey=op.api_key||'';activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;saveSession({role:'operator',user,pass});document.getElementById('loginScreen').classList.add('hidden');startOperator();return;}
 
-  // User?
   const{data:u}=await sb.from('usuario').select('*').eq('usuario',user).eq('clave',pass).single();
   if(u){
-    if(!u.activo){err.textContent='Tu cuenta está desactivada';btn.textContent='Ingresar';btn.disabled=false;return;}
+    if(!u.activo){err.textContent='Tu cuenta está desactivada';btn.textContent='Continuar';btn.disabled=false;return;}
     role='user';curUser=u.usuario;curUserId=u.id;
     tokTotal=u.tokens_totales;tokUsed=u.tokens_usados;expiry=u.fecha_vencimiento;
     activeModel=u.modelo_preferido||'auto';
     const{data:opCfg}=await sb.from('operador').select('api_key').single();
-    if(!opCfg||!opCfg.api_key){err.textContent='Error: API key no configurada por el operador';btn.textContent='Ingresar';btn.disabled=false;return;}
+    if(!opCfg||!opCfg.api_key){err.textContent='Error: API key no configurada por el operador';btn.textContent='Continuar';btn.disabled=false;return;}
     apiKey=opCfg.api_key;
     sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
     saveSession({role:'user',user,pass});
     document.getElementById('loginScreen').classList.add('hidden');
-    if(u.primer_login){startUser();openWelcomeModal();}
-    else startUser();
+    if(u.primer_login){startUser();openWelcomeModal();}else startUser();
     return;
   }
-
   err.textContent='Usuario o contraseña incorrectos';
-  btn.textContent='Ingresar';btn.disabled=false;
+  btn.textContent='Continuar';btn.disabled=false;
 }
 
 function doLogout(){
@@ -807,7 +859,7 @@ function doLogout(){
   document.getElementById('loginUser').value='';
   document.getElementById('loginPass').value='';
   document.getElementById('loginErr').textContent='';
-  document.getElementById('loginBtn').textContent='Ingresar';
+  document.getElementById('loginBtn').textContent='Continuar';
   document.getElementById('loginBtn').disabled=false;
 }
 
@@ -816,10 +868,10 @@ function startOperator(){
   document.getElementById('app').classList.remove('hidden');
   document.getElementById('operatorPanel').classList.remove('hidden');
   document.getElementById('userChat').classList.add('hidden');
-  document.getElementById('roleBadge').textContent='⚙ Operador';
-  document.getElementById('roleBadge').className='role-badge rb-op';
+  document.getElementById('sidebar').classList.add('hidden');
+  document.getElementById('mhdrBadge').textContent='OPERADOR';
   document.getElementById('cfgKey').value=apiKey;
-  document.getElementById('cfgModel').value=activeModel==='auto'?'claude-sonnet-4-6':activeModel;
+  document.getElementById('cfgModel').value=resolveModel(activeModel);
   document.getElementById('cfgPrompt').value=sysPrompt;
   loadDash();
   refreshInt=setInterval(()=>{if(document.getElementById('tab-dash').classList.contains('active'))loadDash();},20000);
@@ -828,7 +880,10 @@ function startOperator(){
 function switchTab(name){
   ['dash','users','create','config'].forEach(t=>{
     document.getElementById('tab-'+t).classList.toggle('active',t===name);
-    document.getElementById('nav-'+t).classList.toggle('active',t===name);
+    const tab=document.getElementById('otab-'+t);
+    const btn=document.getElementById('obn-'+t);
+    if(tab)tab.classList.toggle('active',t===name);
+    if(btn)btn.classList.toggle('active',t===name);
   });
   if(name==='users')loadUsers();
   if(name==='dash')loadDash();
@@ -850,15 +905,13 @@ async function loadDash(){
   document.getElementById('dUsed').textContent=totalUsed.toLocaleString();
   document.getElementById('dUsedSub').textContent=`~$${(totalUsed/1000000*0.015).toFixed(4)} USD`;
   const ref=Math.max(totalDist,1000000);
-  const pU=Math.min((totalUsed/ref)*100,100);
-  const pD=Math.min((avail/ref)*100,100-pU);
-  document.getElementById('bUsed').style.width=pU+'%';
-  document.getElementById('bDist').style.width=pD+'%';
+  document.getElementById('bUsed').style.width=Math.min((totalUsed/ref)*100,100)+'%';
+  document.getElementById('bDist').style.width=Math.min((avail/ref)*100,100)+'%';
   const pct=totalDist>0?(totalUsed/totalDist*100).toFixed(1):0;
   document.getElementById('bLblU').textContent=`Consumido: ${pct}%`;
   document.getElementById('bLblD').textContent=`Disponible: ${avail.toLocaleString()}`;
-  document.getElementById('bLblT').textContent=`Distribuido: ${totalDist.toLocaleString()}`;
-  document.getElementById('dCostNote').textContent=`💰 Costo estimado total consumido: ~$${(totalUsed/1000000*0.015).toFixed(4)} USD (Sonnet)`;
+  document.getElementById('bLblT').textContent=`Total: ${totalDist.toLocaleString()}`;
+  document.getElementById('dCostNote').textContent=`Costo estimado: ~$${(totalUsed/1000000*0.015).toFixed(4)} USD con Sonnet`;
 }
 
 async function loadUsers(){
@@ -870,20 +923,19 @@ async function loadUsers(){
     const rem=u.tokens_totales-u.tokens_usados;
     const pct=u.tokens_totales>0?Math.max(0,(rem/u.tokens_totales)*100):0;
     const exp=u.fecha_vencimiento&&new Date(u.fecha_vencimiento)<new Date();
-    const expTxt=u.fecha_vencimiento?toARG(u.fecha_vencimiento):'Sin límite';
     return`<div class="uc ${!u.activo?'inactive':''}">
       <div class="uc-top">
-        <div class="uc-name"><div class="uc-dot ${!u.activo||exp?'off':''}"></div>${u.usuario}</div>
+        <div class="uc-name"><div class="uc-dot ${!u.activo||exp?'off':''}"></div>${escH(u.usuario)}</div>
         <div class="uc-tags">${exp?'<span class="uc-tag ex">VENCIDO</span>':''}${!u.activo?'<span class="uc-tag di">INACTIVO</span>':''}</div>
       </div>
       <div class="uc-rows">
-        <div class="uc-row"><span class="uc-rl">🔋 Restantes</span><span class="uc-rv">${rem.toLocaleString()} / ${u.tokens_totales.toLocaleString()}</span></div>
+        <div class="uc-row"><span class="uc-rl">Tokens restantes</span><span class="uc-rv">${rem.toLocaleString()} / ${u.tokens_totales.toLocaleString()}</span></div>
         <div class="uc-bar"><div class="uc-bar-f ${pct<20?'low':''}" style="width:${pct}%"></div></div>
-        <div class="uc-row"><span class="uc-rl">📊 Consumido</span><span class="uc-rv">${u.tokens_usados.toLocaleString()}</span></div>
-        <div class="uc-row"><span class="uc-rl">📅 Vence</span><span class="uc-rv">${expTxt}</span></div>
-        <div class="uc-row"><span class="uc-rl">🤖 Modelo</span><span class="uc-rv">${modelLabel(u.modelo_preferido||'auto')}</span></div>
+        <div class="uc-row"><span class="uc-rl">Consumido</span><span class="uc-rv">${u.tokens_usados.toLocaleString()}</span></div>
+        <div class="uc-row"><span class="uc-rl">Vence</span><span class="uc-rv">${u.fecha_vencimiento?toARG(u.fecha_vencimiento):'Sin límite'}</span></div>
+        <div class="uc-row"><span class="uc-rl">Modelo</span><span class="uc-rv">${modelLabel(u.modelo_preferido||'auto')}</span></div>
       </div>
-      <div class="uc-edit-btn"><button class="btn btn-s btn-sm" style="width:100%" onclick="openEdit('${u.id}')">✏️ Editar</button></div>
+      <div class="uc-edit-btn"><button class="btn btn-s btn-sm" style="width:100%" onclick="openEdit('${u.id}')">Editar</button></div>
     </div>`;
   }).join('');
 }
@@ -908,12 +960,10 @@ async function createUser(){
   else if(days>0){const d=new Date();d.setDate(d.getDate()+days);d.setHours(23,59,59,0);exp=d.toISOString();}
   const{error}=await sb.from('usuario').insert({usuario:user,clave:pass,tokens_totales:tokens,tokens_usados:0,fecha_vencimiento:exp,activo:true,primer_login:true,modelo_preferido:'auto'});
   if(error){err.textContent='Error: '+(error.message||'Usuario ya existe');return;}
-  showToast(`✓ Usuario "${user}" creado`,'success');
+  showToast(`Usuario "${user}" creado`,'success');
   ['nUser','nPass','nExpiry'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('nTokens').value='500000';
-  document.getElementById('nDays').value='30';
-  err.textContent='';
-  switchTab('users');
+  document.getElementById('nTokens').value='500000';document.getElementById('nDays').value='30';
+  err.textContent='';switchTab('users');
 }
 
 function toggleKeyVis(){const i=document.getElementById('cfgKey');i.type=i.type==='password'?'text':'password';}
@@ -924,14 +974,10 @@ async function saveCfg(){
   if(key&&!key.startsWith('sk-ant-')){showToast('API Key inválida','error');return;}
   if(key){await sb.from('operador').update({api_key:key}).eq('usuario',curUser);apiKey=key;}
   activeModel=model;localStorage.setItem('cl_model',model);
-  showToast('✓ Configuración guardada','success');
+  showToast('Configuración guardada','success');
 }
 
-function savePrompt(){
-  sysPrompt=document.getElementById('cfgPrompt').value;
-  localStorage.setItem('cl_sysprompt',sysPrompt);
-  showToast('✓ Prompt guardado','success');
-}
+function savePrompt(){sysPrompt=document.getElementById('cfgPrompt').value;localStorage.setItem('cl_sysprompt',sysPrompt);showToast('Prompt guardado','success');}
 
 // ══ EDIT MODAL ══
 async function openEdit(id){
@@ -967,16 +1013,14 @@ async function saveEdit(){
   if(pass)upd.clave=pass;
   const{error}=await sb.from('usuario').update(upd).eq('id',id);
   if(error){err.textContent='Error: '+error.message;return;}
-  showToast('✓ Usuario actualizado','success');
-  closeEdit();loadUsers();loadDash();
+  showToast('Usuario actualizado','success');closeEdit();loadUsers();loadDash();
 }
 async function delUser(){
   const id=document.getElementById('eId').value;
   const user=document.getElementById('eUser').value;
   if(!confirm(`¿Eliminar a "${user}"?`))return;
   await sb.from('usuario').delete().eq('id',id);
-  showToast(`"${user}" eliminado`,'warn');
-  closeEdit();loadUsers();loadDash();
+  showToast(`"${user}" eliminado`,'warn');closeEdit();loadUsers();loadDash();
 }
 
 // ══ USER CHAT ══
@@ -984,8 +1028,12 @@ function startUser(){
   document.getElementById('app').classList.remove('hidden');
   document.getElementById('userChat').classList.remove('hidden');
   document.getElementById('operatorPanel').classList.add('hidden');
-  document.getElementById('roleBadge').textContent='● Usuario';
-  document.getElementById('roleBadge').className='role-badge rb-usr';
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('mhdrBadge').textContent='USUARIO';
+  document.getElementById('sidebarUsername').textContent=curUser;
+  document.getElementById('sidebarRole').textContent='Usuario · Claude Lite';
+  document.getElementById('sidebarAvatar').textContent=curUser.charAt(0).toUpperCase();
+  document.getElementById('sidebarMem').classList.remove('hidden');
   document.getElementById('sendBtn').disabled=false;
   updateModelUI();updateTokDisplay();updateExpDisplay();checkAccess();
   refreshInt=setInterval(refreshUserData,30000);
@@ -1015,12 +1063,12 @@ function updateTokDisplay(){
 
 function updateExpDisplay(){
   const el=document.getElementById('expLbl');
-  if(!expiry){el.textContent='Sin vencimiento';el.className='exp-lbl';return;}
+  if(!expiry){el.textContent='';el.className='exp-lbl';return;}
   const exp=new Date(expiry),now=new Date();
   const diff=exp-now;
   const days=Math.floor(diff/86400000);
-  if(diff<0){el.textContent='⚠ Vencido';el.className='exp-lbl exp';}
-  else if(days<3){el.textContent=`⚠ ${days}d`;el.className='exp-lbl warn';}
+  if(diff<0){el.textContent='Vencido';el.className='exp-lbl exp';}
+  else if(days<3){el.textContent=`${days}d restantes`;el.className='exp-lbl warn';}
   else{el.textContent=toARG(expiry).split(',')[0];el.className='exp-lbl';}
 }
 
@@ -1028,28 +1076,19 @@ function checkAccess(){
   const rem=tokTotal-tokUsed;
   const expired=expiry&&new Date(expiry)<new Date();
   if(expired||rem<=0){
-    document.getElementById('msgs').innerHTML=`<div class="blocked">
-      <div class="blocked-icon">${expired?'⏰':'🔋'}</div>
-      <h3>${expired?'Acceso vencido':'Sin tokens'}</h3>
-      <p>${expired?'Tu período venció. Contactá a MISAKROOS para renovar.':'Agotaste tus tokens. Contactá a MISAKROOS para recargar.'}</p>
-    </div>`;
+    document.getElementById('msgs').innerHTML=`<div class="blocked"><h3>${expired?'Acceso vencido':'Sin tokens'}</h3><p>${expired?'Tu período venció. Contactá a MISAKROOS para renovar.':'Agotaste tus tokens. Contactá a MISAKROOS para recargar.'}</p></div>`;
     document.getElementById('sendBtn').disabled=true;
     document.getElementById('chatInput').disabled=true;
-    document.getElementById('btn-attach-btn')&&(document.getElementById('btn-attach-btn').disabled=true);
   }
 }
 
-// ══ WELCOME MODAL ══
+// ══ WELCOME ══
 function openWelcomeModal(){
   wModelSel=activeModel||'auto';
   document.querySelectorAll('#welcomeModelOpts .mopt').forEach(o=>o.classList.toggle('sel',o.dataset.model===wModelSel));
   document.getElementById('welcomeModal').classList.remove('hidden');
 }
-function selWModel(el,m){
-  wModelSel=m;
-  document.querySelectorAll('#welcomeModelOpts .mopt').forEach(o=>o.classList.remove('sel'));
-  el.classList.add('sel');
-}
+function selWModel(el,m){wModelSel=m;document.querySelectorAll('#welcomeModelOpts .mopt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');}
 async function saveWelcome(){
   const newPass=document.getElementById('newPassWelcome').value.trim();
   const err=document.getElementById('welcomeErr');
@@ -1058,14 +1097,10 @@ async function saveWelcome(){
   const{error}=await sb.from('usuario').update(upd).eq('id',curUserId);
   if(error){err.textContent='Error: '+error.message;return;}
   activeModel=wModelSel;
-  // Update session with new pass if changed
-  if(newPass){
-    const sess=loadSession();
-    if(sess){sess.pass=newPass;saveSession(sess);}
-  }
+  if(newPass){const s=loadSession();if(s){s.pass=newPass;saveSession(s);}}
   updateModelUI();
   document.getElementById('welcomeModal').classList.add('hidden');
-  showToast('✓ ¡Todo listo!','success');
+  showToast('¡Todo listo!','success');
 }
 async function skipWelcome(){
   await sb.from('usuario').update({primer_login:false}).eq('id',curUserId);
@@ -1087,10 +1122,8 @@ async function pickModel(el,m){
 
 // ══ FILE ATTACH ══
 function handleFile(e){
-  const file=e.target.files[0];
-  if(!file)return;
-  const maxMB=5;
-  if(file.size>maxMB*1024*1024){showToast('Archivo muy grande (máx 5MB)','error');return;}
+  const file=e.target.files[0];if(!file)return;
+  if(file.size>5*1024*1024){showToast('Archivo muy grande (máx 5MB)','error');return;}
   const reader=new FileReader();
   reader.onload=ev=>{
     const base64=ev.target.result.split(',')[1];
@@ -1099,26 +1132,17 @@ function handleFile(e){
     const isPdf=mediaType==='application/pdf';
     if(!isImage&&!isPdf){showToast('Solo imágenes o PDF','error');return;}
     attachedFile={base64,mediaType,name:file.name,isImage,isPdf};
-    // Show preview
-    const prev=document.getElementById('attachPreview');
+    const prev=document.getElementById('attachPrev');
     const thumb=document.getElementById('attachThumb');
-    const aName=document.getElementById('attachName');
-    const aType=document.getElementById('attachType');
     prev.classList.remove('hidden');
-    if(isImage){thumb.src=ev.target.result;thumb.style.display='block';}
-    else{thumb.style.display='none';}
-    aName.textContent=file.name;
-    aType.textContent=isImage?'Imagen':'PDF';
+    if(isImage){thumb.src=ev.target.result;thumb.style.display='block';}else{thumb.style.display='none';}
+    document.getElementById('attachName').textContent=file.name;
+    document.getElementById('attachType').textContent=isImage?'Imagen':'PDF';
   };
   reader.readAsDataURL(file);
   e.target.value='';
 }
-
-function removeAttach(){
-  attachedFile=null;
-  document.getElementById('attachPreview').classList.add('hidden');
-  document.getElementById('attachThumb').src='';
-}
+function removeAttach(){attachedFile=null;document.getElementById('attachPrev').classList.add('hidden');document.getElementById('attachThumb').src='';}
 
 // ══ CHAT ══
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
@@ -1128,32 +1152,39 @@ function useSug(t){document.getElementById('chatInput').value=t;sendMsg();}
 function clearChat(){
   history=[];
   document.getElementById('msgs').innerHTML=`<div class="chat-welcome" id="chatWelcome">
-    <div class="w-orb">🧠</div>
-    <h2>Claude Lite · MISAKROOS</h2>
-    <p>Tu asistente de IA. Pedime páginas web, código, textos, imágenes y más.</p>
+    <div class="w-icon">✦</div>
+    <h2>¿En qué te puedo ayudar?</h2>
+    <p>Tengo búsqueda web en tiempo real. Preguntame lo que quieras.</p>
     <div class="chips">
-      <div class="chip" onclick="useSug('Creame una landing page moderna para un negocio de streaming')">🌐 Landing page</div>
-      <div class="chip" onclick="useSug('Código HTML para una tienda online simple')">🛒 Tienda online</div>
-      <div class="chip" onclick="useSug('Formulario de contacto bonito en HTML y CSS')">📋 Formulario</div>
-      <div class="chip" onclick="useSug('Explicame JavaScript de forma simple y con ejemplos')">💡 Aprender JS</div>
+      <div class="chip" onclick="useSug('Creame una landing page moderna para un negocio de streaming en Argentina')">Crear landing page</div>
+      <div class="chip" onclick="useSug('¿Cuál es el dólar blue hoy en Argentina?')">Dólar blue hoy</div>
+      <div class="chip" onclick="useSug('Escribime código HTML para una tienda online simple con carrito')">Tienda online HTML</div>
+      <div class="chip" onclick="useSug('¿Qué noticias hay hoy en Argentina?')">Noticias de hoy</div>
     </div>
   </div>`;
-  showToast('Chat limpiado','success');
+  showToast('Nuevo chat','success');
 }
 
-function escH(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function renderBub(content){
-  return content
-    .replace(/```html\n?([\s\S]*?)```/gi,(_,code)=>{
-      const id='p'+Math.random().toString(36).substr(2,7);
-      return`<div class="code-prev"><div class="code-prev-hdr"><span>📄 HTML generado</span><button onclick="prevCode('${id}')">▶ Ver</button></div><pre id="c${id}"><code>${escH(code.trim())}</code></pre><div id="f${id}" style="display:none"><iframe id="i${id}"></iframe></div></div>`;
-    })
-    .replace(/```(\w*)\n?([\s\S]*?)```/g,'<pre><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .replace(/\n/g,'<br>');
+  // Headers
+  content=content.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+  content=content.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+  content=content.replace(/^# (.+)$/gm,'<h1>$1</h1>');
+  // HTML code blocks with preview
+  content=content.replace(/```html\n?([\s\S]*?)```/gi,(_,code)=>{
+    const id='p'+Math.random().toString(36).substr(2,7);
+    return`<div class="code-prev"><div class="code-prev-hdr"><span>HTML generado</span><button onclick="prevCode('${id}')">Vista previa</button></div><pre id="c${id}"><code>${escH(code.trim())}</code></pre><div id="f${id}" style="display:none"><iframe id="i${id}"></iframe></div></div>`;
+  });
+  // Other code blocks
+  content=content.replace(/```(\w*)\n?([\s\S]*?)```/g,'<pre><code>$2</code></pre>');
+  content=content.replace(/`([^`]+)`/g,'<code>$1</code>');
+  content=content.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  content=content.replace(/\*(.*?)\*/g,'<em>$1</em>');
+  content=content.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  content=content.replace(/\n/g,'<br>');
+  return content;
 }
 
 function prevCode(id){
@@ -1170,7 +1201,7 @@ function addMsg(role,content,imgSrc=null){
   d.className=`msg ${role==='user'?'um':'am'}`;
   const av=document.createElement('div');
   av.className=`mav ${role==='user'?'u':'ai'}`;
-  av.textContent=role==='user'?curUser.charAt(0).toUpperCase():'⚡';
+  av.textContent=role==='user'?curUser.charAt(0).toUpperCase():'✦';
   const b=document.createElement('div');
   b.className='bub';
   if(imgSrc){const img=document.createElement('img');img.src=imgSrc;b.appendChild(img);}
@@ -1182,10 +1213,21 @@ function addMsg(role,content,imgSrc=null){
   area.scrollTop=area.scrollHeight;
 }
 
+function showSearchInd(){
+  const area=document.getElementById('msgs');
+  const d=document.createElement('div');d.id='searchInd';d.className='msg am';
+  const av=document.createElement('div');av.className='mav ai';av.textContent='✦';
+  const b=document.createElement('div');b.className='bub';
+  b.innerHTML='<div class="search-ind"><div class="search-ind-dot"></div>Buscando en internet...</div>';
+  d.appendChild(av);d.appendChild(b);
+  area.appendChild(d);area.scrollTop=area.scrollHeight;
+}
+function removeSearchInd(){const e=document.getElementById('searchInd');if(e)e.remove();}
+
 function showTyping(){
   const area=document.getElementById('msgs');
   const d=document.createElement('div');d.className='typing-ind';d.id='typing';
-  const av=document.createElement('div');av.className='mav ai';av.textContent='⚡';
+  const av=document.createElement('div');av.className='mav ai';av.textContent='✦';
   const b=document.createElement('div');b.className='typing-bub';
   b.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
   d.appendChild(av);d.appendChild(b);
@@ -1198,62 +1240,117 @@ async function sendMsg(){
   const rem=tokTotal-tokUsed;
   if(rem<=0){showToast('Sin tokens disponibles','error');return;}
   if(expiry&&new Date(expiry)<new Date()){showToast('Acceso vencido','error');return;}
-  if(!apiKey){showToast('API key no configurada. Contactá al operador.','error');return;}
+  if(!apiKey){showToast('API key no configurada','error');return;}
 
   const inp=document.getElementById('chatInput');
   const text=inp.value.trim();
   if(!text&&!attachedFile)return;
 
-  loading=true;
-  inp.value='';inp.style.height='auto';
+  loading=true;inp.value='';inp.style.height='auto';
   document.getElementById('sendBtn').disabled=true;
 
-  // Build message content
   let userContent;
-  let displayText=text||'[Imagen adjunta]';
-  let imgPreviewSrc=null;
+  let displayText=text||'[Archivo adjunto]';
+  let imgSrc=null;
 
   if(attachedFile){
-    const contentArr=[];
+    const arr=[];
     if(attachedFile.isImage){
-      contentArr.push({type:'image',source:{type:'base64',media_type:attachedFile.mediaType,data:attachedFile.base64}});
-      imgPreviewSrc='data:'+attachedFile.mediaType+';base64,'+attachedFile.base64;
-    } else if(attachedFile.isPdf){
-      contentArr.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:attachedFile.base64}});
+      arr.push({type:'image',source:{type:'base64',media_type:attachedFile.mediaType,data:attachedFile.base64}});
+      imgSrc='data:'+attachedFile.mediaType+';base64,'+attachedFile.base64;
+    }else if(attachedFile.isPdf){
+      arr.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:attachedFile.base64}});
     }
-    if(text)contentArr.push({type:'text',text});
-    else contentArr.push({type:'text',text:'Describí lo que ves en esta imagen o documento.'});
-    userContent=contentArr;
+    arr.push({type:'text',text:text||'Describí lo que ves en este archivo.'});
+    userContent=arr;
     removeAttach();
-  } else {
+  }else{
     userContent=text;
   }
 
   history.push({role:'user',content:userContent});
-  addMsg('user',displayText,imgPreviewSrc);
+  addMsg('user',displayText,imgSrc);
   showTyping();
 
   const modelToUse=resolveModel(activeModel);
+  const systemFull=buildSysPrompt();
 
   try{
+    // First try with web search
+    const body={
+      model:modelToUse,
+      max_tokens:8096,
+      system:systemFull,
+      messages:history,
+      tools:[{type:'web_search_20250305',name:'web_search'}]
+    };
+
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:modelToUse,max_tokens:4096,system:sysPrompt,messages:history})
+      body:JSON.stringify(body)
     });
-    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Error API');}
+
+    if(!res.ok){
+      const eData=await res.json();
+      // If web search not supported for this model, retry without it
+      if(eData.error?.message?.includes('web_search')||eData.error?.type==='invalid_request_error'){
+        await sendMsgNoSearch(modelToUse,systemFull,history);
+        return;
+      }
+      throw new Error(eData.error?.message||'Error API');
+    }
+
     const data=await res.json();
-    const reply=data.content[0].text;
-    const used=(data.usage?.input_tokens||0)+(data.usage?.output_tokens||0);
-    history.push({role:'assistant',content:reply});
-    tokUsed+=used;
-    await sb.from('usuario').update({tokens_usados:tokUsed}).eq('id',curUserId);
-    updateTokDisplay();
     removeTyping();
-    addMsg('assistant',reply);
-    if(tokTotal-tokUsed<=0){showToast('⚠ Tokens agotados','warn');checkAccess();}
+
+    // Handle tool use (web search)
+    let finalReply='';
+    let didSearch=false;
+
+    if(data.stop_reason==='tool_use'){
+      didSearch=true;
+      removeTyping();
+      showSearchInd();
+      // Add assistant message with tool use to history
+      history.push({role:'assistant',content:data.content});
+      // Build tool results
+      const toolResults=[];
+      for(const block of data.content){
+        if(block.type==='tool_use'){
+          toolResults.push({type:'tool_result',tool_use_id:block.id,content:'[Búsqueda web completada]'});
+        }
+      }
+      history.push({role:'user',content:toolResults});
+      // Second call to get final answer
+      const res2=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:modelToUse,max_tokens:8096,system:systemFull,messages:history,tools:[{type:'web_search_20250305',name:'web_search'}]})
+      });
+      const data2=await res2.json();
+      finalReply=data2.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+      const used2=(data2.usage?.input_tokens||0)+(data2.usage?.output_tokens||0);
+      tokUsed+=used2;
+      removeSearchInd();
+    }else{
+      finalReply=data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+    }
+
+    const used=(data.usage?.input_tokens||0)+(data.usage?.output_tokens||0);
+    tokUsed+=used;
+
+    if(finalReply){
+      history.push({role:'assistant',content:finalReply});
+      await sb.from('usuario').update({tokens_usados:tokUsed}).eq('id',curUserId);
+      updateTokDisplay();
+      addMsg('assistant',finalReply);
+      if(tokTotal-tokUsed<=0){showToast('Tokens agotados','warn');checkAccess();}
+    }
+
   }catch(e){
-    removeTyping();history.pop();
+    removeTyping();removeSearchInd();
+    history.pop();
     showToast('Error: '+e.message,'error');
   }
 
@@ -1262,13 +1359,38 @@ async function sendMsg(){
   inp.focus();
 }
 
+async function sendMsgNoSearch(modelToUse,systemFull,hist){
+  // Fallback without web search tool
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:modelToUse,max_tokens:8096,system:systemFull,messages:hist})
+    });
+    removeTyping();
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Error');}
+    const data=await res.json();
+    const reply=data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+    const used=(data.usage?.input_tokens||0)+(data.usage?.output_tokens||0);
+    tokUsed+=used;
+    history.push({role:'assistant',content:reply});
+    await sb.from('usuario').update({tokens_usados:tokUsed}).eq('id',curUserId);
+    updateTokDisplay();
+    addMsg('assistant',reply);
+    if(tokTotal-tokUsed<=0){showToast('Tokens agotados','warn');checkAccess();}
+  }catch(e){
+    removeTyping();history.pop();showToast('Error: '+e.message,'error');
+  }
+  loading=false;document.getElementById('sendBtn').disabled=false;document.getElementById('chatInput').focus();
+}
+
 // ══ TOAST ══
 function showToast(msg,type=''){
   const ex=document.querySelector('.toast');if(ex)ex.remove();
   const t=document.createElement('div');
   t.className=`toast ${type}`;t.textContent=msg;
   document.body.appendChild(t);
-  setTimeout(()=>t?.remove(),3200);
+  setTimeout(()=>t?.remove(),3000);
 }
 </script>
 </body>

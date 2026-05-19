@@ -373,6 +373,44 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
 .edit-grid .full{grid-column:1/-1;}
 @media(max-width:360px){.edit-grid{grid-template-columns:1fr;}}
 
+/* WhatsApp button */
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;background:#25d366;border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;width:100%;transition:all .15s;text-decoration:none;}
+.wa-btn:active{opacity:.85;transform:scale(.98);}
+.wa-btn svg{width:20px;height:20px;fill:white;flex-shrink:0;}
+.wa-float{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));right:16px;width:52px;height:52px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);cursor:pointer;z-index:50;border:none;transition:all .15s;}
+.wa-float:active{transform:scale(.92);}
+.wa-float svg{width:26px;height:26px;fill:white;}
+
+/* Low credits warning */
+.low-credits-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(204,120,92,.12);border-bottom:1px solid rgba(204,120,92,.3);gap:10px;flex-shrink:0;}
+.low-credits-txt{font-size:12px;color:var(--acc);font-weight:500;flex:1;}
+.low-credits-btn{background:var(--acc);border:none;border-radius:6px;color:#fff;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+
+/* Plans screen */
+.plans-screen{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:30;}
+.plans-header{display:flex;align-items:center;gap:12px;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));border-bottom:1px solid var(--bdr);flex-shrink:0;}
+.plans-title{font-size:16px;font-weight:600;}
+.plans-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;}
+.plan-card{background:var(--card-bg);border:1.5px solid var(--bdr);border-radius:14px;padding:18px;margin-bottom:14px;transition:border-color .15s;}
+.plan-card.recommended{border-color:var(--acc);}
+.plan-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.plan-name{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.plan-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(204,120,92,.15);color:var(--acc);letter-spacing:.5px;}
+.plan-desc{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:10px;}
+.plan-includes{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+.plan-include-item{font-size:12px;color:var(--t3);display:flex;align-items:flex-start;gap:6px;line-height:1.4;}
+.plan-include-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.plan-example{background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;}
+.plan-example-title{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;}
+.plan-example-row{font-size:11px;color:var(--t3);display:flex;justify-content:space-between;padding:2px 0;font-family:'JetBrains Mono',monospace;}
+.plan-example-row span{color:var(--t2);}
+.plans-bottom{padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--bdr);background:var(--bg);}
+.plans-bottom-txt{font-size:13px;color:var(--t3);text-align:center;margin-bottom:12px;line-height:1.5;}
+
+/* Upgrade button in history */
+.upgrade-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;background:var(--bg3);border:1.5px solid var(--bdr);border-radius:12px;color:var(--t2);font-size:14px;font-weight:500;cursor:pointer;width:100%;margin-bottom:12px;transition:all .15s;}
+.upgrade-btn:active{background:var(--bg4);}
+
 /* Toast */
 .toast{position:fixed;bottom:calc(60px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--bdr2);border-radius:8px;padding:10px 18px;font-size:13px;z-index:500;animation:fadeUp .2s ease;white-space:nowrap;max-width:88vw;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.3);}
 .toast.success{border-color:var(--green);color:var(--green);}
@@ -455,6 +493,13 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
         <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         Nuevo chat
       </button>
+      <button class="upgrade-btn" onclick="openPlans()">
+        ✦ Ver planes y actualizar
+      </button>
+      <button class="wa-btn" id="histWaBtn" onclick="openWhatsApp('soporte')" style="margin-bottom:16px">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Soporte por WhatsApp
+      </button>
       <div class="hist-section-title" id="histSectionTitle" style="display:none">Conversaciones recientes</div>
       <div class="hist-list" id="histList"></div>
       <div class="hist-empty hidden" id="histEmpty">Todavía no tenés conversaciones.<br>¡Iniciá una nueva!</div>
@@ -486,6 +531,10 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
         <div class="credit-bar-track"><div class="credit-bar-fill" id="cbFillChat" style="width:100%"></div></div>
       </div>
       <div class="credit-bar-right" id="cbExpChat">—</div>
+    </div>
+    <div class="low-credits-bar hidden" id="lowCreditsBar">
+      <span class="low-credits-txt">⚠️ Te quedan pocos créditos. ¡Recargá para seguir!</span>
+      <button class="low-credits-btn" onclick="openWhatsApp('creditos')">Recargar →</button>
     </div>
     <div class="msgs" id="msgs">
       <div class="chat-start" id="chatStart">
@@ -566,6 +615,17 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
             <div class="fg-grid">
               <div class="fg"><label>Usuario</label><input type="text" id="nUser" placeholder="nombre_usuario" autocapitalize="none" autocorrect="off"/></div>
               <div class="fg"><label>Contraseña</label><input type="text" id="nPass" placeholder="clave123"/></div>
+              <div class="fg full"><label>WhatsApp de soporte (código país + número)</label><input type="tel" id="nWhatsapp" placeholder="5491112345678"/><span class="fg-note">El usuario lo usará para contactar al revendedor</span></div>
+              <div class="fg full"><label>Plan</label><select id="nPlan" onchange="planChanged()">
+                <option value="basico">🚀 Básico — Solo Haiku 4.5</option>
+                <option value="estandar" selected>⚡ Estándar — Haiku + Sonnet 4.6</option>
+                <option value="pro">🧠 Pro — Haiku + Sonnet + Opus 4.6</option>
+                <option value="auto">✦ Automático — Todos los modelos</option>
+              </select></div>
+              <div class="fg full"><label>Tipo de plan</label><select id="nTipoPlan" onchange="tipoPlanChanged()">
+                <option value="mensual">📅 Mensual (con fecha de vencimiento)</option>
+                <option value="creditos">💳 Por créditos (vence en 90 días)</option>
+              </select></div>
               <div class="fg"><label>Créditos</label><input type="number" id="nTokens" value="500000" min="1000"/></div>
               <div class="fg"><label>Días de acceso</label><input type="number" id="nDays" value="30" min="0" oninput="calcExpiry()"/></div>
               <div class="fg full"><label>Vencimiento exacto (AR)</label><input type="datetime-local" id="nExpiry"/><span class="fg-note">Se calcula automático con los días, o elegí fecha manual.</span></div>
@@ -598,6 +658,112 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
     </div>
   </div>
 </div>
+
+  <!-- ══ PLANS SCREEN ══ -->
+  <div class="plans-screen hidden" id="plansScreen">
+    <div class="plans-header">
+      <button class="hdr-btn" onclick="closePlans()">
+        <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+      </button>
+      <span class="plans-title">Planes disponibles</span>
+    </div>
+    <div class="plans-content">
+
+      <div class="plan-card">
+        <div class="plan-card-top">
+          <div class="plan-name">🚀 Plan Básico</div>
+          <span class="plan-badge">HAIKU 4.5</span>
+        </div>
+        <div class="plan-desc">El más económico, ideal para uso diario simple. Perfecto si usás el asistente para responder preguntas, traducir textos y tareas cotidianas.</div>
+        <div class="plan-includes">
+          <div class="plan-include-item">Respuestas rápidas a cualquier pregunta</div>
+          <div class="plan-include-item">Traducciones y correcciones de texto</div>
+          <div class="plan-include-item">Resúmenes de documentos y PDFs</div>
+          <div class="plan-include-item">Búsqueda web en tiempo real</div>
+        </div>
+        <div class="plan-example">
+          <div class="plan-example-title">Ejemplos de consumo</div>
+          <div class="plan-example-row">Pregunta simple <span>~400 créditos</span></div>
+          <div class="plan-example-row">Traducción de texto <span>~300 créditos</span></div>
+          <div class="plan-example-row">Resumen de PDF <span>~600 créditos</span></div>
+          <div class="plan-example-row" style="color:var(--acc);font-weight:600;">300.000 créditos ≈ 600 respuestas</div>
+        </div>
+      </div>
+
+      <div class="plan-card recommended">
+        <div class="plan-card-top">
+          <div class="plan-name">⚡ Plan Estándar</div>
+          <span class="plan-badge">MÁS POPULAR</span>
+        </div>
+        <div class="plan-desc">El más elegido. Equilibrio perfecto entre potencia y precio. Ideal si necesitás crear páginas web, escribir código o redactar textos profesionales.</div>
+        <div class="plan-includes">
+          <div class="plan-include-item">Todo lo del Plan Básico</div>
+          <div class="plan-include-item">Crear páginas web completas (HTML/CSS/JS)</div>
+          <div class="plan-include-item">Escritura y corrección de código</div>
+          <div class="plan-include-item">Redacción de textos profesionales y contratos</div>
+          <div class="plan-include-item">Análisis de imágenes</div>
+        </div>
+        <div class="plan-example">
+          <div class="plan-example-title">Ejemplos de consumo</div>
+          <div class="plan-example-row">Landing page completa <span>~5.000 créditos</span></div>
+          <div class="plan-example-row">Contrato o documento <span>~2.000 créditos</span></div>
+          <div class="plan-example-row">Corrección de código <span>~3.000 créditos</span></div>
+          <div class="plan-example-row" style="color:var(--acc);font-weight:600;">500.000 créditos ≈ 200 proyectos web</div>
+        </div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-card-top">
+          <div class="plan-name">🧠 Plan Pro</div>
+          <span class="plan-badge">OPUS 4.6</span>
+        </div>
+        <div class="plan-desc">Máxima inteligencia para proyectos exigentes. Para quienes necesitan análisis profundos, arquitectura de sistemas o redacción de alto nivel profesional.</div>
+        <div class="plan-includes">
+          <div class="plan-include-item">Todo lo del Plan Estándar</div>
+          <div class="plan-include-item">Análisis estratégicos y complejos</div>
+          <div class="plan-include-item">Arquitectura y diseño de sistemas</div>
+          <div class="plan-include-item">Redacción profesional de máxima calidad</div>
+          <div class="plan-include-item">Razonamiento profundo sobre cualquier tema</div>
+        </div>
+        <div class="plan-example">
+          <div class="plan-example-title">Ejemplos de consumo</div>
+          <div class="plan-example-row">Arquitectura de app <span>~8.000 créditos</span></div>
+          <div class="plan-example-row">Análisis de negocio <span>~6.000 créditos</span></div>
+          <div class="plan-example-row">Sistema completo <span>~25.000 créditos</span></div>
+          <div class="plan-example-row" style="color:var(--acc);font-weight:600;">1.000.000 créditos ≈ 150 proyectos Pro</div>
+        </div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-card-top">
+          <div class="plan-name">✦ Plan Automático</div>
+          <span class="plan-badge">TODOS LOS MODELOS</span>
+        </div>
+        <div class="plan-desc">La IA elige automáticamente el mejor modelo para cada tarea. Máxima eficiencia: usa el modelo más económico cuando alcanza y el más potente cuando se necesita.</div>
+        <div class="plan-includes">
+          <div class="plan-include-item">Acceso a todos los modelos disponibles</div>
+          <div class="plan-include-item">Selección inteligente según la tarea</div>
+          <div class="plan-include-item">Optimiza el uso de créditos automáticamente</div>
+          <div class="plan-include-item">Ideal para uso variado durante el día</div>
+        </div>
+        <div class="plan-example">
+          <div class="plan-example-title">Ejemplos de consumo</div>
+          <div class="plan-example-row">Pregunta simple → Haiku <span>~400 créditos</span></div>
+          <div class="plan-example-row">Página web → Sonnet <span>~5.000 créditos</span></div>
+          <div class="plan-example-row">Análisis complejo → Opus <span>~8.000 créditos</span></div>
+          <div class="plan-example-row" style="color:var(--acc);font-weight:600;">El consumo varía — siempre optimizado</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="plans-bottom">
+      <div class="plans-bottom-txt">¿Querés cambiar o actualizar tu plan?<br>Contactá a tu proveedor por WhatsApp</div>
+      <button class="wa-btn" id="plansWaBtn" onclick="openWhatsApp('planes')">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Consultar por WhatsApp
+      </button>
+    </div>
+  </div>
 
 <!-- MODALS -->
 <!-- Welcome -->
@@ -754,6 +920,8 @@ let attachedFile=null;
 let localMemory=[];
 let onlineMemory=[];
 let memPref='ask'; // 'local','online','both','none','ask'
+let userWhatsapp='';
+let userPlan='estandar';
 let chatSessions=[];
 let currentChatId=null;
 let currentHistory=[];
@@ -971,6 +1139,8 @@ async function restoreSession(s){
         role='user';curUser=u.usuario;curUserId=u.id;
         tokTotal=u.tokens_totales;tokUsed=u.tokens_usados;expiry=u.fecha_vencimiento;
         activeModel=u.modelo_preferido||'auto';
+        userWhatsapp=u.whatsapp||'';
+        userPlan=u.plan||'estandar';
         const{data:opCfg}=await sb.from('operador').select('api_key').single();
         if(opCfg&&opCfg.api_key)apiKey=opCfg.api_key;
         sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
@@ -1008,6 +1178,8 @@ async function doLogin(){
     role='user';curUser=u.usuario;curUserId=u.id;
     tokTotal=u.tokens_totales;tokUsed=u.tokens_usados;expiry=u.fecha_vencimiento;
     activeModel=u.modelo_preferido||'auto';
+    userWhatsapp=u.whatsapp||'';
+    userPlan=u.plan||'estandar';
     const{data:opCfg}=await sb.from('operador').select('api_key').single();
     if(!opCfg||!opCfg.api_key){err.textContent='Error: servicio no disponible';btn.textContent='Continuar';btn.disabled=false;return;}
     apiKey=opCfg.api_key;sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
@@ -1043,6 +1215,7 @@ function startUserHistory(){
   loadOnlineMemory();
   updateHistoryScreen();
   updateModelUI();updateCreditBar();
+  updateModelPickerByPlan();
   refreshInt=setInterval(refreshUserData,30000);
 }
 
@@ -1235,7 +1408,8 @@ async function loadUsers(){
         <div class="uc-bar"><div class="uc-bar-f ${pct<20?'low':''}" style="width:${pct}%"></div></div>
         <div class="uc-row"><span class="uc-rl">Consumido</span><span class="uc-rv">${u.tokens_usados.toLocaleString()}</span></div>
         <div class="uc-row"><span class="uc-rl">Vence</span><span class="uc-rv">${u.fecha_vencimiento?toARG(u.fecha_vencimiento):'Sin límite'}</span></div>
-        <div class="uc-row"><span class="uc-rl">Modelo</span><span class="uc-rv">${modelLabel(u.modelo_preferido||'auto')}</span></div>
+        <div class="uc-row"><span class="uc-rl">Plan</span><span class="uc-rv">${(u.plan||'estandar').toUpperCase()} · ${(u.tipo_plan||'mensual')}</span></div>
+        <div class="uc-row"><span class="uc-rl">WhatsApp</span><span class="uc-rv">${u.whatsapp||'—'}</span></div>
       </div>
       <div class="uc-edit-btn" style="display:flex;gap:8px">
         <button class="btn btn-s btn-sm" style="flex:1" onclick="openEdit('${u.id}')">Editar</button>
@@ -1252,21 +1426,57 @@ function calcExpiry(){
   document.getElementById('nExpiry').value=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T23:59`;
 }
 
+function planChanged(){
+  const plan=document.getElementById('nPlan').value;
+  const tipoPlan=document.getElementById('nTipoPlan').value;
+  // Auto-set days based on plan type
+  if(tipoPlan==='creditos'){
+    document.getElementById('nDays').value=90;
+    calcExpiry();
+  }
+}
+function tipoPlanChanged(){
+  const tipo=document.getElementById('nTipoPlan').value;
+  if(tipo==='creditos'){
+    document.getElementById('nDays').value=90;
+    calcExpiry();
+  } else {
+    document.getElementById('nDays').value=30;
+    calcExpiry();
+  }
+}
+function getModelosByPlan(plan){
+  if(plan==='basico') return'haiku';
+  if(plan==='estandar') return'auto,haiku,sonnet';
+  if(plan==='pro') return'auto,haiku,sonnet,opus';
+  if(plan==='auto') return'auto,haiku,sonnet,opus';
+  return'auto,haiku,sonnet';
+}
 async function createUser(){
   const user=document.getElementById('nUser').value.trim();
   const pass=document.getElementById('nPass').value.trim();
+  const whatsapp=document.getElementById('nWhatsapp').value.trim().replace(/[^0-9]/g,'');
+  const plan=document.getElementById('nPlan').value;
+  const tipoPlan=document.getElementById('nTipoPlan').value;
   const tokens=parseInt(document.getElementById('nTokens').value)||500000;
   const days=parseInt(document.getElementById('nDays').value)||0;
   const manualExp=document.getElementById('nExpiry').value;
   const err=document.getElementById('createErr');
   if(!user||!pass){err.textContent='Usuario y contraseña son obligatorios';return;}
+  if(!whatsapp){err.textContent='El número de WhatsApp es obligatorio';return;}
   let exp=null;
   if(manualExp)exp=dtToUTC(manualExp);
   else if(days>0){const d=new Date();d.setDate(d.getDate()+days);d.setHours(23,59,59,0);exp=d.toISOString();}
-  const{error}=await sb.from('usuario').insert({usuario:user,clave:pass,tokens_totales:tokens,tokens_usados:0,fecha_vencimiento:exp,activo:true,primer_login:true,modelo_preferido:'auto'});
+  const modelos=getModelosByPlan(plan);
+  const{error}=await sb.from('usuario').insert({
+    usuario:user,clave:pass,whatsapp,plan,tipo_plan:tipoPlan,
+    modelos_permitidos:modelos,
+    tokens_totales:tokens,tokens_usados:0,
+    fecha_vencimiento:exp,activo:true,primer_login:true,modelo_preferido:'auto'
+  });
   if(error){err.textContent='Error: '+(error.message||'Usuario ya existe');return;}
   showToast(`Usuario "${user}" creado`,'success');
-  ['nUser','nPass','nExpiry'].forEach(id=>document.getElementById(id).value='');
+  ['nUser','nPass','nWhatsapp','nExpiry'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('nTokens').value='500000';document.getElementById('nDays').value='30';
   err.textContent='';switchTab('users');
 }
@@ -1339,6 +1549,7 @@ async function refreshUserData(){
 
 function updateCreditBar(){
   const rem=Math.max(0,tokTotal-tokUsed);
+  checkLowCredits();
   const pct=tokTotal>0?(rem/tokTotal)*100:0;
   const isLow=pct<20;
 
@@ -1625,6 +1836,47 @@ async function sendMsgFallback(modelToUse,systemFull){
     removeTyping();currentHistory.pop();showToast('Error: '+e.message,'error');
   }
   loading=false;document.getElementById('sendBtn').disabled=false;document.getElementById('chatInput').focus();
+}
+
+// ══ WHATSAPP ══
+function openWhatsApp(context){
+  if(!userWhatsapp){showToast('WhatsApp no configurado','error');return;}
+  const msgs={
+    'soporte':'Hola! Tengo una consulta sobre mi cuenta de Claude Fast.',
+    'creditos':'Hola! Me estoy quedando sin créditos y quisiera recargar.',
+    'planes':'Hola! Me gustaría consultar sobre los planes disponibles de Claude Fast.',
+  };
+  const msg=encodeURIComponent(msgs[context]||'Hola! Necesito ayuda con Claude Fast.');
+  window.open(`https://wa.me/${userWhatsapp}?text=${msg}`,'_blank');
+}
+
+// ══ PLANS ══
+function openPlans(){
+  document.getElementById('plansScreen').classList.remove('hidden');
+}
+function closePlans(){
+  document.getElementById('plansScreen').classList.add('hidden');
+}
+
+// ══ LOW CREDITS CHECK ══
+function checkLowCredits(){
+  const rem=tokTotal-tokUsed;
+  const pct=tokTotal>0?(rem/tokTotal)*100:100;
+  const bar=document.getElementById('lowCreditsBar');
+  if(bar)bar.classList.toggle('hidden',pct>=20&&rem>0);
+}
+
+// ══ MODEL PICKER FILTERED BY PLAN ══
+function updateModelPickerByPlan(){
+  const modelos=document.querySelector('[data-modelos]')?.dataset.modelos||'auto,haiku,sonnet,opus';
+  const opts=document.querySelectorAll('#modelPickerOpts .mopt, #welcomeModelOpts .mopt');
+  opts.forEach(opt=>{
+    const m=opt.dataset.model||'';
+    let allowed=true;
+    if(m==='claude-opus-4-6'&&!modelos.includes('opus')) allowed=false;
+    if(m==='claude-sonnet-4-6'&&!modelos.includes('sonnet')&&!modelos.includes('auto')) allowed=false;
+    opt.style.display=allowed?'':'none';
+  });
 }
 
 // ══ RESET PASSWORD ══

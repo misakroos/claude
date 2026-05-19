@@ -345,6 +345,22 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
 .mopt-desc{font-size:12px;color:var(--t3);line-height:1.4;}
 .mopt-cred{font-size:11px;color:var(--t2);margin-top:4px;font-family:'JetBrains Mono',monospace;}
 .mem-note{font-size:12px;color:var(--t3);background:var(--bg3);border-radius:8px;padding:10px 12px;margin-bottom:12px;line-height:1.5;border:1px solid var(--bdr);}
+.mem-section-title{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin:12px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--bdr);}
+.mem-empty-section{font-size:12px;color:var(--t3);padding:8px 0 4px;font-style:italic;}
+.mem-type-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.mem-type-row label{font-size:12px;color:var(--t3);font-weight:500;}
+.mem-type-select{background:var(--bg3);border:1px solid var(--bdr);border-radius:6px;color:var(--t);padding:6px 10px;font-size:13px;outline:none;cursor:pointer;-webkit-appearance:none;}
+/* Memory preference modal */
+.mempref-opts{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.mempref-opt{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;background:var(--bg3);border:1.5px solid var(--bdr);border-radius:10px;cursor:pointer;transition:all .15s;user-select:none;}
+.mempref-opt:active{opacity:.8;}
+.mempref-opt:hover{border-color:var(--bdr2);}
+.mempref-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+.mempref-info{flex:1;}
+.mempref-name{font-size:14px;font-weight:600;margin-bottom:2px;}
+.mempref-desc{font-size:12px;color:var(--t3);line-height:1.4;}
+.mempref-remember{display:flex;align-items:center;gap:8px;padding:12px 0 0;font-size:13px;color:var(--t2);cursor:pointer;}
+.mempref-remember input{width:16px;height:16px;accent-color:var(--acc);cursor:pointer;}
 .mem-entry{background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:11px;margin-bottom:8px;position:relative;}
 .mem-entry-text{font-size:13px;color:var(--t2);line-height:1.5;padding-right:28px;}
 .mem-entry-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:16px;width:auto;padding:2px;line-height:1;}
@@ -624,13 +640,70 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-hdr"><span class="modal-ttl">🧠 Memoria</span><button class="btn-cls" onclick="closeMemModal()">✕</button></div>
-    <div class="mem-note">La memoria se guarda <strong>solo en este dispositivo y navegador</strong>. No se comparte con nadie. Claude la usa en cada conversación para recordar tus preferencias.</div>
-    <div id="memList"></div>
-    <div class="fg" style="margin-top:10px">
-      <label>Agregar recuerdo</label>
-      <textarea id="memInput" rows="2" placeholder="Ej: Me llamo Rodrigo, prefiero respuestas cortas..."></textarea>
+    <div class="mem-note">
+      <strong>📱 Local:</strong> Solo en este dispositivo y navegador.<br>
+      <strong>☁️ Online:</strong> Disponible en todos tus dispositivos.
     </div>
-    <button class="btn btn-p" onclick="addMemory()" style="padding:11px">Guardar</button>
+    <div id="memList"><div class="mem-empty">Cargando...</div></div>
+    <div class="fg" style="margin-top:12px">
+      <label>Agregar recuerdo</label>
+      <textarea id="memInput" rows="2" placeholder="Ej: Prefiero respuestas cortas y directas..."></textarea>
+    </div>
+    <div class="mem-type-row">
+      <label>Guardar como:</label>
+      <select id="memTypeSelect" class="mem-type-select">
+        <option value="local">📱 Local (este dispositivo)</option>
+        <option value="online">☁️ Online (todos los dispositivos)</option>
+      </select>
+    </div>
+    <button class="btn btn-p" onclick="addMemory()" style="padding:11px">Guardar recuerdo</button>
+    <div style="margin-top:12px;border-top:1px solid var(--bdr);padding-top:12px;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:12px;color:var(--t3)">Preferencia actual: <strong id="currentMemPrefLabel" style="color:var(--acc)">—</strong></span>
+      <button class="btn btn-s btn-xs" onclick="resetMemPref()">Cambiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Memory Preference Modal -->
+<div class="mo hidden" id="memPrefModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr"><span class="modal-ttl">🧠 ¿Qué memoria usar?</span></div>
+    <div class="mempref-opts">
+      <div class="mempref-opt" onclick="selectMemPref('local')">
+        <span class="mempref-icon">📱</span>
+        <div class="mempref-info">
+          <div class="mempref-name">Memoria local</div>
+          <div class="mempref-desc">Solo guardada en este dispositivo. Más privada.</div>
+        </div>
+      </div>
+      <div class="mempref-opt" onclick="selectMemPref('online')">
+        <span class="mempref-icon">☁️</span>
+        <div class="mempref-info">
+          <div class="mempref-name">Memoria online</div>
+          <div class="mempref-desc">Sincronizada entre todos tus dispositivos.</div>
+        </div>
+      </div>
+      <div class="mempref-opt" onclick="selectMemPref('both')">
+        <span class="mempref-icon">🔄</span>
+        <div class="mempref-info">
+          <div class="mempref-name">Ambas</div>
+          <div class="mempref-desc">Usa tanto la memoria local como la online.</div>
+        </div>
+      </div>
+      <div class="mempref-opt" onclick="selectMemPref('none')">
+        <span class="mempref-icon">🚫</span>
+        <div class="mempref-info">
+          <div class="mempref-name">Sin memoria</div>
+          <div class="mempref-desc">Este chat empieza sin contexto previo.</div>
+        </div>
+      </div>
+    </div>
+    <label class="mempref-remember">
+      <input type="checkbox" id="memPrefRemember"/>
+      No volver a preguntar (usar siempre esta opción)
+    </label>
+    <div style="margin-top:12px;font-size:11px;color:var(--t3)">Podés cambiar esta preferencia en cualquier momento desde 🧠 Memoria.</div>
   </div>
 </div>
 
@@ -667,6 +740,7 @@ const SESSION_KEY='cf_session_v5';
 const MEM_KEY='cf_memory_v5';
 const CHATS_KEY='cf_chats_v5';
 const THEME_KEY='cf_theme_v5';
+const MEM_PREF_KEY='cf_mempref_v5';
 
 // ══ STATE ══
 let role=null,curUser=null,curUserId=null;
@@ -678,6 +752,8 @@ let wModelSel='auto';
 let refreshInt=null;
 let attachedFile=null;
 let localMemory=[];
+let onlineMemory=[];
+let memPref='ask'; // 'local','online','both','none','ask'
 let chatSessions=[];
 let currentChatId=null;
 let currentHistory=[];
@@ -739,28 +815,104 @@ function genId(){return Date.now().toString(36)+Math.random().toString(36).subst
 
 // ══ SYSTEM PROMPT ══
 function buildSysPrompt(){
-  // Prompt caching: static part gets cached (saves ~90% on input tokens)
   let dynamicPart=`Fecha y hora actual en Argentina: ${nowARG()}.`;
-  if(localMemory.length>0)dynamicPart+=`\n\nMemoria del usuario:\n${localMemory.map((m,i)=>`${i+1}. ${m}`).join('\n')}`;
+  const combined=[];
+  if(memPref==='local'||memPref==='both') combined.push(...localMemory);
+  if(memPref==='online'||memPref==='both') combined.push(...onlineMemory);
+  if(combined.length>0)dynamicPart+=`\n\nMemoria del usuario:\n${combined.map((m,i)=>`${i+1}. ${m}`).join('\n')}`;
   return[
     {type:'text',text:sysPrompt,cache_control:{type:'ephemeral'}},
     {type:'text',text:dynamicPart}
   ];
 }
 
-// ══ LOCAL MEMORY ══
-function loadMemory(){try{const m=localStorage.getItem(MEM_KEY);localMemory=m?JSON.parse(m):[];}catch(e){localMemory=[];}updateMemUI();}
-function saveMemory(){try{localStorage.setItem(MEM_KEY,JSON.stringify(localMemory));}catch(e){}updateMemUI();}
-function updateMemUI(){renderMemList();}
-function renderMemList(){
-  const el=document.getElementById('memList');if(!el)return;
-  if(!localMemory.length){el.innerHTML='<div class="mem-empty">Sin recuerdos guardados.</div>';return;}
-  el.innerHTML=localMemory.map((m,i)=>`<div class="mem-entry"><div class="mem-entry-text">${escH(m)}</div><button class="mem-entry-del" onclick="delMemory(${i})">✕</button></div>`).join('');
+// ══ MEMORY PREFERENCE ══
+function loadMemPref(){
+  try{const p=localStorage.getItem(MEM_PREF_KEY);memPref=p||'ask';}catch(e){memPref='ask';}
 }
-function addMemory(){const inp=document.getElementById('memInput');const txt=inp.value.trim();if(!txt)return;localMemory.push(txt);saveMemory();inp.value='';showToast('Recuerdo guardado','success');}
-function delMemory(i){localMemory.splice(i,1);saveMemory();}
-function openMemModal(){document.getElementById('memModal').classList.remove('hidden');renderMemList();}
+function saveMemPref(pref,remember){
+  memPref=pref;
+  if(remember)try{localStorage.setItem(MEM_PREF_KEY,pref);}catch(e){}
+  else try{localStorage.removeItem(MEM_PREF_KEY);}catch(e){}
+}
+
+// ══ LOCAL MEMORY ══
+function loadMemory(){try{const m=localStorage.getItem(MEM_KEY);localMemory=m?JSON.parse(m):[];}catch(e){localMemory=[];}renderMemList();}
+function saveLocalMemory(){try{localStorage.setItem(MEM_KEY,JSON.stringify(localMemory));}catch(e){}renderMemList();}
+
+// ══ ONLINE MEMORY ══
+async function loadOnlineMemory(){
+  if(!curUserId)return;
+  try{
+    const{data}=await sb.from('memoria_usuario').select('*').eq('usuario_id',curUserId).order('creado_en',{ascending:true});
+    onlineMemory=data?data.map(r=>r.contenido):[];
+  }catch(e){onlineMemory=[];}
+  renderMemList();
+}
+async function saveOnlineMemory(text){
+  if(!curUserId)return;
+  const{error}=await sb.from('memoria_usuario').insert({usuario_id:curUserId,contenido:text});
+  if(!error)await loadOnlineMemory();
+}
+async function deleteOnlineMemory(id){
+  await sb.from('memoria_usuario').delete().eq('id',id);
+  await loadOnlineMemory();
+}
+async function loadOnlineMemoryWithIds(){
+  if(!curUserId)return[];
+  const{data}=await sb.from('memoria_usuario').select('*').eq('usuario_id',curUserId).order('creado_en',{ascending:true});
+  return data||[];
+}
+
+// ══ MEMORY MODAL ══
+async function openMemModal(){
+  document.getElementById('memModal').classList.remove('hidden');
+  const labels={'local':'📱 Local','online':'☁️ Online','both':'🔄 Ambas','none':'🚫 Sin memoria','ask':'Preguntar siempre'};
+  const lbl=document.getElementById('currentMemPrefLabel');
+  if(lbl)lbl.textContent=labels[memPref]||memPref;
+  await renderMemList();
+}
 function closeMemModal(){document.getElementById('memModal').classList.add('hidden');}
+function resetMemPref(){
+  // Clear saved pref so it asks again
+  try{localStorage.removeItem(MEM_PREF_KEY);}catch(e){}
+  memPref='ask';
+  closeMemModal();
+  showToast('Se preguntará en el próximo chat','success');
+}
+
+async function renderMemList(){
+  const el=document.getElementById('memList');if(!el)return;
+  // Load online memory with IDs for deletion
+  const onlineWithIds=await loadOnlineMemoryWithIds();
+  const localHtml=localMemory.length?
+    `<div class="mem-section-title">📱 Memoria local (este dispositivo)</div>`+
+    localMemory.map((m,i)=>`<div class="mem-entry"><div class="mem-entry-text">${escH(m)}</div><button class="mem-entry-del" onclick="delLocalMem(${i})">✕</button></div>`).join('')
+    :'<div class="mem-empty-section">Sin recuerdos locales</div>';
+  const onlineHtml=onlineWithIds.length?
+    `<div class="mem-section-title">☁️ Memoria online (todos tus dispositivos)</div>`+
+    onlineWithIds.map(r=>`<div class="mem-entry"><div class="mem-entry-text">${escH(r.contenido)}</div><button class="mem-entry-del" onclick="delOnlineMem('${r.id}')">✕</button></div>`).join('')
+    :'<div class="mem-empty-section">Sin recuerdos online</div>';
+  el.innerHTML=localHtml+onlineHtml;
+}
+
+async function addMemory(){
+  const inp=document.getElementById('memInput');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  const type=document.getElementById('memTypeSelect')?.value||'local';
+  if(type==='online'){
+    await saveOnlineMemory(txt);
+    showToast('Recuerdo online guardado','success');
+  } else {
+    localMemory.push(txt);saveLocalMemory();
+    showToast('Recuerdo local guardado','success');
+  }
+  inp.value='';
+}
+
+function delLocalMem(i){localMemory.splice(i,1);saveLocalMemory();renderMemList();}
+async function delOnlineMem(id){await deleteOnlineMemory(id);showToast('Recuerdo eliminado','warn');}
 
 // ══ CHAT SESSIONS (LOCAL) ══
 function loadChatSessions(){
@@ -886,6 +1038,9 @@ function doLogout(){
 function startUserHistory(){
   document.getElementById('app').classList.remove('hidden');
   showScreen('history');
+  loadMemPref();
+  loadMemory();
+  loadOnlineMemory();
   updateHistoryScreen();
   updateModelUI();updateCreditBar();
   refreshInt=setInterval(refreshUserData,30000);
@@ -964,7 +1119,32 @@ function startNewChat(){
   document.getElementById('chatInput').disabled=false;
   removeAttach();
   showScreen('chat');
-  setTimeout(()=>document.getElementById('chatInput').focus(),300);
+  if(memPref==='ask'){
+    setTimeout(()=>openMemPrefModal(),200);
+  } else {
+    setTimeout(()=>document.getElementById('chatInput').focus(),300);
+  }
+}
+
+function openMemPrefModal(){
+  document.getElementById('memPrefModal').classList.remove('hidden');
+}
+function closeMemPrefModal(){
+  document.getElementById('memPrefModal').classList.add('hidden');
+  document.getElementById('chatInput').focus();
+}
+function selectMemPref(pref){
+  const remember=document.getElementById('memPrefRemember')?.checked||false;
+  saveMemPref(pref,remember);
+  closeMemPrefModal();
+  showToast(memPrefLabel(pref),'success');
+}
+function memPrefLabel(p){
+  if(p==='local')return'Usando memoria local';
+  if(p==='online')return'Usando memoria online';
+  if(p==='both')return'Usando memoria local y online';
+  if(p==='none')return'Sin memoria en este chat';
+  return'';
 }
 
 function goToHistory(){
@@ -1057,7 +1237,10 @@ async function loadUsers(){
         <div class="uc-row"><span class="uc-rl">Vence</span><span class="uc-rv">${u.fecha_vencimiento?toARG(u.fecha_vencimiento):'Sin límite'}</span></div>
         <div class="uc-row"><span class="uc-rl">Modelo</span><span class="uc-rv">${modelLabel(u.modelo_preferido||'auto')}</span></div>
       </div>
-      <div class="uc-edit-btn"><button class="btn btn-s btn-sm" style="width:100%" onclick="openEdit('${u.id}')">Editar</button></div>
+      <div class="uc-edit-btn" style="display:flex;gap:8px">
+        <button class="btn btn-s btn-sm" style="flex:1" onclick="openEdit('${u.id}')">Editar</button>
+        <button class="btn btn-s btn-sm" onclick="resetPass('${u.id}','${u.usuario}')">🔑 Reset</button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -1442,6 +1625,21 @@ async function sendMsgFallback(modelToUse,systemFull){
     removeTyping();currentHistory.pop();showToast('Error: '+e.message,'error');
   }
   loading=false;document.getElementById('sendBtn').disabled=false;document.getElementById('chatInput').focus();
+}
+
+// ══ RESET PASSWORD ══
+async function resetPass(id,user){
+  // Generate random 8-char password
+  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
+  let newPass='';
+  for(let i=0;i<8;i++)newPass+=chars[Math.floor(Math.random()*chars.length)];
+  if(!confirm(`¿Resetear contraseña de "${user}"?\nNueva contraseña: ${newPass}\n\nCopiala antes de confirmar.`))return;
+  const{error}=await sb.from('usuario').update({clave:newPass}).eq('id',id);
+  if(error){showToast('Error al resetear','error');return;}
+  // Show the new password clearly
+  const msg=`✓ Contraseña reseteada\nUsuario: ${user}\nNueva clave: ${newPass}\n\nMandásela al cliente.`;
+  alert(msg);
+  showToast('Contraseña reseteada','success');
 }
 
 // ══ CODE BLOCK ACTIONS ══

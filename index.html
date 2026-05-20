@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Claude Fast</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 /* ══ THEMES ══ */
@@ -452,1181 +452,567 @@ input,select,textarea,button{font-family:'Inter',sans-serif;font-size:15px;color
 @media(min-width:768px){.toast{bottom:24px;}}
 
 
-/* ══ LANDING ══ */
+/* ════════════════════════════
+   LANDING PAGE — all colors hardcoded, no CSS vars
+   ════════════════════════════ */
+.landing-screen{position:absolute;inset:0;background:#f7f5f0;overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:5;font-family:'Inter',sans-serif;color:#0d0d10;}
+.l-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 6%;background:rgba(247,245,240,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #e3ddd3;}
+.l-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.l-logo-mark{width:34px;height:34px;background:#e8572a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:900;font-family:'Syne',sans-serif;box-shadow:0 4px 16px rgba(232,87,42,.3);flex-shrink:0;}
+.l-logo-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.5px;color:#0d0d10;}
+.l-nav-right{display:flex;align-items:center;gap:10px;}
+.l-nav-tag{font-size:11px;font-family:'JetBrains Mono',monospace;color:#7a7468;padding:5px 12px;border:1px solid #e3ddd3;border-radius:20px;display:none;}
+@media(min-width:560px){.l-nav-tag{display:block;}}
+.l-btn-back{background:rgba(232,87,42,.1);color:#e8572a;border:1.5px solid rgba(232,87,42,.25);padding:10px 18px;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap;display:none;}
+.l-btn-back:hover{background:rgba(232,87,42,.18);}
+.l-btn-login{background:#0d0d10;color:#f7f5f0;border:none;padding:10px 20px;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.l-btn-login:hover{opacity:.85;}
+.l-btn-wa-nav{display:flex;align-items:center;gap:7px;background:#e8572a;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.l-btn-wa-nav:hover{background:#c84020;transform:translateY(-1px);}
+.l-btn-wa-nav svg{width:16px;height:16px;fill:#fff;flex-shrink:0;}
+.l-hero{min-height:92vh;display:flex;align-items:center;padding:60px 6% 80px;position:relative;overflow:hidden;background:#f7f5f0;}
+.l-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 90% 10%,rgba(232,87,42,.09) 0%,transparent 55%),radial-gradient(ellipse 60% 70% at 5% 90%,rgba(201,168,76,.07) 0%,transparent 50%);}
+.l-hero-grid{position:absolute;inset:0;background-image:linear-gradient(#e3ddd3 1px,transparent 1px),linear-gradient(90deg,#e3ddd3 1px,transparent 1px);background-size:48px 48px;opacity:.5;}
+.l-hero-content{position:relative;z-index:1;max-width:680px;}
+.l-hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(232,87,42,.08);border:1px solid rgba(232,87,42,.2);border-radius:100px;padding:7px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#e8572a;letter-spacing:.8px;text-transform:uppercase;margin-bottom:28px;animation:lFadeUp .5s ease both;}
+.l-pill-dot{width:6px;height:6px;border-radius:50%;background:#e8572a;animation:lPulse 2s ease-in-out infinite;}
+@keyframes lPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.5);}}
+.l-hero-h1{font-family:'Syne',sans-serif;font-size:clamp(44px,8vw,92px);font-weight:900;line-height:.93;letter-spacing:-3px;margin-bottom:28px;animation:lFadeUp .5s .08s ease both;color:#0d0d10;}
+.l-hero-h1 em{font-style:normal;color:#e8572a;}
+.l-hero-sub{font-size:clamp(15px,2vw,18px);color:#3a3630;max-width:500px;margin-bottom:40px;line-height:1.65;animation:lFadeUp .5s .16s ease both;}
+.l-hero-cta{display:flex;flex-wrap:wrap;gap:12px;animation:lFadeUp .5s .22s ease both;}
+.l-btn-primary{display:inline-flex;align-items:center;gap:10px;background:#e8572a;color:#fff;border:none;padding:16px 28px;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;box-shadow:0 6px 28px rgba(232,87,42,.32);}
+.l-btn-primary:hover{background:#c84020;transform:translateY(-2px);}
+.l-btn-primary svg{width:20px;height:20px;fill:#fff;flex-shrink:0;}
+.l-btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#0d0d10;border:1.5px solid #d6cfc3;padding:16px 28px;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;}
+.l-btn-outline:hover{border-color:#7a7468;background:#eeeae1;}
+.l-hero-stats{display:flex;margin-top:56px;border:1px solid #e3ddd3;border-radius:14px;background:#eeeae1;overflow:hidden;max-width:440px;animation:lFadeUp .5s .3s ease both;}
+.l-stat{flex:1;padding:18px 16px;text-align:center;border-right:1px solid #e3ddd3;}
+.l-stat:last-child{border-right:none;}
+.l-stat-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:900;color:#0d0d10;letter-spacing:-1px;}
+.l-stat-lbl{font-size:11px;color:#7a7468;margin-top:2px;font-family:'JetBrains Mono',monospace;}
+.l-hero-right{position:absolute;right:4%;top:0;bottom:0;width:38%;display:none;align-items:center;justify-content:center;}
+@media(min-width:900px){.l-hero-right{display:flex;}}
+.l-phone{width:250px;height:500px;background:#0d0d10;border-radius:30px;border:5px solid #1c1c22;box-shadow:0 40px 100px rgba(13,13,16,.2);position:relative;overflow:hidden;transform:rotate(4deg) translateY(-16px);}
+.l-phone-notch{width:70px;height:18px;background:#0d0d10;border-radius:0 0 10px 10px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;}
+.l-phone-screen{padding:26px 12px 12px;height:100%;display:flex;flex-direction:column;gap:10px;}
+.l-cb{border-radius:10px;padding:9px 12px;font-size:10px;line-height:1.5;max-width:82%;}
+.l-cb.ai{background:#1c1c22;color:rgba(247,245,240,.8);align-self:flex-start;border-radius:3px 10px 10px 10px;}
+.l-cb.user{background:#e8572a;color:#fff;align-self:flex-end;border-radius:10px 3px 10px 10px;}
+.l-cb-row{display:flex;gap:5px;align-items:flex-end;}
+.l-cb-row.u{flex-direction:row-reverse;}
+.l-cb-av{width:22px;height:22px;border-radius:50%;background:#e8572a;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-bottom:3px;}
+.l-phone-inp{margin-top:auto;background:#1c1c22;border-radius:8px;padding:7px 10px;display:flex;align-items:center;gap:5px;}
+.l-phone-inp span{font-size:9px;color:rgba(247,245,240,.25);flex:1;}
+.l-phone-send{width:20px;height:20px;background:#e8572a;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;}
+@keyframes lFadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.l-marquee{background:#0d0d10;padding:14px 0;overflow:hidden;border-top:2px solid #e8572a;border-bottom:2px solid #e8572a;}
+.l-mtrack{display:flex;gap:0;animation:lMarquee 22s linear infinite;white-space:nowrap;}
+.l-mtrack:hover{animation-play-state:paused;}
+.l-mitem{display:inline-flex;align-items:center;gap:10px;padding:0 28px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:rgba(247,245,240,.4);letter-spacing:1.5px;text-transform:uppercase;}
+.l-mitem strong{color:#f07040;}
+.l-msep{color:#e8572a;font-size:14px;}
+@keyframes lMarquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.l-section{padding:88px 6%;position:relative;}
+.l-inner{max-width:1100px;margin:0 auto;}
+.l-label{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#e8572a;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.l-label::before{content:'';width:24px;height:2px;background:#e8572a;}
+.l-h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4.5vw,52px);font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px;color:#0d0d10;}
+.l-h2 em{font-style:normal;color:#e8572a;}
+.l-sub{font-size:16px;color:#3a3630;max-width:500px;margin-bottom:52px;line-height:1.65;}
+.l-feats-bg{background:#f7f5f0;}
+.l-feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.l-fc{background:#eeeae1;border:1.5px solid #e3ddd3;border-radius:16px;padding:28px;position:relative;overflow:hidden;transition:all .2s;}
+.l-fc:hover{border-color:#e8572a;transform:translateY(-4px);box-shadow:0 16px 48px rgba(232,87,42,.1);}
+.l-fc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e8572a,#f07040);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.l-fc:hover::after{transform:scaleX(1);}
+.l-fc-num{font-family:'Syne',sans-serif;font-size:44px;font-weight:900;color:rgba(13,13,16,.06);line-height:1;margin-bottom:14px;letter-spacing:-2px;}
+.l-fc-icon{font-size:28px;margin-bottom:12px;display:block;}
+.l-fc-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:8px;color:#0d0d10;}
+.l-fc-desc{font-size:13px;color:#3a3630;line-height:1.65;}
+.l-plans-bg{background:#0d0d10;padding:88px 6%;}
+.l-plans-bg .l-label{color:#f07040;}.l-plans-bg .l-label::before{background:#f07040;}
+.l-plans-bg .l-h2{color:#f7f5f0;}.l-plans-bg .l-sub{color:rgba(247,245,240,.5);}
+.l-plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;}
+.l-plan{background:#1c1c22;border:1.5px solid #2a2a33;border-radius:16px;padding:26px;position:relative;overflow:hidden;transition:all .2s;}
+.l-plan::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#2a2a33;transition:background .2s;}
+.l-plan:hover{border-color:rgba(232,87,42,.4);transform:translateY(-4px);}
+.l-plan:hover::before,.l-plan.l-pop::before{background:#e8572a;}
+.l-plan.l-pop{border-color:rgba(232,87,42,.35);background:rgba(232,87,42,.04);}
+.l-plan-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:8px;}
+.l-plan-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:#f7f5f0;letter-spacing:-.5px;}
+.l-plan-badge{font-size:10px;font-family:'JetBrains Mono',monospace;padding:3px 9px;border-radius:20px;background:rgba(232,87,42,.15);color:#f07040;border:1px solid rgba(232,87,42,.3);font-weight:700;white-space:nowrap;letter-spacing:.3px;}
+.l-plan-model{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(247,245,240,.3);margin-bottom:16px;}
+.l-plan-feats{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.l-plan-feat{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:rgba(247,245,240,.65);line-height:1.45;}
+.l-plan-feat::before{content:'→';color:#e8572a;font-family:'JetBrains Mono',monospace;font-size:11px;flex-shrink:0;margin-top:2px;}
+.l-plan-btn{width:100%;padding:12px;background:#2a2a33;color:rgba(247,245,240,.55);border:1.5px solid #2a2a33;border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.l-plan:hover .l-plan-btn,.l-plan.l-pop .l-plan-btn{background:#e8572a;color:#fff;border-color:#e8572a;}
+.l-auto-opts{display:none;margin-bottom:12px;}
+.l-auto-opts-title{font-size:11px;color:rgba(247,245,240,.35);font-family:'JetBrains Mono',monospace;letter-spacing:.3px;margin-bottom:8px;}
+.l-auto-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.l-copt{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 8px;cursor:pointer;text-align:center;transition:all .15s;user-select:none;}
+.l-copt:active{transform:scale(.97);}
+.l-copt.sel{border-color:#e8572a;background:rgba(232,87,42,.12);}
+.l-copt-val{font-size:13px;font-weight:700;color:rgba(247,245,240,.7);font-family:'JetBrains Mono',monospace;}
+.l-copt.sel .l-copt-val{color:#f07040;}
+.l-how-bg{background:#eeeae1;padding:88px 6%;}
+.l-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;background:#d6cfc3;border-radius:18px;overflow:hidden;border:2px solid #d6cfc3;}
+.l-step{background:#eeeae1;padding:36px 28px;position:relative;transition:background .2s;}
+.l-step:hover{background:#f7f5f0;}
+.l-step-num{font-family:'Syne',sans-serif;font-size:64px;font-weight:900;color:rgba(13,13,16,.06);line-height:1;margin-bottom:16px;letter-spacing:-3px;}
+.l-step-icon{font-size:32px;margin-bottom:12px;display:block;}
+.l-step-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:8px;color:#0d0d10;}
+.l-step-desc{font-size:14px;color:#3a3630;line-height:1.65;}
+.l-inc-bg{background:#f7f5f0;padding:88px 6%;}
+.l-inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:600px){.l-inc-grid{grid-template-columns:1fr;}}
+.l-inc-col{border-radius:16px;overflow:hidden;}
+.l-inc-head{padding:18px 22px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;display:flex;align-items:center;gap:10px;}
+.l-inc-head.yes{background:rgba(34,163,90,.08);color:#1a7a42;border:1.5px solid rgba(34,163,90,.18);border-radius:14px 14px 0 0;}
+.l-inc-head.no{background:rgba(232,87,42,.07);color:#c84020;border:1.5px solid rgba(232,87,42,.15);border-radius:14px 14px 0 0;}
+.l-inc-list{border:1.5px solid #e3ddd3;border-top:none;border-radius:0 0 14px 14px;overflow:hidden;}
+.l-inc-item{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid #e3ddd3;font-size:14px;color:#3a3630;transition:background .15s;}
+.l-inc-item:last-child{border-bottom:none;}
+.l-inc-item:hover{background:#eeeae1;}
+.l-ck{font-size:14px;flex-shrink:0;font-weight:700;}
+.l-ck.y{color:#22a35a;}
+.l-ck.n{color:#e8572a;}
+.l-cta-bg{background:#0d0d10;padding:100px 6%;position:relative;overflow:hidden;text-align:center;}
+.l-cta-deco{position:absolute;font-family:'Syne',sans-serif;font-size:clamp(100px,20vw,280px);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(232,87,42,.07);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;user-select:none;pointer-events:none;letter-spacing:-8px;}
+.l-cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+.l-cta-h2{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,62px);font-weight:900;letter-spacing:-2px;line-height:1.02;color:#f7f5f0;margin-bottom:16px;}
+.l-cta-h2 em{font-style:normal;color:#f07040;}
+.l-cta-sub{font-size:16px;color:rgba(247,245,240,.5);margin-bottom:40px;line-height:1.65;}
+.l-btn-wa{display:inline-flex;align-items:center;gap:12px;background:#25d366;color:#fff;border:none;padding:18px 36px;border-radius:12px;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 6px 36px rgba(37,211,102,.3);}
+.l-btn-wa:hover{background:#1fab54;transform:translateY(-2px);}
+.l-btn-wa svg{width:22px;height:22px;fill:#fff;flex-shrink:0;}
+.l-cta-note{margin-top:16px;font-size:12px;color:rgba(247,245,240,.22);font-family:'JetBrains Mono',monospace;letter-spacing:.3px;}
+.l-footer{background:#0d0d10;border-top:1px solid #1c1c22;padding:26px 6%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.l-footer-logo{display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:rgba(247,245,240,.35);}
+.l-footer-note{font-size:11px;color:rgba(247,245,240,.18);font-family:'JetBrains Mono',monospace;letter-spacing:.3px;}
+.l-wa-float{position:fixed;bottom:24px;right:20px;width:56px;height:56px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,.4);cursor:pointer;z-index:100;border:none;transition:all .2s;}
+.l-wa-float:hover{transform:scale(1.08);}
+.l-wa-float svg{width:28px;height:28px;fill:#fff;}
+.l-rev{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease;}
+.l-rev.vis{opacity:1;transform:translateY(0);}
+@media(max-width:640px){.l-hero{padding:48px 5% 60px;min-height:auto;}.l-section,.l-plans-bg,.l-how-bg,.l-inc-bg,.l-cta-bg{padding:64px 5%;}}
+/* ════════════════════════════
+   PANEL REVENDEDOR
+   ════════════════════════════ */
+#resellerScreen{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:8;}
+.rs-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));border-bottom:1px solid var(--bdr);background:var(--bg);flex-shrink:0;}
+.rs-logo{display:flex;align-items:center;gap:8px;}
+.rs-logo-mark{width:30px;height:30px;background:var(--acc);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:800;}
+.rs-logo-name{font-size:15px;font-weight:700;color:var(--t);}
+.rs-logo-sub{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;}
+.rs-header-right{display:flex;align-items:center;gap:8px;}
+.rs-badge{font-size:10px;font-weight:700;color:var(--acc);border:1px solid var(--acc);border-radius:20px;padding:3px 10px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;background:rgba(204,120,92,.08);}
+.rs-body{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.rs-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;}
+.rs-tab-panel{display:none;}
+.rs-tab-panel.active{display:block;}
+.rs-nav{display:flex;background:var(--bg2);border-top:1px solid var(--bdr);padding-bottom:env(safe-area-inset-bottom,0px);flex-shrink:0;}
+.rs-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;border:none;background:none;color:var(--t3);cursor:pointer;min-height:54px;transition:color .15s;}
+.rs-nav-btn.active{color:var(--acc);}
+.rs-nav-icon{font-size:20px;line-height:1;}
+.rs-nav-lbl{font-size:10px;font-weight:500;}
+.rs-dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.rs-card{background:var(--card-bg);border:1px solid var(--card-bdr);border-radius:10px;padding:14px;}
+.rs-card.full{grid-column:1/-1;}
+.rs-card-lbl{font-size:10px;color:var(--t3);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;}
+.rs-card-val{font-size:22px;font-weight:700;}
+.rs-card-val.g{color:var(--green);}
+.rs-card-val.o{color:var(--acc);}
+.rs-card-val.r{color:var(--red);}
+.rs-card-val.b{color:var(--blue);}
+.rs-card-sub{font-size:11px;color:var(--t3);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.rs-cbar{height:8px;background:var(--bg4);border-radius:4px;overflow:hidden;margin-top:10px;display:flex;}
+.rs-cbar-used{height:100%;background:var(--red);transition:width .5s;}
+.rs-cbar-dist{height:100%;background:var(--acc);transition:width .5s;}
+.rs-cbar-lbls{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-top:6px;flex-wrap:wrap;gap:2px;}
+.rs-user-list{display:flex;flex-direction:column;gap:8px;}
+.rs-uc{background:var(--card-bg);border:1px solid var(--card-bdr);border-radius:10px;padding:14px;}
+.rs-uc.inactive{opacity:.5;}
+.rs-uc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.rs-uc-name{font-size:15px;font-weight:600;display:flex;align-items:center;gap:7px;}
+.rs-uc-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.rs-uc-dot.off{background:var(--red);}
+.rs-uc-tags{display:flex;gap:5px;}
+.rs-uc-tag{font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(229,115,115,.15);color:var(--red);}
+.rs-uc-rows{display:flex;flex-direction:column;gap:5px;}
+.rs-uc-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+.rs-uc-rl{color:var(--t3);}
+.rs-uc-rv{color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:11px;}
+.rs-uc-bar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin:2px 0;}
+.rs-uc-bar-f{height:100%;background:var(--acc);border-radius:2px;}
+.rs-uc-bar-f.low{background:var(--red);}
+.rs-uc-actions{display:flex;gap:8px;margin-top:12px;}
+.rs-mov-list{display:flex;flex-direction:column;gap:8px;}
+.rs-mov{background:var(--card-bg);border:1px solid var(--card-bdr);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.rs-mov-icon{font-size:20px;flex-shrink:0;}
+.rs-mov-info{flex:1;min-width:0;}
+.rs-mov-desc{font-size:13px;color:var(--t);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rs-mov-date{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-top:2px;}
+.rs-mov-amount{font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;flex-shrink:0;}
+.rs-mov-amount.pos{color:var(--green);}
+.rs-mov-amount.neg{color:var(--red);}
 
-:root {
-  --ink: #0c0c0e;
-  --ink2: #1a1a1f;
-  --ink3: #26262e;
-  --paper: #f5f3ee;
-  --paper2: #ede9e0;
-  --paper3: #e4dfd4;
-  --acc: #e8572a;
-  --acc2: #f07040;
-  --acc3: #c84020;
-  --gold: #c9a84c;
-  --t: #0c0c0e;
-  --t2: #3d3a35;
-  --t3: #7a7470;
-  --wa: #25d366;
-}
-
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--paper);
-  color: var(--t);
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* ══ NOISE TEXTURE ══ */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-  opacity: .6;
-}
-
-/* ══ TYPOGRAPHY ══ */
-.syne { font-family: 'Syne', sans-serif; }
-.mono { font-family: 'JetBrains Mono', monospace; }
-
-/* ══ NAV ══ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 18px 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(245,243,238,.88);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--paper3);
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Syne', sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -.5px;
-  text-decoration: none;
-  color: var(--t);
-}
-
-.nav-logo-mark {
-  width: 32px; height: 32px;
-  background: var(--acc);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  color: white;
-  font-weight: 900;
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.nav-badge {
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--t3);
-  padding: 5px 12px;
-  border: 1px solid var(--paper3);
-  border-radius: 20px;
-  display: none;
-}
-
-@media(min-width: 600px) { .nav-badge { display: block; } }
-
-.btn-nav {
-  background: var(--acc);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.btn-nav:hover { background: var(--acc3); transform: translateY(-1px); }
-.btn-nav:active { transform: translateY(0); }
-
-/* ══ HERO ══ */
-.hero {
-  min-height: 100vh;
-  padding: 120px 5% 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(232,87,42,.07) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 10% 90%, rgba(201,168,76,.05) 0%, transparent 50%);
-  z-index: 0;
-}
-
-/* Large decorative number */
-.hero-deco {
-  position: absolute;
-  right: -2%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(180px, 25vw, 380px);
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(12,12,14,.06);
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 720px;
-}
-
-.hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--acc);
-  background: rgba(232,87,42,.08);
-  border: 1px solid rgba(232,87,42,.2);
-  border-radius: 20px;
-  padding: 6px 14px;
-  margin-bottom: 28px;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  animation: fadeUp .6s ease both;
-}
-
-.hero-tag-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--acc);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.4);} }
-
-.hero-h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(42px, 7vw, 88px);
-  font-weight: 900;
-  line-height: .95;
-  letter-spacing: -3px;
-  margin-bottom: 28px;
-  animation: fadeUp .6s .1s ease both;
-}
-
-.hero-h1 em {
-  font-style: normal;
-  color: var(--acc);
-  position: relative;
-  display: inline-block;
-}
-
-.hero-h1 em::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 0; right: 0;
-  height: 3px;
-  background: var(--acc);
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: underline 1s .8s ease forwards;
-}
-
-@keyframes underline { to { transform: scaleX(1); } }
-
-.hero-sub {
-  font-size: clamp(16px, 2vw, 20px);
-  color: var(--t2);
-  max-width: 520px;
-  margin-bottom: 40px;
-  line-height: 1.65;
-  font-weight: 400;
-  animation: fadeUp .6s .2s ease both;
-}
-
-.hero-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  animation: fadeUp .6s .3s ease both;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--acc);
-  color: white;
-  border: none;
-  padding: 16px 28px;
-  border-radius: 10px;
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-  text-decoration: none;
-  box-shadow: 0 4px 24px rgba(232,87,42,.3);
-}
-
-.btn-primary:hover { background: var(--acc3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232,87,42,.35); }
-.btn-primary:active { transform: translateY(0); }
-
-.btn-primary svg { width: 20px; height: 20px; fill: white; flex-shrink: 0; }
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: var(--t);
-  border: 1.5px solid var(--paper3);
-  padding: 16px 28px;
-  border-radius: 10px;
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-  text-decoration: none;
-}
-
-.btn-secondary:hover { border-color: var(--t); background: var(--paper2); }
-
-.hero-stats {
-  display: flex;
-  gap: 32px;
-  margin-top: 56px;
-  flex-wrap: wrap;
-  animation: fadeUp .6s .4s ease both;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.stat-num {
-  font-family: 'Syne', sans-serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--t);
-  letter-spacing: -1px;
-}
-
-.stat-lbl {
-  font-size: 12px;
-  color: var(--t3);
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: .3px;
-}
-
-.stat-div {
-  width: 1px;
-  background: var(--paper3);
-  align-self: stretch;
-}
-
-@keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
-
-/* ══ MARQUEE ══ */
-.marquee-wrap {
-  background: var(--ink);
-  padding: 14px 0;
-  overflow: hidden;
-  border-top: 1px solid var(--ink3);
-  border-bottom: 1px solid var(--ink3);
-}
-
-.marquee-track {
-  display: flex;
-  gap: 0;
-  animation: marquee 20s linear infinite;
-  white-space: nowrap;
-}
-
-.marquee-track:hover { animation-play-state: paused; }
-
-.marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 32px;
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(245,243,238,.5);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.marquee-item strong { color: var(--acc2); }
-.marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--acc); flex-shrink: 0; }
-
-@keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
-
-/* ══ SECTIONS ══ */
-section { position: relative; z-index: 1; }
-
-.section-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 5%;
-}
-
-/* ══ FEATURES ══ */
-.features {
-  padding: 100px 0;
-  background: var(--paper);
-}
-
-.section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--acc);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.section-label::before {
-  content: '';
-  width: 20px;
-  height: 1px;
-  background: var(--acc);
-}
-
-.section-h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(30px, 4.5vw, 52px);
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  line-height: 1.05;
-  margin-bottom: 16px;
-}
-
-.section-h2 em { font-style: normal; color: var(--acc); }
-
-.section-sub {
-  font-size: 16px;
-  color: var(--t2);
-  max-width: 500px;
-  margin-bottom: 60px;
-  line-height: 1.65;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2px;
-  background: var(--paper3);
-  border: 1px solid var(--paper3);
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.feat-card {
-  background: var(--paper);
-  padding: 36px 32px;
-  transition: background .2s;
-  position: relative;
-  overflow: hidden;
-}
-
-.feat-card:hover { background: var(--paper2); }
-
-.feat-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px;
-  height: 0;
-  background: var(--acc);
-  transition: height .3s ease;
-}
-
-.feat-card:hover::before { height: 100%; }
-
-.feat-icon {
-  width: 48px; height: 48px;
-  background: rgba(232,87,42,.08);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  margin-bottom: 20px;
-  transition: background .2s;
-}
-
-.feat-card:hover .feat-icon { background: rgba(232,87,42,.15); }
-
-.feat-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: -.3px;
-}
-
-.feat-desc {
-  font-size: 14px;
-  color: var(--t2);
-  line-height: 1.65;
-}
-
-/* ══ DARK SECTION ══ */
-.dark-section {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 100px 0;
-}
-
-.dark-section .section-h2 { color: var(--paper); }
-.dark-section .section-sub { color: rgba(245,243,238,.6); }
-
-.plans-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-}
-
-.plan-card-l {
-  background: var(--ink2);
-  border: 1px solid var(--ink3);
-  border-radius: 16px;
-  padding: 28px 24px;
-  transition: all .2s;
-  position: relative;
-  overflow: hidden;
-}
-
-.plan-card-l::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--ink3);
-  transition: background .2s;
-}
-
-.plan-card-l:hover { border-color: rgba(232,87,42,.3); transform: translateY(-4px); }
-.plan-card-l:hover::before { background: var(--acc); }
-
-.plan-card-l.featured {
-  border-color: rgba(232,87,42,.4);
-  background: rgba(232,87,42,.05);
-}
-
-.plan-card-l.featured::before { background: var(--acc); }
-
-.plan-badge-l {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--acc);
-  background: rgba(232,87,42,.15);
-  border: 1px solid rgba(232,87,42,.3);
-  border-radius: 20px;
-  padding: 3px 10px;
-  margin-bottom: 16px;
-  display: inline-block;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-
-.plan-name-l {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  letter-spacing: -.5px;
-  color: var(--paper);
-}
-
-.plan-model-l {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: rgba(245,243,238,.4);
-  margin-bottom: 20px;
-  letter-spacing: .3px;
-}
-
-.plan-features-l {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.plan-feat-l {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  font-size: 13px;
-  color: rgba(245,243,238,.7);
-  line-height: 1.4;
-}
-
-.plan-feat-l::before {
-  content: '→';
-  color: var(--acc);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.plan-cta-l {
-  width: 100%;
-  padding: 12px;
-  background: var(--ink3);
-  color: rgba(245,243,238,.7);
-  border: 1px solid var(--ink3);
-  border-radius: 8px;
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-  text-align: center;
-}
-
-.plan-card-l:hover .plan-cta-l,
-.plan-card-l.featured .plan-cta-l {
-  background: var(--acc);
-  color: white;
-  border-color: var(--acc);
-}
-
-/* ══ HOW IT WORKS ══ */
-.how-section {
-  padding: 100px 0;
-  background: var(--paper2);
-}
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 2px;
-  background: var(--paper3);
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--paper3);
-}
-
-.step {
-  background: var(--paper2);
-  padding: 36px 28px;
-  position: relative;
-  transition: background .2s;
-}
-
-.step:hover { background: var(--paper); }
-
-.step-num {
-  font-family: 'Syne', sans-serif;
-  font-size: 56px;
-  font-weight: 900;
-  color: rgba(12,12,14,.06);
-  line-height: 1;
-  margin-bottom: 16px;
-  letter-spacing: -2px;
-}
-
-.step-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: -.3px;
-}
-
-.step-desc {
-  font-size: 14px;
-  color: var(--t2);
-  line-height: 1.65;
-}
-
-/* ══ INCLUDES / NOT INCLUDES ══ */
-.includes-section {
-  padding: 100px 0;
-  background: var(--paper);
-}
-
-.includes-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-
-@media(max-width: 640px) { .includes-grid { grid-template-columns: 1fr; } }
-
-.includes-col {
-  background: var(--paper2);
-  border: 1px solid var(--paper3);
-  border-radius: 16px;
-  padding: 32px 28px;
-}
-
-.includes-col-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: -.3px;
-}
-
-.includes-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--paper3);
-  font-size: 14px;
-  color: var(--t2);
-  line-height: 1.5;
-}
-
-.includes-item:last-child { border-bottom: none; }
-
-.includes-check { color: #22a35a; font-size: 15px; flex-shrink: 0; margin-top: 1px; font-weight: 700; }
-.includes-x { color: var(--acc); font-size: 15px; flex-shrink: 0; margin-top: 1px; font-weight: 700; }
-
-/* ══ CTA SECTION ══ */
-.cta-section {
-  padding: 100px 0;
-  background: var(--ink);
-  overflow: hidden;
-  position: relative;
-}
-
-.cta-bg-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(80px, 18vw, 220px);
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(245,243,238,.04);
-  white-space: nowrap;
-  user-select: none;
-  pointer-events: none;
-}
-
-.cta-inner {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 5%;
-}
-
-.cta-h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(32px, 5vw, 60px);
-  font-weight: 900;
-  letter-spacing: -2px;
-  line-height: 1.05;
-  color: var(--paper);
-  margin-bottom: 16px;
-}
-
-.cta-h2 em { font-style: normal; color: var(--acc2); }
-
-.cta-sub {
-  font-size: 16px;
-  color: rgba(245,243,238,.55);
-  margin-bottom: 40px;
-  line-height: 1.65;
-}
-
-.btn-wa {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--wa);
-  color: white;
-  border: none;
-  padding: 18px 36px;
-  border-radius: 12px;
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-  text-decoration: none;
-  box-shadow: 0 4px 32px rgba(37,211,102,.3);
-}
-
-.btn-wa:hover { background: #1fab54; transform: translateY(-2px); box-shadow: 0 8px 40px rgba(37,211,102,.4); }
-.btn-wa:active { transform: translateY(0); }
-.btn-wa svg { width: 22px; height: 22px; fill: white; flex-shrink: 0; }
-
-.cta-note {
-  margin-top: 16px;
-  font-size: 12px;
-  color: rgba(245,243,238,.3);
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: .3px;
-}
-
-/* Landing credit options */
-.credit-opt-l{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .15s;text-align:center;user-select:none;}
-.credit-opt-l:active{transform:scale(.97);}
-.credit-opt-l.selected{border-color:var(--acc);background:rgba(232,87,42,.12);}
-.credit-opt-val-l{font-size:14px;font-weight:700;color:rgba(245,243,238,.8);font-family:'JetBrains Mono',monospace;}
-.credit-opt-l.selected .credit-opt-val-l{color:var(--acc2);}
-
-/* ══ FOOTER ══ */
-footer {
-  background: var(--ink);
-  border-top: 1px solid var(--ink3);
-  padding: 32px 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: rgba(245,243,238,.5);
-}
-
-.footer-note {
-  font-size: 11px;
-  color: rgba(245,243,238,.25);
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: .3px;
-}
-
-/* ══ FLOATING WA ══ */
-.wa-float {
-  position: fixed;
-  bottom: 24px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
-  background: var(--wa);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 24px rgba(37,211,102,.4);
-  cursor: pointer;
-  z-index: 90;
-  border: none;
-  transition: all .2s;
-  text-decoration: none;
-}
-
-.wa-float:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(37,211,102,.5); }
-.wa-float svg { width: 28px; height: 28px; fill: white; }
-
-/* ══ SCROLL REVEAL ══ */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .6s ease, transform .6s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ══ RESPONSIVE ══ */
-@media(max-width: 768px) {
-  .hero-deco { display: none; }
-  .hero { padding: 100px 5% 60px; }
-  .hero-stats { gap: 20px; }
-  .stat-div { display: none; }
-  nav { padding: 14px 5%; }
-}
-
-
-/* Landing screen */
-.landing-screen{position:absolute;inset:0;background:var(--paper,#f5f3ee);overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:5;}
-[data-theme="dark"] .landing-screen{background:#1a1a1f;}
-[data-theme="dark"] .landing-screen .hero{background:none;}
-[data-theme="dark"] .landing-screen nav{background:rgba(26,26,31,.9);border-color:#333;}
-[data-theme="dark"] .landing-screen .marquee-wrap{background:#0c0c0e;}
-[data-theme="dark"] .landing-screen .features{background:#1a1a1f;}
-[data-theme="dark"] .landing-screen .feat-card{background:#212126;}
-[data-theme="dark"] .landing-screen .feat-card:hover{background:#26262e;}
-[data-theme="dark"] .landing-screen .how-section{background:#16161b;}
-[data-theme="dark"] .landing-screen .step{background:#16161b;}
-[data-theme="dark"] .landing-screen .step:hover{background:#1a1a1f;}
-[data-theme="dark"] .landing-screen .includes-section{background:#1a1a1f;}
-[data-theme="dark"] .landing-screen .includes-col{background:#212126;border-color:#333;}
-[data-theme="dark"] .landing-screen .features-grid,.landing-screen .steps,.landing-screen .includes-grid{background:#333;}
-[data-theme="dark"] .landing-screen .hero-h1,[data-theme="dark"] .landing-screen .section-h2,[data-theme="dark"] .landing-screen .step-title,[data-theme="dark"] .landing-screen .feat-title,[data-theme="dark"] .landing-screen .plan-card-l.featured .plan-name-l{color:#f0f0f8;}
-[data-theme="dark"] .landing-screen .hero-sub,[data-theme="dark"] .landing-screen .section-sub,[data-theme="dark"] .landing-screen .feat-desc,[data-theme="dark"] .landing-screen .step-desc,[data-theme="dark"] .landing-screen .includes-item{color:#a0a0c0;}
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
-<!-- ══ LANDING SCREEN ══ -->
+<!-- ══ LANDING ══ -->
 <div class="landing-screen hidden" id="landingScreen">
-
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#">
-    <div class="nav-logo-mark">✦</div>
-    Claude Fast
-  </a>
-  <div class="nav-right">
-    <span class="nav-badge mono">by MISAKROOS</span>
-    <button class="btn-nav" style="background:var(--ink);color:var(--paper)" onclick="openLandingLogin()">Ingresar →</button>
-    <a class="btn-nav" href="#contacto" id="navWaBtn">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Contratar
-    </a>
+<nav class="l-nav">
+  <a class="l-logo" href="#"><div class="l-logo-mark">✦</div><span class="l-logo-name">Claude Fast</span></a>
+  <div class="l-nav-right">
+    <span class="l-nav-tag">by MISAKROOS</span>
+    <button class="l-btn-back" id="landingBackBtn" onclick="hideLandingFromApp()">← Volver al chat</button>
+    <button class="l-btn-login" id="landingLoginBtn" onclick="openLandingLogin()">Ingresar →</button>
+    <button class="l-btn-wa-nav" onclick="openWaContact('consulta general')"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Contratar</button>
   </div>
 </nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-deco">IA</div>
-  <div class="hero-content">
-    <div class="hero-tag">
-      <div class="hero-tag-dot"></div>
-      Disponible ahora · Acceso inmediato
+<section class="l-hero">
+  <div class="l-hero-bg"></div><div class="l-hero-grid"></div>
+  <div class="l-hero-content">
+    <div class="l-hero-pill"><div class="l-pill-dot"></div>Disponible ahora · Acceso inmediato</div>
+    <h1 class="l-hero-h1">Tu IA.<br><em>Sin límites.</em><br>En tu celular.</h1>
+    <p class="l-hero-sub">Búsqueda web en tiempo real, páginas web, código, textos y más. Todo desde el celular, sin instalaciones.</p>
+    <div class="l-hero-cta">
+      <button class="l-btn-primary" onclick="openWaContact('consulta general')"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar por WhatsApp</button>
+      <a class="l-btn-outline" href="#l-planes">Ver planes ↓</a>
     </div>
-    <h1 class="hero-h1 syne">
-      Tu IA.<br>
-      <em>Sin límites.</em><br>
-      En tu celular.
-    </h1>
-    <p class="hero-sub">
-      Claude Fast te da acceso a inteligencia artificial avanzada con búsqueda web en tiempo real. Creá páginas web, escribí código, redactá textos y consultá lo que quieras — todo desde el celular.
-    </p>
-    <div class="hero-cta">
-      <a class="btn-primary" href="#contacto" id="heroBtnPrimary">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Consultar por WhatsApp
-      </a>
-      <a class="btn-secondary" href="#planes">Ver planes</a>
+    <div class="l-hero-stats">
+      <div class="l-stat"><div class="l-stat-num">4</div><div class="l-stat-lbl">Planes</div></div>
+      <div class="l-stat"><div class="l-stat-num">Web</div><div class="l-stat-lbl">Búsqueda real</div></div>
+      <div class="l-stat"><div class="l-stat-num">100%</div><div class="l-stat-lbl">Privado</div></div>
     </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num syne">4</div>
-        <div class="stat-lbl mono">Planes disponibles</div>
+  </div>
+  <div class="l-hero-right">
+    <div class="l-phone"><div class="l-phone-notch"></div>
+      <div class="l-phone-screen">
+        <div class="l-cb-row"><div class="l-cb-av">✦</div><div class="l-cb ai">¿En qué puedo ayudarte hoy?</div></div>
+        <div class="l-cb-row u"><div class="l-cb user">Creame una landing page para mi peluquería</div></div>
+        <div class="l-cb-row"><div class="l-cb-av">✦</div><div class="l-cb ai">Generando tu página web completa...</div></div>
+        <div class="l-cb-row u"><div class="l-cb user">¿Cuál es el dólar blue hoy?</div></div>
+        <div class="l-cb-row"><div class="l-cb-av">✦</div><div class="l-cb ai">Buscando en internet ahora mismo...</div></div>
+        <div class="l-phone-inp"><span>Escribí tu mensaje...</span><div class="l-phone-send">→</div></div>
       </div>
-      <div class="stat-div"></div>
-      <div class="stat">
-        <div class="stat-num syne">Real</div>
-        <div class="stat-lbl mono">Búsqueda web</div>
+    </div>
+  </div>
+</section>
+<div class="l-marquee"><div class="l-mtrack">
+  <span class="l-mitem"><span class="l-msep">✦</span>Búsqueda web <strong>en tiempo real</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Páginas web <strong>completas</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Código <strong>en segundos</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Imágenes y <strong>PDFs</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Textos <strong>profesionales</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Historial <strong>privado</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Búsqueda web <strong>en tiempo real</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Páginas web <strong>completas</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Código <strong>en segundos</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Imágenes y <strong>PDFs</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Textos <strong>profesionales</strong></span>
+  <span class="l-mitem"><span class="l-msep">✦</span>Historial <strong>privado</strong></span>
+</div></div>
+<!-- EXAMPLE CONVERSATIONS -->
+<section class="l-section" style="background:#eeeae1;padding:88px 6%;">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">Ejemplos reales</div><h2 class="l-h2">¿Qué podés pedirle<br><em>exactamente?</em></h2><p class="l-sub">Así de fácil y rápido funciona en la práctica.</p></div>
+    <div class="l-rev" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;">
+      <div style="background:#f7f5f0;border:1.5px solid #e3ddd3;border-radius:16px;overflow:hidden;">
+        <div style="background:#0d0d10;padding:12px 16px;display:flex;align-items:center;gap:8px;"><div style="width:8px;height:8px;border-radius:50%;background:#ff5f57;"></div><div style="width:8px;height:8px;border-radius:50%;background:#ffbd2e;"></div><div style="width:8px;height:8px;border-radius:50%;background:#28c840;"></div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(247,245,240,.4);margin-left:8px;">Búsqueda web en tiempo real</span></div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+          <div style="align-self:flex-end;background:#e8572a;color:#fff;padding:10px 14px;border-radius:14px 4px 14px 14px;font-size:13px;max-width:85%;">¿Cuánto está el dólar blue hoy?</div>
+          <div style="align-self:flex-start;background:#eeeae1;border:1px solid #e3ddd3;padding:10px 14px;border-radius:4px 14px 14px 14px;font-size:13px;color:#3a3630;max-width:90%;line-height:1.5;">🔍 Busqué en tiempo real. <strong>El dólar blue hoy está en $1.285 compra y $1.305 venta</strong> según los últimos datos.</div>
+          <div style="align-self:flex-end;background:#e8572a;color:#fff;padding:10px 14px;border-radius:14px 4px 14px 14px;font-size:13px;max-width:85%;">¿Y el MEP?</div>
+          <div style="align-self:flex-start;background:#eeeae1;border:1px solid #e3ddd3;padding:10px 14px;border-radius:4px 14px 14px 14px;font-size:13px;color:#3a3630;max-width:90%;line-height:1.5;">El dólar MEP cotiza alrededor de <strong>$1.290</strong> según el mercado actual.</div>
+        </div>
+        <div style="padding:10px 16px;background:#f0ece3;border-top:1px solid #e3ddd3;font-size:11px;color:#7a7468;font-family:'JetBrains Mono',monospace;">⚡ Respuesta en 3 segundos · Búsqueda web real</div>
       </div>
-      <div class="stat-div"></div>
-      <div class="stat">
-        <div class="stat-num syne">100%</div>
-        <div class="stat-lbl mono">Privado</div>
+      <div style="background:#f7f5f0;border:1.5px solid #e3ddd3;border-radius:16px;overflow:hidden;">
+        <div style="background:#0d0d10;padding:12px 16px;display:flex;align-items:center;gap:8px;"><div style="width:8px;height:8px;border-radius:50%;background:#ff5f57;"></div><div style="width:8px;height:8px;border-radius:50%;background:#ffbd2e;"></div><div style="width:8px;height:8px;border-radius:50%;background:#28c840;"></div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(247,245,240,.4);margin-left:8px;">Creación de páginas web</span></div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+          <div style="align-self:flex-end;background:#e8572a;color:#fff;padding:10px 14px;border-radius:14px 4px 14px 14px;font-size:13px;max-width:85%;">Necesito una landing page para mi peluquería. Colores violeta y negro, con botón de WhatsApp.</div>
+          <div style="align-self:flex-start;background:#eeeae1;border:1px solid #e3ddd3;padding:10px 14px;border-radius:4px 14px 14px 14px;font-size:13px;color:#3a3630;max-width:90%;line-height:1.5;">¡Listo! Página completa con diseño profesional y botón WhatsApp. 💇‍♀️</div>
+          <div style="background:#0d0d10;border-radius:8px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(247,245,240,.5);">📄 HTML generado</span><span style="font-size:11px;color:#e8572a;font-weight:700;">▶ Vista previa</span></div>
+        </div>
+        <div style="padding:10px 16px;background:#f0ece3;border-top:1px solid #e3ddd3;font-size:11px;color:#7a7468;font-family:'JetBrains Mono',monospace;">⚡ Código listo en 8 segundos · Con vista previa</div>
       </div>
-      <div class="stat-div"></div>
-      <div class="stat">
-        <div class="stat-num syne">24/7</div>
-        <div class="stat-lbl mono">Disponible</div>
+      <div style="background:#f7f5f0;border:1.5px solid #e3ddd3;border-radius:16px;overflow:hidden;">
+        <div style="background:#0d0d10;padding:12px 16px;display:flex;align-items:center;gap:8px;"><div style="width:8px;height:8px;border-radius:50%;background:#ff5f57;"></div><div style="width:8px;height:8px;border-radius:50%;background:#ffbd2e;"></div><div style="width:8px;height:8px;border-radius:50%;background:#28c840;"></div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(247,245,240,.4);margin-left:8px;">Redacción profesional</span></div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+          <div style="align-self:flex-end;background:#e8572a;color:#fff;padding:10px 14px;border-radius:14px 4px 14px 14px;font-size:13px;max-width:85%;">Redactame un contrato de alquiler temporario para mi depto en Buenos Aires.</div>
+          <div style="align-self:flex-start;background:#eeeae1;border:1px solid #e3ddd3;padding:10px 14px;border-radius:4px 14px 14px 14px;font-size:13px;color:#3a3630;max-width:90%;line-height:1.5;"><strong>CONTRATO DE LOCACIÓN TEMPORARIA</strong><br>Entre [Locador] y [Locatario]...<br><em style="color:#7a7468;font-size:12px;">(contrato completo con todas las cláusulas)</em></div>
+        </div>
+        <div style="padding:10px 16px;background:#f0ece3;border-top:1px solid #e3ddd3;font-size:11px;color:#7a7468;font-family:'JetBrains Mono',monospace;">⚡ Contrato completo en 5 segundos</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item"><span class="marquee-dot"></span> Búsqueda web <strong>en tiempo real</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Creación de <strong>páginas web</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Escritura de <strong>código</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Análisis de <strong>imágenes y PDFs</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Traducción de <strong>textos</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Historial <strong>privado</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Búsqueda web <strong>en tiempo real</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Creación de <strong>páginas web</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Escritura de <strong>código</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Análisis de <strong>imágenes y PDFs</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Traducción de <strong>textos</strong></span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Historial <strong>privado</strong></span>
+<!-- FAQ -->
+<section class="l-section" style="background:#eeeae1;padding:88px 6%;">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">FAQ</div><h2 class="l-h2">Preguntas<br><em>frecuentes</em></h2><p class="l-sub">Todo lo que necesitás saber antes de empezar.</p></div>
+    <div class="l-rev" style="display:flex;flex-direction:column;gap:0;max-width:720px;">
+      <div onclick="toggleLFaq(this)" style="border-bottom:1px solid #d6cfc3;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;"><span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#0d0d10;">¿Necesito saber de tecnología para usarlo?</span><span class="l-faq-ico" style="color:#e8572a;font-size:14px;flex-shrink:0;transition:transform .2s;">▼</span></div><div class="l-faq-body" style="max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:14px;color:#3a3630;line-height:1.65;">No. Si podés escribir un mensaje de WhatsApp, podés usar Claude Fast. Es tan simple como chatear.</div></div>
+      <div onclick="toggleLFaq(this)" style="border-bottom:1px solid #d6cfc3;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;"><span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#0d0d10;">¿Funciona en mi celular?</span><span class="l-faq-ico" style="color:#e8572a;font-size:14px;flex-shrink:0;transition:transform .2s;">▼</span></div><div class="l-faq-body" style="max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:14px;color:#3a3630;line-height:1.65;">Sí. Funciona en cualquier celular, tablet o computadora desde el navegador. No hay nada que instalar.</div></div>
+      <div onclick="toggleLFaq(this)" style="border-bottom:1px solid #d6cfc3;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;"><span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#0d0d10;">¿Qué pasa si se me acaban los créditos?</span><span class="l-faq-ico" style="color:#e8572a;font-size:14px;flex-shrink:0;transition:transform .2s;">▼</span></div><div class="l-faq-body" style="max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:14px;color:#3a3630;line-height:1.65;">Contactás a tu distribuidor por WhatsApp y recargás en minutos. La app te avisa cuando te quedan pocos créditos.</div></div>
+      <div onclick="toggleLFaq(this)" style="border-bottom:1px solid #d6cfc3;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;"><span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#0d0d10;">¿Cuántos créditos gasta una conversación normal?</span><span class="l-faq-ico" style="color:#e8572a;font-size:14px;flex-shrink:0;transition:transform .2s;">▼</span></div><div class="l-faq-body" style="max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:14px;color:#3a3630;line-height:1.65;">Una pregunta simple gasta entre 300 y 800 créditos. Una página web completa entre 3.000 y 8.000. Con 300.000 créditos tenés para meses de uso normal.</div></div>
+      <div onclick="toggleLFaq(this)" style="border-bottom:1px solid #d6cfc3;cursor:pointer;"><div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;"><span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#0d0d10;">¿Es seguro? ¿Alguien puede ver mis conversaciones?</span><span class="l-faq-ico" style="color:#e8572a;font-size:14px;flex-shrink:0;transition:transform .2s;">▼</span></div><div class="l-faq-body" style="max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:14px;color:#3a3630;line-height:1.65;">Tus conversaciones se guardan únicamente en tu dispositivo. No se almacenan en servidores externos. Solo vos podés verlas.</div></div>
+    </div>
+  </div>
+</section>
+<!-- PLANS -->
+<!-- TESTIMONIALS -->
+<section class="l-section" style="background:#f7f5f0;padding:88px 6%;">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">Testimonios</div><h2 class="l-h2">Lo que dicen<br><em>nuestros usuarios</em></h2><p class="l-sub">Personas reales que usan Claude Fast todos los días.</p></div>
+    <div class="l-rev" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+      <div style="background:#fff;border:1.5px solid #e3ddd3;border-radius:16px;padding:24px;">
+        <div style="font-size:32px;color:#e8572a;font-family:'Syne',sans-serif;font-weight:900;line-height:1;margin-bottom:12px;">"</div>
+        <p style="font-size:14px;color:#3a3630;line-height:1.7;margin-bottom:16px;">Antes perdía horas redactando presupuestos y contratos. Ahora le digo a Claude Fast lo que necesito y en segundos tengo el documento listo. Lo uso todos los días para mi estudio contable.</p>
+        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #e3ddd3;padding-top:14px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:#e8572a;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:15px;flex-shrink:0;">M</div>
+          <div><div style="font-size:13px;font-weight:700;color:#0d0d10;">Martín R.</div><div style="font-size:11px;color:#7a7468;">Contador · Rosario</div></div>
+          <div style="margin-left:auto;"><span style="color:#e8572a;font-size:13px;">★★★★★</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #e3ddd3;border-radius:16px;padding:24px;">
+        <div style="font-size:32px;color:#e8572a;font-family:'Syne',sans-serif;font-weight:900;line-height:1;margin-bottom:12px;">"</div>
+        <p style="font-size:14px;color:#3a3630;line-height:1.7;margin-bottom:16px;">Tengo una tienda online y necesitaba una web mejor. Le describí lo que quería y me generó la página completa. No sé nada de programación y pude usarlo igual.</p>
+        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #e3ddd3;padding-top:14px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:#0d0d10;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:15px;flex-shrink:0;">V</div>
+          <div><div style="font-size:13px;font-weight:700;color:#0d0d10;">Valentina S.</div><div style="font-size:11px;color:#7a7468;">Emprendedora · CABA</div></div>
+          <div style="margin-left:auto;"><span style="color:#e8572a;font-size:13px;">★★★★★</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #e3ddd3;border-radius:16px;padding:24px;">
+        <div style="font-size:32px;color:#e8572a;font-family:'Syne',sans-serif;font-weight:900;line-height:1;margin-bottom:12px;">"</div>
+        <p style="font-size:14px;color:#3a3630;line-height:1.7;margin-bottom:16px;">Lo uso para traducir documentos, buscar información actualizada y redactar emails en inglés. Lo mejor es que siempre está disponible al instante. Vale cada peso.</p>
+        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #e3ddd3;padding-top:14px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:#c9a84c;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:15px;flex-shrink:0;">L</div>
+          <div><div style="font-size:13px;font-weight:700;color:#0d0d10;">Lucas P.</div><div style="font-size:11px;color:#7a7468;">Importador · Córdoba</div></div>
+          <div style="margin-left:auto;"><span style="color:#e8572a;font-size:13px;">★★★★★</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #e3ddd3;border-radius:16px;padding:24px;">
+        <div style="font-size:32px;color:#e8572a;font-family:'Syne',sans-serif;font-weight:900;line-height:1;margin-bottom:12px;">"</div>
+        <p style="font-size:14px;color:#3a3630;line-height:1.7;margin-bottom:16px;">Soy profe y lo uso para preparar clases y crear evaluaciones. Antes tardaba horas. Ahora preparo todo en minutos.</p>
+        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #e3ddd3;padding-top:14px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:#3a3630;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:15px;flex-shrink:0;">A</div>
+          <div><div style="font-size:13px;font-weight:700;color:#0d0d10;">Andrea G.</div><div style="font-size:11px;color:#7a7468;">Docente · Mendoza</div></div>
+          <div style="margin-left:auto;"><span style="color:#e8572a;font-size:13px;">★★★★★</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #e3ddd3;border-radius:16px;padding:24px;">
+        <div style="font-size:32px;color:#e8572a;font-family:'Syne',sans-serif;font-weight:900;line-height:1;margin-bottom:12px;">"</div>
+        <p style="font-size:14px;color:#3a3630;line-height:1.7;margin-bottom:16px;">Me ayudó a crear el catálogo web de mi negocio de indumentaria desde cero. Le mandé fotos, le expliqué el diseño y lo hizo todo. Increíble.</p>
+        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #e3ddd3;padding-top:14px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:#e8572a;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:15px;flex-shrink:0;">S</div>
+          <div><div style="font-size:13px;font-weight:700;color:#0d0d10;">Sofía M.</div><div style="font-size:11px;color:#7a7468;">Comerciante · Tucumán</div></div>
+          <div style="margin-left:auto;"><span style="color:#e8572a;font-size:13px;">★★★★★</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #e3ddd3;border-radius:16px;padding:24px;">
+        <div style="font-size:32px;color:#e8572a;font-family:'Syne',sans-serif;font-weight:900;line-height:1;margin-bottom:12px;">"</div>
+        <p style="font-size:14px;color:#3a3630;line-height:1.7;margin-bottom:16px;">Trabajo en marketing y lo uso para generar ideas, redactar copies y analizar competencia. Es como tener un asistente siempre disponible a un precio accesible.</p>
+        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #e3ddd3;padding-top:14px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:#1c1c22;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:15px;flex-shrink:0;">F</div>
+          <div><div style="font-size:13px;font-weight:700;color:#0d0d10;">Federico T.</div><div style="font-size:11px;color:#7a7468;">Marketing · Montevideo</div></div>
+          <div style="margin-left:auto;"><span style="color:#e8572a;font-size:13px;">★★★★★</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- STATS BAR -->
+<section style="background:#0d0d10;padding:32px 6%;border-top:1px solid #1c1c22;border-bottom:1px solid #1c1c22;">
+  <div class="l-inner"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;text-align:center;">
+    <div><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:900;color:#e8572a;letter-spacing:-1px;">+500</div><div style="font-size:12px;color:rgba(247,245,240,.4);font-family:'JetBrains Mono',monospace;letter-spacing:.5px;margin-top:4px;">USUARIOS ACTIVOS</div></div>
+    <div><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:900;color:#e8572a;letter-spacing:-1px;">98%</div><div style="font-size:12px;color:rgba(247,245,240,.4);font-family:'JetBrains Mono',monospace;letter-spacing:.5px;margin-top:4px;">SATISFACCIÓN</div></div>
+    <div><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:900;color:#e8572a;letter-spacing:-1px;">24/7</div><div style="font-size:12px;color:rgba(247,245,240,.4);font-family:'JetBrains Mono',monospace;letter-spacing:.5px;margin-top:4px;">DISPONIBLE</div></div>
+    <div><div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:900;color:#e8572a;letter-spacing:-1px;">&lt;1min</div><div style="font-size:12px;color:rgba(247,245,240,.4);font-family:'JetBrains Mono',monospace;letter-spacing:.5px;margin-top:4px;">PARA EMPEZAR</div></div>
+  </div></div>
+</section>
+<!-- VS COMPARISON -->
+<section class="l-section" style="background:#f7f5f0;padding:88px 6%;">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">Comparación</div><h2 class="l-h2">¿Por qué <em>Claude Fast</em><br>y no otra IA?</h2><p class="l-sub">Otras IAs tienen límites frustrantes. Claude Fast está pensado para el mercado local sin complicaciones.</p></div>
+    <div class="l-rev" style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:500px;">
+        <thead><tr>
+          <th style="padding:14px 16px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a7468;letter-spacing:1px;text-transform:uppercase;border-bottom:2px solid #e3ddd3;"></th>
+          <th style="padding:14px 16px;text-align:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#0d0d10;border-bottom:2px solid #e8572a;background:rgba(232,87,42,.04);border-radius:8px 8px 0 0;">Claude Fast</th>
+          <th style="padding:14px 16px;text-align:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#7a7468;border-bottom:2px solid #e3ddd3;">ChatGPT Free</th>
+          <th style="padding:14px 16px;text-align:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#7a7468;border-bottom:2px solid #e3ddd3;">Claude.ai Free</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e3ddd3;"><td style="padding:13px 16px;font-size:13px;color:#3a3630;">Búsqueda web en tiempo real</td><td style="padding:13px 16px;text-align:center;background:rgba(232,87,42,.03);font-size:16px;">✅</td><td style="padding:13px 16px;text-align:center;font-size:16px;">⚠️ Limitado</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td></tr>
+          <tr style="border-bottom:1px solid #e3ddd3;"><td style="padding:13px 16px;font-size:13px;color:#3a3630;">Sin límite de mensajes por hora</td><td style="padding:13px 16px;text-align:center;background:rgba(232,87,42,.03);font-size:16px;">✅</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td></tr>
+          <tr style="border-bottom:1px solid #e3ddd3;"><td style="padding:13px 16px;font-size:13px;color:#3a3630;">Precio en pesos argentinos</td><td style="padding:13px 16px;text-align:center;background:rgba(232,87,42,.03);font-size:16px;">✅</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td></tr>
+          <tr style="border-bottom:1px solid #e3ddd3;"><td style="padding:13px 16px;font-size:13px;color:#3a3630;">Sin tarjeta de crédito internacional</td><td style="padding:13px 16px;text-align:center;background:rgba(232,87,42,.03);font-size:16px;">✅</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td></tr>
+          <tr style="border-bottom:1px solid #e3ddd3;"><td style="padding:13px 16px;font-size:13px;color:#3a3630;">Soporte directo en español</td><td style="padding:13px 16px;text-align:center;background:rgba(232,87,42,.03);font-size:16px;">✅</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td><td style="padding:13px 16px;text-align:center;font-size:16px;">❌</td></tr>
+          <tr><td style="padding:13px 16px;font-size:13px;color:#3a3630;">Vista previa de páginas web generadas</td><td style="padding:13px 16px;text-align:center;background:rgba(232,87,42,.03);font-size:16px;">✅</td><td style="padding:13px 16px;text-align:center;font-size:16px;">⚠️ Solo código</td><td style="padding:13px 16px;text-align:center;font-size:16px;">⚠️ Solo código</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- FEATURES -->
+<section class="l-section l-feats-bg" id="l-features">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">Capacidades</div><h2 class="l-h2">Todo lo que podés hacer<br><em>con Claude Fast</em></h2><p class="l-sub">Un asistente completo que entiende lo que necesitás y te da resultados reales.</p></div>
+    <div class="l-feat-grid l-rev">
+      <div class="l-fc"><div class="l-fc-num">01</div><span class="l-fc-icon">🔍</span><div class="l-fc-title">Búsqueda web real</div><div class="l-fc-desc">Noticias, precios, dólar, clima — información actualizada al instante.</div></div>
+      <div class="l-fc"><div class="l-fc-num">02</div><span class="l-fc-icon">💻</span><div class="l-fc-title">Páginas web y código</div><div class="l-fc-desc">Describís lo que querés y genera el código completo con vista previa en el chat.</div></div>
+      <div class="l-fc"><div class="l-fc-num">03</div><span class="l-fc-icon">📄</span><div class="l-fc-title">Documentos e imágenes</div><div class="l-fc-desc">Subí PDFs o fotos y Claude Fast los analiza, resume o extrae la información clave.</div></div>
+      <div class="l-fc"><div class="l-fc-num">04</div><span class="l-fc-icon">✍️</span><div class="l-fc-title">Redacción profesional</div><div class="l-fc-desc">Emails, contratos, propuestas, publicaciones. Listos en segundos.</div></div>
+      <div class="l-fc"><div class="l-fc-num">05</div><span class="l-fc-icon">🧠</span><div class="l-fc-title">Memoria personal</div><div class="l-fc-desc">Guardá tus preferencias para que el asistente recuerde tu contexto siempre.</div></div>
+      <div class="l-fc"><div class="l-fc-num">06</div><span class="l-fc-icon">🔒</span><div class="l-fc-title">Historial privado</div><div class="l-fc-desc">Tus conversaciones se guardan solo en tu dispositivo. Nadie más puede verlas.</div></div>
+    </div>
+  </div>
+</section>
+<!-- HOW -->
+<section class="l-how-bg" id="l-como">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">Proceso</div><h2 class="l-h2">Tres pasos para<br><em>empezar hoy</em></h2><p class="l-sub">Sin tarjeta de crédito internacional ni configuraciones técnicas.</p></div>
+    <div class="l-steps l-rev">
+      <div class="l-step"><div class="l-step-num">01</div><span class="l-step-icon">💬</span><div class="l-step-title">Elegís tu plan</div><div class="l-step-desc">Revisás los planes y consultás el precio con tu distribuidor por WhatsApp.</div></div>
+      <div class="l-step"><div class="l-step-num">02</div><span class="l-step-icon">🔑</span><div class="l-step-title">Recibís tu acceso</div><div class="l-step-desc">En minutos recibís tu usuario y contraseña para ingresar desde cualquier dispositivo.</div></div>
+      <div class="l-step"><div class="l-step-num">03</div><span class="l-step-icon">🚀</span><div class="l-step-title">Empezás a usar</div><div class="l-step-desc">Ingresás, elegís tu modelo y usás la IA para todo lo que necesitás.</div></div>
+    </div>
+  </div>
+</section>
+<!-- INCLUDES -->
+<section class="l-inc-bg" id="l-incluye">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">Transparencia</div><h2 class="l-h2">Qué <em>incluye</em> y<br>qué no incluye</h2><p class="l-sub">Sin sorpresas. Sabés exactamente para qué sirve.</p></div>
+    <div class="l-inc-grid l-rev">
+      <div class="l-inc-col"><div class="l-inc-head yes">✅ Sí incluye</div><div class="l-inc-list"><div class="l-inc-item"><span class="l-ck y">✓</span>Búsqueda web en tiempo real</div><div class="l-inc-item"><span class="l-ck y">✓</span>Creación de páginas web y código</div><div class="l-inc-item"><span class="l-ck y">✓</span>Análisis de imágenes y PDFs</div><div class="l-inc-item"><span class="l-ck y">✓</span>Redacción de textos profesionales</div><div class="l-inc-item"><span class="l-ck y">✓</span>Traducciones y correcciones</div><div class="l-inc-item"><span class="l-ck y">✓</span>Historial de chats privado</div><div class="l-inc-item"><span class="l-ck y">✓</span>Memoria personal</div><div class="l-inc-item"><span class="l-ck y">✓</span>Modo claro y oscuro</div><div class="l-inc-item"><span class="l-ck y">✓</span>Funciona en celular, tablet y PC</div></div></div>
+      <div class="l-inc-col"><div class="l-inc-head no">❌ No incluye</div><div class="l-inc-list"><div class="l-inc-item"><span class="l-ck n">✕</span>Generación de imágenes o videos</div><div class="l-inc-item"><span class="l-ck n">✕</span>Reconocimiento de voz</div><div class="l-inc-item"><span class="l-ck n">✕</span>Envío de emails o mensajes</div><div class="l-inc-item"><span class="l-ck n">✕</span>Acceso a tus redes sociales</div><div class="l-inc-item"><span class="l-ck n">✕</span>Sincronización de historial entre dispositivos</div><div class="l-inc-item"><span class="l-ck n">✕</span>Asesoramiento médico, legal o financiero</div><div class="l-inc-item"><span class="l-ck n">✕</span>Llamadas ni videollamadas</div></div></div>
+    </div>
+  </div>
+</section>
+<section class="l-plans-bg" id="l-planes">
+  <div class="l-inner">
+    <div class="l-rev"><div class="l-label">Planes</div><h2 class="l-h2">Elegí el plan<br><em>que más te conviene</em></h2><p class="l-sub">Todos incluyen búsqueda web y soporte. Precios consultá con tu distribuidor.</p></div>
+    <div class="l-plans-grid l-rev">
+      <div class="l-plan"><div class="l-plan-top"><div class="l-plan-name">🚀 Básico</div><span class="l-plan-badge">HAIKU 4.5</span></div><div class="l-plan-model">Ultra rápido · económico</div><div class="l-plan-feats"><div class="l-plan-feat">Preguntas y respuestas rápidas</div><div class="l-plan-feat">Traducciones y correcciones</div><div class="l-plan-feat">Resúmenes de documentos</div><div class="l-plan-feat">Búsqueda web en tiempo real</div></div><button class="l-plan-btn" onclick="openWaContact('Plan Básico')">Consultar precio →</button></div>
+      <div class="l-plan l-pop"><div class="l-plan-top"><div class="l-plan-name">⚡ Estándar</div><span class="l-plan-badge">MÁS POPULAR</span></div><div class="l-plan-model">Haiku + Sonnet 4.6</div><div class="l-plan-feats"><div class="l-plan-feat">Todo lo del Plan Básico</div><div class="l-plan-feat">Crear páginas web completas</div><div class="l-plan-feat">Escritura y corrección de código</div><div class="l-plan-feat">Redacción de textos profesionales</div><div class="l-plan-feat">Análisis de imágenes</div></div><button class="l-plan-btn" onclick="openWaContact('Plan Estándar')">Consultar precio →</button></div>
+      <div class="l-plan"><div class="l-plan-top"><div class="l-plan-name">🧠 Pro</div><span class="l-plan-badge">OPUS 4.6</span></div><div class="l-plan-model">Haiku + Sonnet + Opus</div><div class="l-plan-feats"><div class="l-plan-feat">Todo lo del Plan Estándar</div><div class="l-plan-feat">Análisis estratégicos complejos</div><div class="l-plan-feat">Arquitectura de sistemas</div><div class="l-plan-feat">Máxima inteligencia disponible</div></div><button class="l-plan-btn" onclick="openWaContact('Plan Pro')">Consultar precio →</button></div>
+      <div class="l-plan"><div class="l-plan-top"><div class="l-plan-name">✦ Auto</div><span class="l-plan-badge">TODOS LOS MODELOS</span></div><div class="l-plan-model">IA elige según tu tarea</div><div class="l-plan-feats"><div class="l-plan-feat">Acceso a todos los modelos</div><div class="l-plan-feat">IA elige el más eficiente</div><div class="l-plan-feat">Ideal para uso variado</div></div><div class="l-auto-opts" id="landingAutoOpts"><div class="l-auto-opts-title">¿Cuántos créditos necesitás?</div><div class="l-auto-grid"><div class="l-copt" onclick="selLandingCred(this,'100.000')"><div class="l-copt-val">100.000</div></div><div class="l-copt sel" onclick="selLandingCred(this,'300.000')"><div class="l-copt-val">300.000</div></div><div class="l-copt" onclick="selLandingCred(this,'500.000')"><div class="l-copt-val">500.000</div></div><div class="l-copt" onclick="selLandingCred(this,'1.000.000')"><div class="l-copt-val">1.000.000</div></div></div></div><button class="l-plan-btn" id="landingAutoBtn" onclick="toggleAutoOpts(this)">Ver opciones ↓</button></div>
+    </div>
+  </div>
+</section>
+<!-- CTA -->
+<section class="l-cta-bg" id="l-contacto">
+  <div class="l-cta-deco">FAST</div>
+  <div class="l-cta-inner">
+    <h2 class="l-cta-h2">Empezá hoy.<br><em>Es más simple</em><br>de lo que creés.</h2>
+    <p class="l-cta-sub">Contactá a tu distribuidor por WhatsApp y en minutos tenés acceso.</p>
+    <button class="l-btn-wa" onclick="openWaContact('consulta general')"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Contactar al distribuidor</button>
+    <p class="l-cta-note" id="ctaNote">Si no tenés distribuidor asignado, buscá a MISAKROOS.</p>
+  </div>
+</section>
+<footer class="l-footer">
+  <div class="l-footer-logo"><div class="l-logo-mark" style="width:24px;height:24px;font-size:11px;">✦</div>Claude Fast</div>
+  <div class="l-footer-note">Servicio ofrecido por distribuidores autorizados</div>
+</footer>
+<button class="l-wa-float" onclick="openWaContact('flotante')" title="WhatsApp"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+<div class="mo hidden" id="landingLoginModal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr"><span class="modal-ttl">Ingresar a Claude Fast</span><button class="btn-cls" onclick="closeLandingLogin()">✕</button></div>
+    <div class="fg"><label>Usuario</label><input type="text" id="llUser" placeholder="Tu usuario" autocomplete="username" autocapitalize="none" autocorrect="off"/></div>
+    <div class="fg"><label>Contraseña</label><input type="password" id="llPass" placeholder="Tu contraseña" autocomplete="current-password"/></div>
+    <button class="btn btn-p" id="llBtn" onclick="doLandingLogin()">Ingresar</button>
+    <p class="err" id="llErr"></p>
   </div>
 </div>
+</div>
 
-<!-- FEATURES -->
-<section class="features">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label">Capacidades</div>
-      <h2 class="section-h2 syne">Todo lo que podés<br><em>hacer con Claude Fast</em></h2>
-      <p class="section-sub">Un asistente completo que entiende lo que necesitás y te da resultados reales.</p>
-    </div>
-    <div class="features-grid reveal">
-      <div class="feat-card">
-        <div class="feat-icon">🔍</div>
-        <div class="feat-title syne">Búsqueda web real</div>
-        <div class="feat-desc">Buscá noticias, precios, dólar, clima y cualquier información actualizada. No trabaja con datos viejos — busca en internet en el momento.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">💻</div>
-        <div class="feat-title syne">Páginas web y código</div>
-        <div class="feat-desc">Describís lo que querés y Claude Fast genera el código HTML, CSS y JavaScript completo. Podés previsualizar el resultado directamente en el chat.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">📄</div>
-        <div class="feat-title syne">Documentos e imágenes</div>
-        <div class="feat-desc">Subí PDFs, fotos o documentos y Claude Fast los analiza, resume o extrae la información que necesitás.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">✍️</div>
-        <div class="feat-title syne">Redacción profesional</div>
-        <div class="feat-desc">Emails, contratos, propuestas, publicaciones para redes. Textos listos para usar en segundos.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🧠</div>
-        <div class="feat-title syne">Memoria personal</div>
-        <div class="feat-desc">Guardá información sobre vos para que Claude Fast recuerde tus preferencias y contexto en cada conversación.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">💬</div>
-        <div class="feat-title syne">Historial privado</div>
-        <div class="feat-desc">Tus conversaciones se guardan localmente en tu dispositivo. Nadie más puede verlas. Accedés cuando quieras.</div>
-      </div>
-    </div>
+<!-- ══ RESELLER PANEL ══ -->
+<div id="resellerScreen" class="hidden">
+  <div class="rs-header">
+    <div class="rs-logo"><div class="rs-logo-mark">✦</div><div><div class="rs-logo-name">Claude Fast</div><div class="rs-logo-sub" id="rsLogoSub">Revendedor</div></div></div>
+    <div class="rs-header-right"><span class="rs-badge" id="rsBadge">REVENDEDOR</span><button class="btn-out" onclick="doResellerLogout()">Salir</button></div>
   </div>
-</section>
-
-<!-- PLANES -->
-<section class="dark-section" id="planes">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label" style="color:var(--acc2)">Planes</div>
-      <h2 class="section-h2 syne">Elegí el plan<br><em>que más te conviene</em></h2>
-      <p class="section-sub" style="color:rgba(245,243,238,.55)">Todos los planes incluyen búsqueda web, historial privado y soporte por WhatsApp. Los precios los consultás directamente con tu distribuidor.</p>
-    </div>
-    <div class="plans-grid reveal">
-      <div class="plan-card-l">
-        <div class="plan-badge-l">Haiku 4.5</div>
-        <div class="plan-name-l syne">🚀 Básico</div>
-        <div class="plan-model-l mono">Modelo ultra rápido</div>
-        <div class="plan-features-l">
-          <div class="plan-feat-l">Preguntas y respuestas rápidas</div>
-          <div class="plan-feat-l">Traducciones y correcciones</div>
-          <div class="plan-feat-l">Resúmenes de documentos</div>
-          <div class="plan-feat-l">Búsqueda web en tiempo real</div>
+  <div class="rs-body">
+    <div class="rs-content">
+      <div class="rs-tab-panel active" id="rs-tab-dash">
+        <div class="sec-hdr"><span class="sec-ttl">Dashboard</span><button class="btn btn-s btn-xs" onclick="loadRsDash()">↻</button></div>
+        <div class="rs-dash-grid">
+          <div class="rs-card"><div class="rs-card-lbl">Créditos disponibles</div><div class="rs-card-val g" id="rsCreditDisp">—</div><div class="rs-card-sub">Para distribuir</div></div>
+          <div class="rs-card"><div class="rs-card-lbl">Créditos usados</div><div class="rs-card-val r" id="rsCreditUsed">—</div><div class="rs-card-sub">Por tus usuarios</div></div>
+          <div class="rs-card"><div class="rs-card-lbl">Total recibido</div><div class="rs-card-val o" id="rsCreditTotal">—</div><div class="rs-card-sub">Del operador</div></div>
+          <div class="rs-card"><div class="rs-card-lbl">Usuarios activos</div><div class="rs-card-val b" id="rsUsersActive">—</div><div class="rs-card-sub">De tus clientes</div></div>
+          <div class="rs-card full"><div class="rs-card-lbl">Distribución de créditos</div><div class="rs-cbar"><div class="rs-cbar-used" id="rsCbarUsed" style="width:0%"></div><div class="rs-cbar-dist" id="rsCbarDist" style="width:0%"></div></div><div class="rs-cbar-lbls"><span id="rsCbarLblU">Consumido: 0</span><span id="rsCbarLblD">Distribuido: 0</span><span id="rsCbarLblT">Disponible: 0</span></div></div>
         </div>
-        <button class="plan-cta-l" onclick="openWaContact('Plan Básico')">Consultar precio →</button>
+        <div class="info-note" style="font-size:12px">💡 Los créditos que asignás a tus usuarios se descuentan de tu saldo disponible.</div>
       </div>
-      <div class="plan-card-l featured">
-        <div class="plan-badge-l">Más popular</div>
-        <div class="plan-name-l syne">⚡ Estándar</div>
-        <div class="plan-model-l mono">Haiku + Sonnet 4.6</div>
-        <div class="plan-features-l">
-          <div class="plan-feat-l">Todo lo del Plan Básico</div>
-          <div class="plan-feat-l">Crear páginas web completas</div>
-          <div class="plan-feat-l">Escritura y corrección de código</div>
-          <div class="plan-feat-l">Redacción de textos profesionales</div>
-          <div class="plan-feat-l">Análisis de imágenes</div>
-        </div>
-        <button class="plan-cta-l" onclick="openWaContact('Plan Estándar')">Consultar precio →</button>
+      <div class="rs-tab-panel" id="rs-tab-users">
+        <div class="sec-hdr"><span class="sec-ttl">Mis usuarios</span><button class="btn btn-s btn-xs" onclick="loadRsUsers()">↻</button></div>
+        <div class="rs-user-list" id="rsUsersList"><p style="color:var(--t3);font-size:13px">Cargando...</p></div>
       </div>
-      <div class="plan-card-l">
-        <div class="plan-badge-l">Opus 4.6</div>
-        <div class="plan-name-l syne">🧠 Pro</div>
-        <div class="plan-model-l mono">Haiku + Sonnet + Opus</div>
-        <div class="plan-features-l">
-          <div class="plan-feat-l">Todo lo del Plan Estándar</div>
-          <div class="plan-feat-l">Análisis estratégicos complejos</div>
-          <div class="plan-feat-l">Arquitectura de sistemas</div>
-          <div class="plan-feat-l">Máxima inteligencia disponible</div>
-        </div>
-        <button class="plan-cta-l" onclick="openWaContact('Plan Pro')">Consultar precio →</button>
-      </div>
-      <div class="plan-card-l">
-        <div class="plan-badge-l">Todos los modelos</div>
-        <div class="plan-name-l syne">✦ Automático</div>
-        <div class="plan-model-l mono">IA elige según tu tarea</div>
-        <div class="plan-features-l">
-          <div class="plan-feat-l">Acceso a todos los modelos</div>
-          <div class="plan-feat-l">IA elige el más eficiente</div>
-          <div class="plan-feat-l">Créditos: 100k / 300k / 500k / 1M</div>
-          <div class="plan-feat-l">Ideal para uso variado</div>
-        </div>
-        <div id="landingAutoOpts" style="display:none;margin-bottom:12px">
-          <div style="font-size:11px;color:rgba(245,243,238,.5);margin-bottom:8px;font-family:'JetBrains Mono',sans-serif;letter-spacing:.3px">¿Cuántos créditos necesitás?</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-            <div class="credit-opt-l" onclick="selectLandingCredits(this,'100.000')"><div class="credit-opt-val-l">100.000</div></div>
-            <div class="credit-opt-l selected" onclick="selectLandingCredits(this,'300.000')"><div class="credit-opt-val-l">300.000</div></div>
-            <div class="credit-opt-l" onclick="selectLandingCredits(this,'500.000')"><div class="credit-opt-val-l">500.000</div></div>
-            <div class="credit-opt-l" onclick="selectLandingCredits(this,'1.000.000')"><div class="credit-opt-val-l">1.000.000</div></div>
+      <div class="rs-tab-panel" id="rs-tab-create">
+        <div class="sec-hdr"><span class="sec-ttl">Crear usuario</span></div>
+        <div class="form-card">
+          <div class="fg-grid">
+            <div class="fg"><label>Usuario</label><input type="text" id="rsNUser" placeholder="nombre_usuario" autocapitalize="none" autocorrect="off"/></div>
+            <div class="fg"><label>Contraseña</label><input type="text" id="rsNPass" placeholder="clave123"/></div>
+            <div class="fg full"><label>Créditos a asignar</label><input type="number" id="rsNCredits" value="100000" min="1000"/><span class="fg-note" id="rsNCreditsNote">Disponibles: — créditos</span></div>
+            <div class="fg full"><label>Plan</label><select id="rsNPlan"><option value="basico">🚀 Básico</option><option value="estandar" selected>⚡ Estándar</option><option value="pro">🧠 Pro</option><option value="auto">✦ Automático</option></select></div>
+            <div class="fg"><label>Días de acceso</label><input type="number" id="rsNDays" value="30" min="1" oninput="rsCalcExpiry()"/></div>
+            <div class="fg"><label>Vencimiento</label><input type="datetime-local" id="rsNExpiry"/></div>
           </div>
+          <button class="btn btn-p" onclick="createRsUser()">Crear usuario</button>
+          <p class="err" id="rsCreateErr"></p>
         </div>
-        <button class="plan-cta-l" id="landingAutoBtn" onclick="toggleLandingAuto(this)">Ver opciones de créditos ↓</button>
       </div>
+      <div class="rs-tab-panel" id="rs-tab-mov">
+        <div class="sec-hdr"><span class="sec-ttl">Movimientos</span><button class="btn btn-s btn-xs" onclick="loadRsMov()">↻</button></div>
+        <div class="rs-mov-list" id="rsMovList"><p style="color:var(--t3);font-size:13px">Cargando...</p></div>
+      </div>
+    </div>
+    <div class="rs-nav">
+      <button class="rs-nav-btn active" id="rs-nav-dash" onclick="switchRsTab('dash')"><span class="rs-nav-icon">📊</span><span class="rs-nav-lbl">Dashboard</span></button>
+      <button class="rs-nav-btn" id="rs-nav-users" onclick="switchRsTab('users')"><span class="rs-nav-icon">👥</span><span class="rs-nav-lbl">Usuarios</span></button>
+      <button class="rs-nav-btn" id="rs-nav-create" onclick="switchRsTab('create')"><span class="rs-nav-icon">➕</span><span class="rs-nav-lbl">Crear</span></button>
+      <button class="rs-nav-btn" id="rs-nav-mov" onclick="switchRsTab('mov')"><span class="rs-nav-icon">📋</span><span class="rs-nav-lbl">Movimientos</span></button>
     </div>
   </div>
-</section>
-
-<!-- CÓMO FUNCIONA -->
-<section class="how-section">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label">Proceso</div>
-      <h2 class="section-h2 syne">Tres pasos para<br><em>empezar hoy</em></h2>
-      <p class="section-sub">Sin tarjeta de crédito internacional, sin configuraciones técnicas.</p>
+</div>
+<div class="mo hidden" id="rsEditModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr"><span class="modal-ttl">Editar usuario</span><button class="btn-cls" onclick="closeRsEdit()">✕</button></div>
+    <div class="edit-grid">
+      <div class="fg full"><label>Usuario</label><input type="text" id="rsEUser" disabled style="opacity:.5"/></div>
+      <div class="fg full"><label>Nueva contraseña (vacío = no cambiar)</label><input type="text" id="rsEPass" placeholder="nueva_clave"/></div>
+      <div class="fg full"><label>➕ Sumar créditos extra</label><input type="number" id="rsEAddCred" value="0" min="0"/><span class="fg-note" id="rsECredNote">Disponibles: — | Se descuentan de tu saldo</span></div>
+      <div class="fg full"><label>➕ Sumar días extra</label><input type="number" id="rsEAddDays" value="0" min="0"/></div>
+      <div class="fg full"><label>Estado</label><select id="rsEActivo"><option value="true">✅ Activo</option><option value="false">❌ Desactivado</option></select></div>
     </div>
-    <div class="steps reveal">
-      <div class="step">
-        <div class="step-num syne">01</div>
-        <div class="step-title syne">Elegís tu plan</div>
-        <div class="step-desc">Revisás los planes disponibles y consultás el precio por WhatsApp con tu distribuidor.</div>
-      </div>
-      <div class="step">
-        <div class="step-num syne">02</div>
-        <div class="step-title syne">Recibís tu acceso</div>
-        <div class="step-desc">En minutos recibís tu usuario y contraseña para ingresar a Claude Fast desde cualquier dispositivo.</div>
-      </div>
-      <div class="step">
-        <div class="step-num syne">03</div>
-        <div class="step-title syne">Empezás a usar</div>
-        <div class="step-desc">Ingresás, elegís tu modelo preferido y ya podés usar la IA para todo lo que necesitás.</div>
-      </div>
-    </div>
+    <button class="btn btn-p" onclick="saveRsEdit()" style="margin-top:14px">Guardar</button>
+    <p class="err" id="rsEditErr"></p>
+    <input type="hidden" id="rsEId"/><input type="hidden" id="rsECurCred"/><input type="hidden" id="rsECurUsed"/><input type="hidden" id="rsECurExp"/>
   </div>
-</section>
-
-<!-- INCLUYE / NO INCLUYE -->
-<section class="includes-section">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label">Transparencia</div>
-      <h2 class="section-h2 syne">Qué <em>incluye</em> y<br>qué no incluye</h2>
-      <p class="section-sub">Sin sorpresas. Sabés exactamente para qué sirve.</p>
-    </div>
-    <div class="includes-grid reveal">
-      <div class="includes-col">
-        <div class="includes-col-title syne">✅ Sí incluye</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Búsqueda web en tiempo real</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Creación de páginas web y código</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Análisis de imágenes y PDFs</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Redacción de textos profesionales</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Traducciones y correcciones</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Historial de chats privado</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Memoria personal personalizable</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Modo claro y oscuro</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Funciona en celular, tablet y PC</div>
-        <div class="includes-item"><span class="includes-check">✓</span>Soporte por WhatsApp</div>
-      </div>
-      <div class="includes-col">
-        <div class="includes-col-title syne">❌ No incluye</div>
-        <div class="includes-item"><span class="includes-x">✕</span>Generación de imágenes o videos</div>
-        <div class="includes-item"><span class="includes-x">✕</span>Reconocimiento de voz</div>
-        <div class="includes-item"><span class="includes-x">✕</span>Envío de emails o mensajes</div>
-        <div class="includes-item"><span class="includes-x">✕</span>Acceso a tus redes sociales</div>
-        <div class="includes-item"><span class="includes-x">✕</span>Sincronización entre dispositivos del historial</div>
-        <div class="includes-item"><span class="includes-x">✕</span>Asesoramiento médico, legal o financiero</div>
-        <div class="includes-item"><span class="includes-x">✕</span>Llamadas o videollamadas</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL -->
-<section class="cta-section" id="contacto">
-  <div class="cta-bg-text">FAST</div>
-  <div class="cta-inner">
-    <h2 class="cta-h2 syne">Empezá hoy.<br><em>Es más simple</em><br>de lo que creés.</h2>
-    <p class="cta-sub">Contactá a tu distribuidor por WhatsApp, elegí tu plan y en minutos tenés acceso a una IA avanzada.</p>
-    <button class="btn-wa" id="ctaWaBtn" onclick="openWaContact('consulta general')">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Contactar al distribuidor
-    </button>
-    <p class="cta-note" id="ctaNote">Si no tenés un distribuidor asignado, contactá a MISAKROOS directamente.</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">
-    <div class="nav-logo-mark" style="width:24px;height:24px;font-size:11px;">✦</div>
-    Claude Fast
-  </div>
-  <div class="footer-note mono">Servicio ofrecido por distribuidores autorizados</div>
-</footer>
-
-<!-- FLOATING WA -->
-<button class="wa-float" id="floatWaBtn" onclick="openWaContact('flotante')" title="Contactar por WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</button>
-  <!-- Login overlay on landing -->
-  <div class="mo hidden" id="landingLoginModal">
-    <div class="modal" style="max-width:380px">
-      <div class="modal-handle"></div>
-      <div class="modal-hdr">
-        <span class="modal-ttl">Ingresar a Claude Fast</span>
-        <button class="btn-cls" onclick="closeLandingLogin()">✕</button>
-      </div>
-      <div class="fg"><label>Usuario</label><input type="text" id="llUser" placeholder="Tu usuario" autocomplete="username" autocapitalize="none" autocorrect="off"/></div>
-      <div class="fg"><label>Contraseña</label><input type="password" id="llPass" placeholder="Tu contraseña" autocomplete="current-password"/></div>
-      <button class="btn btn-p" id="llBtn" onclick="doLandingLogin()">Ingresar</button>
-      <p class="err" id="llErr"></p>
-    </div>
+</div>
+<!-- ADD CREDITS TO RESELLER MODAL -->
+<div class="mo hidden" id="addCredModal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr"><span class="modal-ttl" id="addCredTitle">Cargar créditos</span><button class="btn-cls" onclick="closeAddCredModal()">✕</button></div>
+    <div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:12px 14px;margin-bottom:14px;"><div style="font-size:12px;color:var(--t3);margin-bottom:4px;">Créditos disponibles actuales</div><div style="font-size:22px;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace;" id="addCredCurrent">—</div></div>
+    <div class="fg"><label>Créditos a agregar</label><input type="number" id="addCredAmount" value="1000000" min="1000" step="100000"/><span class="fg-note">Se suman al saldo disponible del revendedor</span></div>
+    <div class="fg"><label>Nota (opcional)</label><input type="text" id="addCredNote" placeholder="Ej: Recarga del mes"/></div>
+    <button class="btn btn-p" onclick="confirmAddCred()">Confirmar carga</button>
+    <p class="err" id="addCredErr"></p>
+    <input type="hidden" id="addCredRevId"/>
   </div>
 </div>
 
@@ -1854,6 +1240,8 @@ footer {
               <div class="fg"><label>Nombre</label><input type="text" id="rNombre" placeholder="Nombre del revendedor" autocorrect="off"/></div>
               <div class="fg"><label>WhatsApp</label><input type="tel" id="rWhatsapp" placeholder="5491112345678"/></div>
               <div class="fg full"><label>Código único (para URL)</label><input type="text" id="rCodigo" placeholder="ej: rodrigo2024" autocapitalize="none" autocorrect="off"/><span class="fg-note">Se usará en la URL: misakroos.com/claude/?ref=CODIGO</span></div>
+              <div class="fg"><label>Contraseña del panel</label><input type="text" id="rClave" placeholder="clave del revendedor"/></div>
+              <div class="fg"><label>Créditos iniciales</label><input type="number" id="rCredits" value="0" min="0"/><span class="fg-note">Créditos disponibles para distribuir</span></div>
             </div>
             <button class="btn btn-p" onclick="createRevendedor()">Crear revendedor</button>
             <p class="err" id="revErr"></p>
@@ -2401,141 +1789,6 @@ function showScreen(name){
 }
 
 // ══ INIT ══
-// ══ LANDING ══
-let landingResellerWa = '';
-let landingResellerName = '';
-
-async function initLanding(){
-  const params=new URLSearchParams(window.location.search);
-  const ref=params.get('ref');
-  if(ref){
-    try{
-      const{data}=await sb.from('revendedores').select('nombre,whatsapp').eq('codigo',ref).eq('activo',true).single();
-      if(data){
-        landingResellerWa=data.whatsapp;
-        landingResellerName=data.nombre||'tu distribuidor';
-        const note=document.getElementById('ctaNote');
-        if(note)note.textContent=`Distribuidor: ${landingResellerName}`;
-      }
-    }catch(e){}
-  }
-  // Init scroll reveal
-  const els=document.querySelectorAll('#landingScreen .reveal');
-  const obs=new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-  },{threshold:0.1});
-  els.forEach(el=>obs.observe(el));
-  // Smooth anchors
-  document.querySelectorAll('#landingScreen a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',e=>{
-      e.preventDefault();
-      const id=a.getAttribute('href').slice(1);
-      if(!id)return;
-      const el=document.getElementById(id);
-      if(el)el.scrollIntoView({behavior:'smooth'});
-    });
-  });
-}
-
-function openLandingLogin(){
-  document.getElementById('landingLoginModal').classList.remove('hidden');
-  setTimeout(()=>document.getElementById('llUser').focus(),200);
-}
-
-function closeLandingLogin(){
-  document.getElementById('landingLoginModal').classList.add('hidden');
-  document.getElementById('llErr').textContent='';
-}
-
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){
-    const m=document.getElementById('landingLoginModal');
-    if(!m.classList.contains('hidden'))closeLandingLogin();
-  }
-});
-
-async function doLandingLogin(){
-  const user=document.getElementById('llUser').value.trim();
-  const pass=document.getElementById('llPass').value.trim();
-  const btn=document.getElementById('llBtn');
-  const err=document.getElementById('llErr');
-  if(!user||!pass){err.textContent='Completá usuario y contraseña';return;}
-  btn.textContent='Ingresando...';btn.disabled=true;err.textContent='';
-
-  const{data:op}=await sb.from('operador').select('*').eq('usuario',user).eq('clave',pass).single();
-  if(op){
-    role='operator';curUser=user;apiKey=op.api_key||'';
-    activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';
-    sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
-    saveSession({role:'operator',user,pass});
-    document.getElementById('landingScreen').classList.add('hidden');
-    startOperator();
-    return;
-  }
-  const{data:u}=await sb.from('usuario').select('*').eq('usuario',user).eq('clave',pass).single();
-  if(u){
-    if(!u.activo){err.textContent='Tu cuenta está desactivada';btn.textContent='Ingresar';btn.disabled=false;return;}
-    role='user';curUser=u.usuario;curUserId=u.id;
-    tokTotal=u.tokens_totales;tokUsed=u.tokens_usados;expiry=u.fecha_vencimiento;
-    activeModel=u.modelo_preferido||'auto';
-    userWhatsapp=u.whatsapp||'';
-    userPlan=u.plan||'estandar';
-    const{data:opCfg}=await sb.from('operador').select('api_key').single();
-    if(!opCfg||!opCfg.api_key){err.textContent='Error: servicio no disponible';btn.textContent='Ingresar';btn.disabled=false;return;}
-    apiKey=opCfg.api_key;
-    sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
-    saveSession({role:'user',user,pass});
-    document.getElementById('landingScreen').classList.add('hidden');
-    if(u.primer_login){startUserHistory();openWelcomeModal();}else startUserHistory();
-    return;
-  }
-  err.textContent='Usuario o contraseña incorrectos';
-  btn.textContent='Ingresar';btn.disabled=false;
-}
-
-// Landing Enter key
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('llPass')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLandingLogin();});
-  document.getElementById('llUser')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLandingLogin();});
-});
-
-let landingAutoCredits = '300.000';
-let landingAutoExpanded = false;
-
-function toggleLandingAuto(btn){
-  const opts = document.getElementById('landingAutoOpts');
-  landingAutoExpanded = !landingAutoExpanded;
-  opts.style.display = landingAutoExpanded ? 'block' : 'none';
-  if(landingAutoExpanded){
-    btn.textContent = 'Consultar precio →';
-    btn.onclick = function(){ openWaContact('Plan Automático'); };
-  } else {
-    btn.textContent = 'Ver opciones de créditos ↓';
-    btn.onclick = function(){ toggleLandingAuto(btn); };
-  }
-}
-
-function selectLandingCredits(el, credits){
-  landingAutoCredits = credits;
-  document.querySelectorAll('.credit-opt-l').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function openWaContact(context){
-  let wa=landingResellerWa;
-  const msgs={
-    'consulta general':'Hola! Vi la página de Claude Fast y me gustaría obtener más información sobre los planes disponibles.',
-    'Plan Básico':'Hola! Me interesa el 🚀 Plan Básico de Claude Fast. ¿Me podés dar más información sobre precios?',
-    'Plan Estándar':'Hola! Me interesa el ⚡ Plan Estándar de Claude Fast. ¿Me podés dar más información sobre precios?',
-    'Plan Pro':'Hola! Me interesa el 🧠 Plan Pro de Claude Fast. ¿Me podés dar más información sobre precios?',
-    'Plan Automático':`Hola! Me interesa el ✦ Plan Automático de Claude Fast con ${landingAutoCredits} créditos. ¿Me podés dar más información sobre precios?`,
-    'flotante':'Hola! Vi la página de Claude Fast y quiero consultar sobre los planes disponibles.',
-  };
-  const msg=encodeURIComponent(msgs[context]||msgs['consulta general']);
-  if(wa){window.open(`https://wa.me/${wa}?text=${msg}`,'_blank');}
-  else{alert('Para contratar Claude Fast, contactá a tu distribuidor autorizado.');}
-}
-
 window.addEventListener('DOMContentLoaded',async()=>{
   initTheme();
   loadMemory();
@@ -2550,6 +1803,9 @@ async function restoreSession(s){
     if(s.role==='operator'){
       const{data:op}=await sb.from('operador').select('*').eq('usuario',s.user).eq('clave',s.pass).single();
       if(op){role='operator';curUser=s.user;apiKey=op.api_key||'';activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;document.getElementById('loadingScreen').classList.add('hidden');startOperator();return;}
+    }else if(s.role==='reseller'){
+      const{data:rev}=await sb.from('revendedores').select('*').eq('codigo',s.user).eq('clave',s.pass).eq('activo',true).single();
+      if(rev){rsData=rev;rsId=rev.id;document.getElementById('loadingScreen').classList.add('hidden');document.getElementById('rsLogoSub').textContent=rev.nombre||rev.codigo;document.getElementById('rsBadge').textContent=rev.nombre||'REVENDEDOR';startResellerPanel();return;}
     }else if(s.role==='user'){
       const{data:u}=await sb.from('usuario').select('*').eq('usuario',s.user).eq('clave',s.pass).single();
       if(u&&u.activo){
@@ -2568,9 +1824,7 @@ async function restoreSession(s){
   }catch(e){}
   clearSession();
   document.getElementById('loadingScreen').classList.add('hidden');
-  document.getElementById('landingScreen').classList.remove('hidden');
-  document.getElementById('loginScreen').classList.add('hidden');
-  initLanding();
+  document.getElementById('loginScreen').classList.remove('hidden');
 }
 
 // ══ FAQ ══
@@ -2619,6 +1873,8 @@ function doLogout(){
   document.getElementById('app').classList.add('hidden');
   document.getElementById('landingScreen').classList.remove('hidden');
   document.getElementById('loginScreen').classList.add('hidden');
+  const _lb=document.getElementById('landingBackBtn');const _ll=document.getElementById('landingLoginBtn');
+  if(_lb)_lb.style.display='none';if(_ll)_ll.style.display='';
   initLanding();
   document.getElementById('loginUser').value='';
   document.getElementById('loginPass').value='';
@@ -2629,6 +1885,8 @@ function doLogout(){
 
 // ══ HISTORY SCREEN ══
 function startUserHistory(){
+  const _lb=document.getElementById('landingBackBtn');const _ll=document.getElementById('landingLoginBtn');
+  if(_lb)_lb.style.display='';if(_ll)_ll.style.display='none';
   document.getElementById('app').classList.remove('hidden');
   showScreen('history');
   loadMemPref();
@@ -2764,6 +2022,8 @@ function clearCurrentChat(){
 
 // ══ OPERATOR ══
 function startOperator(){
+  const _lb=document.getElementById('landingBackBtn');const _ll=document.getElementById('landingLoginBtn');
+  if(_lb)_lb.style.display='';if(_ll)_ll.style.display='none';
   document.getElementById('app').classList.remove('hidden');
   showScreen('operator');
   document.getElementById('cfgKey').value=apiKey;
@@ -3268,27 +2528,33 @@ async function loadRevendedores(){
   if(!el)return;
   el.innerHTML='<p style="color:var(--t3);font-size:13px">Cargando...</p>';
   const{data:revs}=await sb.from('revendedores').select('*').order('creado_en',{ascending:false});
-  const{data:users}=await sb.from('usuario').select('id,usuario,activo,revendedor_id');
+  const{data:users}=await sb.from('usuario').select('id,usuario,activo,revendedor_id,tokens_totales,tokens_usados');
   if(!revs||!revs.length){el.innerHTML='<p style="color:var(--t3);font-size:13px">No hay revendedores aún</p>';return;}
   el.innerHTML=revs.map(r=>{
     const revUsers=users?users.filter(u=>u.revendedor_id===r.id):[];
     const activos=revUsers.filter(u=>u.activo).length;
+    const totalDist=revUsers.reduce((a,u)=>a+(u.tokens_totales||0),0);
+    const totalUsed=revUsers.reduce((a,u)=>a+(u.tokens_usados||0),0);
+    const disp=r.creditos_disponibles||0;
     const baseUrl=window.location.origin+window.location.pathname;
     const url=`${baseUrl}?ref=${r.codigo}`;
-    return`<div class="rev-card">
-      <div class="rev-card-top">
-        <div class="rev-name"><div class="rev-dot"></div>${escH(r.nombre||'Sin nombre')}</div>
-        <button class="btn btn-d btn-xs" onclick="deleteRevendedor('${r.id}')">Eliminar</button>
+    return`<div class="uc">
+      <div class="uc-top">
+        <div class="uc-name"><div class="uc-dot"></div>${escH(r.nombre||r.codigo)}</div>
+        <div class="uc-tags"><span class="uc-tag" style="background:rgba(100,181,246,.1);color:var(--blue);border:1px solid rgba(100,181,246,.3)">${activos} activos</span></div>
       </div>
-      <div class="rev-rows">
-        <div class="rev-row"><span class="rev-rl">WhatsApp</span><span class="rev-rv">${r.whatsapp}</span></div>
-        <div class="rev-row"><span class="rev-rl">Código</span><span class="rev-rv">${r.codigo}</span></div>
-        <div class="rev-row"><span class="rev-rl">Usuarios totales</span><span class="rev-rv">${revUsers.length} (${activos} activos)</span></div>
+      <div class="uc-rows">
+        <div class="uc-row"><span class="uc-rl">💳 Créditos disponibles</span><span class="uc-rv" style="color:var(--green)">${disp.toLocaleString()}</span></div>
+        <div class="uc-row"><span class="uc-rl">📤 Distribuidos</span><span class="uc-rv">${totalDist.toLocaleString()}</span></div>
+        <div class="uc-row"><span class="uc-rl">📊 Consumidos</span><span class="uc-rv">${totalUsed.toLocaleString()}</span></div>
+        <div class="uc-row"><span class="uc-rl">📱 WhatsApp</span><span class="uc-rv">${r.whatsapp||'—'}</span></div>
+        <div class="uc-row"><span class="uc-rl">🔑 Código</span><span class="uc-rv">${r.codigo}</span></div>
       </div>
-      <div class="rev-url" onclick="copyRevUrl('${url}')" title="Tocar para copiar">🔗 ${url}</div>
-      <div class="rev-actions">
-        <button class="btn btn-s btn-sm" style="flex:1" onclick="copyRevUrl('${url}')">📋 Copiar URL</button>
-        <button class="btn btn-s btn-sm" onclick="showRevUsers('${r.id}','${escH(r.nombre||'Sin nombre')}')">👥 Ver usuarios</button>
+      <div class="uc-edit-btn" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn btn-p btn-xs" onclick="openAddCredModal('${r.id}','${escH(r.nombre||r.codigo)}')">💳 Cargar créditos</button>
+        <button class="btn btn-s btn-xs" onclick="copyRevUrl('${r.codigo}')">🔗 URL</button>
+        <button class="btn btn-s btn-xs" onclick="showRevUsers('${r.id}','${escH(r.nombre||r.codigo)}')">👥 Usuarios</button>
+        <button class="btn btn-d btn-xs" onclick="deleteRevendedor('${r.id}')">🗑</button>
       </div>
     </div>`;
   }).join('');
@@ -3311,12 +2577,19 @@ async function createRevendedor(){
   const nombre=document.getElementById('rNombre').value.trim();
   const whatsapp=document.getElementById('rWhatsapp').value.trim().replace(/[^0-9]/g,'');
   const codigo=document.getElementById('rCodigo').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  const clave=document.getElementById('rClave').value.trim();
+  const credits=parseInt(document.getElementById('rCredits').value)||0;
   const err=document.getElementById('revErr');
   if(!nombre||!whatsapp||!codigo){err.textContent='Todos los campos son obligatorios';return;}
-  const{error}=await sb.from('revendedores').insert({nombre,whatsapp,codigo,activo:true});
+  const{error}=await sb.from('revendedores').insert({nombre,whatsapp,codigo,clave,activo:true,creditos_disponibles:credits,creditos_distribuidos:0});
   if(error){err.textContent='Error: '+(error.message||'Código ya existe');return;}
+  if(credits>0){
+    const{data:rev}=await sb.from('revendedores').select('id').eq('codigo',codigo).single();
+    if(rev)await sb.from('movimientos_creditos').insert({revendedor_id:rev.id,tipo:'asignacion_operador',cantidad:credits,descripcion:'Créditos iniciales del operador'});
+  }
   showToast(`Revendedor "${nombre}" creado`,'success');
-  ['rNombre','rWhatsapp','rCodigo'].forEach(id=>document.getElementById(id).value='');
+  ['rNombre','rWhatsapp','rCodigo','rClave'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('rCredits').value='0';
   err.textContent='';loadRevendedores();
 }
 
@@ -3611,6 +2884,325 @@ function showToast(msg,type=''){
   t.className=`toast ${type}`;t.textContent=msg;
   document.body.appendChild(t);
   setTimeout(()=>t?.remove(),3000);
+}
+
+// ══ LANDING ══
+let landingWa='';
+let landingResellerName='';
+let autoCredSel='300.000';
+let autoExpanded=false;
+let rsData=null;
+let rsId=null;
+
+async function initLanding(){
+  const params=new URLSearchParams(window.location.search);
+  const ref=params.get('ref');
+  if(ref){
+    try{
+      const{data}=await sb.from('revendedores').select('nombre,whatsapp').eq('codigo',ref).eq('activo',true).single();
+      if(data){landingWa=data.whatsapp;landingResellerName=data.nombre||'tu distribuidor';const n=document.getElementById('ctaNote');if(n)n.textContent='Distribuidor: '+landingResellerName;}
+    }catch(e){}
+  }
+  const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});},{threshold:0.1});
+  document.querySelectorAll('#landingScreen .l-rev').forEach(el=>obs.observe(el));
+  document.querySelectorAll('#landingScreen a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{e.preventDefault();const id=a.getAttribute('href').slice(1);if(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}});
+  });
+}
+
+function openWaContact(ctx){
+  const wa=landingWa;
+  const msgs={'consulta general':'Hola! Vi la página de Claude Fast y me gustaría obtener más información sobre los planes.','Plan Básico':'Hola! Me interesa el 🚀 Plan Básico de Claude Fast. ¿Me podés dar más información sobre precios?','Plan Estándar':'Hola! Me interesa el ⚡ Plan Estándar de Claude Fast. ¿Me podés dar más información sobre precios?','Plan Pro':'Hola! Me interesa el 🧠 Plan Pro de Claude Fast. ¿Me podés dar más información sobre precios?','Plan Automático':'Hola! Me interesa el ✦ Plan Automático de Claude Fast con '+autoCredSel+' créditos. ¿Me podés dar más información?','flotante':'Hola! Vi la página de Claude Fast y quiero consultar sobre los planes.'};
+  const msg=encodeURIComponent(msgs[ctx]||msgs['consulta general']);
+  if(wa)window.open('https://wa.me/'+wa+'?text='+msg,'_blank');
+  else alert('Para contratar Claude Fast, contactá a tu distribuidor autorizado.');
+}
+
+function toggleAutoOpts(btn){
+  const opts=document.getElementById('landingAutoOpts');
+  autoExpanded=!autoExpanded;
+  opts.style.display=autoExpanded?'block':'none';
+  if(autoExpanded){btn.textContent='Consultar precio →';btn.onclick=function(){openWaContact('Plan Automático');};}
+  else{btn.textContent='Ver opciones ↓';btn.onclick=function(){toggleAutoOpts(btn);};}
+}
+function selLandingCred(el,c){
+  autoCredSel=c;
+  document.querySelectorAll('.l-copt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function showLandingFromApp(){
+  document.getElementById('landingScreen').classList.remove('hidden');
+  document.getElementById('landingScreen').scrollTop=0;
+}
+function hideLandingFromApp(){
+  document.getElementById('landingScreen').classList.add('hidden');
+}
+function openLandingLogin(){
+  document.getElementById('landingLoginModal').classList.remove('hidden');
+  setTimeout(()=>{const u=document.getElementById('llUser');if(u)u.focus();},200);
+}
+function closeLandingLogin(){
+  document.getElementById('landingLoginModal').classList.add('hidden');
+  const e=document.getElementById('llErr');if(e)e.textContent='';
+}
+
+async function doLandingLogin(){
+  const user=document.getElementById('llUser').value.trim();
+  const pass=document.getElementById('llPass').value.trim();
+  const btn=document.getElementById('llBtn');
+  const err=document.getElementById('llErr');
+  if(!user||!pass){err.textContent='Completá usuario y contraseña';return;}
+  btn.textContent='Ingresando...';btn.disabled=true;err.textContent='';
+  // Check operador
+  const{data:op}=await sb.from('operador').select('*').eq('usuario',user).eq('clave',pass).single();
+  if(op){
+    role='operator';curUser=user;apiKey=op.api_key||'';
+    activeModel=localStorage.getItem('cl_model')||'claude-sonnet-4-6';
+    sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
+    saveSession({role:'operator',user,pass});
+    document.getElementById('landingScreen').classList.add('hidden');
+    startOperator();return;
+  }
+  // Check revendedor
+  const{data:rev}=await sb.from('revendedores').select('*').eq('codigo',user).eq('clave',pass).eq('activo',true).single();
+  if(rev){
+    rsData=rev;rsId=rev.id;
+    saveSession({role:'reseller',user,pass});
+    document.getElementById('landingScreen').classList.add('hidden');
+    document.getElementById('rsLogoSub').textContent=rev.nombre||rev.codigo;
+    document.getElementById('rsBadge').textContent=rev.nombre||'REVENDEDOR';
+    startResellerPanel();return;
+  }
+  // Check usuario
+  const{data:u}=await sb.from('usuario').select('*').eq('usuario',user).eq('clave',pass).single();
+  if(u){
+    if(!u.activo){err.textContent='Tu cuenta está desactivada';btn.textContent='Ingresar';btn.disabled=false;return;}
+    role='user';curUser=u.usuario;curUserId=u.id;
+    tokTotal=u.tokens_totales;tokUsed=u.tokens_usados;expiry=u.fecha_vencimiento;
+    activeModel=u.modelo_preferido||'auto';userWhatsapp=u.whatsapp||'';userPlan=u.plan||'estandar';
+    const{data:opCfg}=await sb.from('operador').select('api_key').single();
+    if(!opCfg||!opCfg.api_key){err.textContent='Servicio no disponible';btn.textContent='Ingresar';btn.disabled=false;return;}
+    apiKey=opCfg.api_key;sysPrompt=localStorage.getItem('cl_sysprompt')||sysPrompt;
+    saveSession({role:'user',user,pass});
+    document.getElementById('landingScreen').classList.add('hidden');
+    if(u.primer_login){startUserHistory();openWelcomeModal();}else startUserHistory();
+    return;
+  }
+  err.textContent='Usuario o contraseña incorrectos';btn.textContent='Ingresar';btn.disabled=false;
+}
+
+// FAQ toggle
+function toggleLFaq(el){
+  const body=el.querySelector('.l-faq-body');
+  const ico=el.querySelector('.l-faq-ico');
+  const isOpen=body.style.maxHeight&&body.style.maxHeight!=='0px';
+  document.querySelectorAll('#landingScreen .l-faq-body').forEach(b=>{b.style.maxHeight='0px';b.style.paddingBottom='0';});
+  document.querySelectorAll('#landingScreen .l-faq-ico').forEach(i=>{i.style.transform='';});
+  if(!isOpen){body.style.maxHeight=body.scrollHeight+'px';body.style.paddingBottom='16px';ico.style.transform='rotate(180deg)';}
+}
+
+// Enter key
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&(e.target.id==='llUser'||e.target.id==='llPass'))doLandingLogin();
+  if(e.key==='Escape'){const m=document.getElementById('landingLoginModal');if(m&&!m.classList.contains('hidden'))closeLandingLogin();}
+});
+
+// ══ RESELLER PANEL ══
+function doResellerLogout(){
+  clearSession();rsData=null;rsId=null;
+  document.getElementById('resellerScreen').classList.add('hidden');
+  document.getElementById('landingScreen').classList.remove('hidden');
+  const lb=document.getElementById('landingBackBtn');const ll=document.getElementById('landingLoginBtn');
+  if(lb)lb.style.display='none';if(ll)ll.style.display='';
+  initLanding();
+}
+function startResellerPanel(){
+  document.getElementById('resellerScreen').classList.remove('hidden');
+  const lb=document.getElementById('landingBackBtn');const ll=document.getElementById('landingLoginBtn');
+  if(lb)lb.style.display='';if(ll)ll.style.display='none';
+  loadRsDash();
+}
+function switchRsTab(name){
+  ['dash','users','create','mov'].forEach(t=>{
+    document.getElementById('rs-tab-'+t).classList.toggle('active',t===name);
+    document.getElementById('rs-nav-'+t).classList.toggle('active',t===name);
+  });
+  if(name==='users')loadRsUsers();
+  if(name==='dash')loadRsDash();
+  if(name==='mov')loadRsMov();
+  if(name==='create')updateRsCreditsNote();
+}
+async function loadRsDash(){
+  if(!rsId)return;
+  const{data:rev}=await sb.from('revendedores').select('*').eq('id',rsId).single();
+  if(rev)rsData=rev;
+  const{data:users}=await sb.from('usuario').select('*').eq('revendedor_id',rsId);
+  const now=new Date();
+  const disp=rsData.creditos_disponibles||0;
+  const totalDist=users?users.reduce((a,u)=>a+(u.tokens_totales||0),0):0;
+  const totalUsed=users?users.reduce((a,u)=>a+(u.tokens_usados||0),0):0;
+  const activos=users?users.filter(u=>u.activo&&(!u.fecha_vencimiento||new Date(u.fecha_vencimiento)>now)).length:0;
+  document.getElementById('rsCreditDisp').textContent=disp.toLocaleString();
+  document.getElementById('rsCreditUsed').textContent=totalUsed.toLocaleString();
+  document.getElementById('rsCreditTotal').textContent=((rsData.creditos_distribuidos||0)+disp).toLocaleString();
+  document.getElementById('rsUsersActive').textContent=activos;
+  const total=(rsData.creditos_distribuidos||0)+disp;
+  const ref=Math.max(total,1);
+  document.getElementById('rsCbarUsed').style.width=Math.min((totalUsed/ref)*100,100)+'%';
+  document.getElementById('rsCbarDist').style.width=Math.min((totalDist-totalUsed)/ref*100,100)+'%';
+  document.getElementById('rsCbarLblU').textContent='Consumido: '+totalUsed.toLocaleString();
+  document.getElementById('rsCbarLblD').textContent='Distribuido: '+totalDist.toLocaleString();
+  document.getElementById('rsCbarLblT').textContent='Disponible: '+disp.toLocaleString();
+}
+async function loadRsUsers(){
+  if(!rsId)return;
+  const el=document.getElementById('rsUsersList');
+  el.innerHTML='<p style="color:var(--t3);font-size:13px">Cargando...</p>';
+  const{data}=await sb.from('usuario').select('*').eq('revendedor_id',rsId).order('creado_en',{ascending:false});
+  if(!data||!data.length){el.innerHTML='<p style="color:var(--t3);font-size:13px">Aún no creaste usuarios</p>';return;}
+  const now=new Date();
+  el.innerHTML=data.map(u=>{
+    const rem=u.tokens_totales-u.tokens_usados;
+    const pct=u.tokens_totales>0?Math.max(0,(rem/u.tokens_totales)*100):0;
+    const exp=u.fecha_vencimiento&&new Date(u.fecha_vencimiento)<now;
+    return`<div class="rs-uc ${!u.activo?'inactive':''}">
+      <div class="rs-uc-top"><div class="rs-uc-name"><div class="rs-uc-dot ${!u.activo||exp?'off':''}"></div>${escH(u.usuario)}</div><div class="rs-uc-tags">${exp?'<span class="rs-uc-tag">VENCIDO</span>':''}${!u.activo?'<span class="rs-uc-tag">INACTIVO</span>':''}</div></div>
+      <div class="rs-uc-rows">
+        <div class="rs-uc-row"><span class="rs-uc-rl">Créditos restantes</span><span class="rs-uc-rv">${rem.toLocaleString()} / ${u.tokens_totales.toLocaleString()}</span></div>
+        <div class="rs-uc-bar"><div class="rs-uc-bar-f ${pct<20?'low':''}" style="width:${pct}%"></div></div>
+        <div class="rs-uc-row"><span class="rs-uc-rl">Vence</span><span class="rs-uc-rv">${u.fecha_vencimiento?toARG(u.fecha_vencimiento):'Sin límite'}</span></div>
+        <div class="rs-uc-row"><span class="rs-uc-rl">Plan</span><span class="rs-uc-rv">${(u.plan||'estandar').toUpperCase()}</span></div>
+      </div>
+      <div class="rs-uc-actions"><button class="btn btn-s btn-sm" style="flex:1" onclick="openRsEdit('${u.id}')">✏️ Editar</button><button class="btn btn-s btn-xs" onclick="rsResetPass('${u.id}','${escH(u.usuario)}')">🔑</button></div>
+    </div>`;
+  }).join('');
+}
+async function loadRsMov(){
+  if(!rsId)return;
+  const el=document.getElementById('rsMovList');
+  el.innerHTML='<p style="color:var(--t3);font-size:13px">Cargando...</p>';
+  const{data}=await sb.from('movimientos_creditos').select('*').eq('revendedor_id',rsId).order('creado_en',{ascending:false}).limit(50);
+  if(!data||!data.length){el.innerHTML='<p style="color:var(--t3);font-size:13px">Sin movimientos aún</p>';return;}
+  const icons={'asignacion_operador':'💳','distribucion_usuario':'📤','consumo':'⚡','devolucion':'↩️'};
+  el.innerHTML=data.map(m=>{
+    const pos=m.tipo==='asignacion_operador'||m.tipo==='devolucion';
+    const date=new Date(m.creado_en).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    return`<div class="rs-mov"><div class="rs-mov-icon">${icons[m.tipo]||'📋'}</div><div class="rs-mov-info"><div class="rs-mov-desc">${escH(m.descripcion||m.tipo)}</div><div class="rs-mov-date">${date}</div></div><div class="rs-mov-amount ${pos?'pos':'neg'}">${pos?'+':'−'}${Math.abs(m.cantidad).toLocaleString()}</div></div>`;
+  }).join('');
+}
+function rsCalcExpiry(){
+  const days=parseInt(document.getElementById('rsNDays').value)||0;
+  if(days<=0){document.getElementById('rsNExpiry').value='';return;}
+  const d=new Date();d.setDate(d.getDate()+days);
+  document.getElementById('rsNExpiry').value=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T23:59`;
+}
+function updateRsCreditsNote(){
+  if(!rsData)return;
+  const disp=rsData.creditos_disponibles||0;
+  const el=document.getElementById('rsNCreditsNote');if(el)el.textContent=`Disponibles: ${disp.toLocaleString()} créditos`;
+  const el2=document.getElementById('rsECredNote');if(el2)el2.textContent=`Disponibles: ${disp.toLocaleString()} | Se descuentan de tu saldo`;
+}
+function getModelosByPlanRs(plan){
+  if(plan==='basico')return'haiku';
+  if(plan==='estandar')return'auto,haiku,sonnet';
+  if(plan==='pro')return'auto,haiku,sonnet,opus';
+  return'auto,haiku,sonnet,opus';
+}
+async function createRsUser(){
+  if(!rsId||!rsData)return;
+  const user=document.getElementById('rsNUser').value.trim();
+  const pass=document.getElementById('rsNPass').value.trim();
+  const credits=parseInt(document.getElementById('rsNCredits').value)||0;
+  const plan=document.getElementById('rsNPlan').value;
+  const days=parseInt(document.getElementById('rsNDays').value)||30;
+  const manualExp=document.getElementById('rsNExpiry').value;
+  const err=document.getElementById('rsCreateErr');
+  if(!user||!pass){err.textContent='Usuario y contraseña son obligatorios';return;}
+  if(credits<=0){err.textContent='Ingresá una cantidad de créditos válida';return;}
+  const disp=rsData.creditos_disponibles||0;
+  if(credits>disp){err.textContent=`No tenés suficientes créditos. Disponibles: ${disp.toLocaleString()}`;return;}
+  let exp=null;
+  if(manualExp)exp=dtToUTC(manualExp);
+  else if(days>0){const d=new Date();d.setDate(d.getDate()+days);d.setHours(23,59,59,0);exp=d.toISOString();}
+  const{data:newUser,error}=await sb.from('usuario').insert({usuario:user,clave:pass,whatsapp:rsData.whatsapp||'',plan,modelos_permitidos:getModelosByPlanRs(plan),tokens_totales:credits,tokens_usados:0,fecha_vencimiento:exp,activo:true,primer_login:true,modelo_preferido:'auto',revendedor_id:rsId}).select().single();
+  if(error){err.textContent='Error: '+(error.message||'Usuario ya existe');return;}
+  const newDisp=disp-credits;
+  const newDist=(rsData.creditos_distribuidos||0)+credits;
+  await sb.from('revendedores').update({creditos_disponibles:newDisp,creditos_distribuidos:newDist}).eq('id',rsId);
+  await sb.from('movimientos_creditos').insert({revendedor_id:rsId,usuario_id:newUser.id,tipo:'distribucion_usuario',cantidad:credits,descripcion:`Asignación a usuario "${user}"`});
+  rsData.creditos_disponibles=newDisp;rsData.creditos_distribuidos=newDist;
+  showToast(`Usuario "${user}" creado`,'success');
+  ['rsNUser','rsNPass','rsNExpiry'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('rsNCredits').value='100000';document.getElementById('rsNDays').value='30';
+  err.textContent='';switchRsTab('users');
+}
+async function openRsEdit(id){
+  const{data:u}=await sb.from('usuario').select('*').eq('id',id).single();
+  if(!u)return;
+  document.getElementById('rsEId').value=u.id;document.getElementById('rsEUser').value=u.usuario;
+  document.getElementById('rsEPass').value='';document.getElementById('rsEAddCred').value=0;
+  document.getElementById('rsEAddDays').value=0;document.getElementById('rsEActivo').value=u.activo?'true':'false';
+  document.getElementById('rsECurCred').value=u.tokens_totales;document.getElementById('rsECurUsed').value=u.tokens_usados;
+  document.getElementById('rsECurExp').value=u.fecha_vencimiento||'';
+  updateRsCreditsNote();document.getElementById('rsEditModal').classList.remove('hidden');
+}
+function closeRsEdit(){document.getElementById('rsEditModal').classList.add('hidden');}
+async function saveRsEdit(){
+  if(!rsData)return;
+  const id=document.getElementById('rsEId').value;
+  const pass=document.getElementById('rsEPass').value.trim();
+  const addCred=parseInt(document.getElementById('rsEAddCred').value)||0;
+  const addDays=parseInt(document.getElementById('rsEAddDays').value)||0;
+  const activo=document.getElementById('rsEActivo').value==='true';
+  const curCred=parseInt(document.getElementById('rsECurCred').value)||0;
+  const curExp=document.getElementById('rsECurExp').value;
+  const err=document.getElementById('rsEditErr');
+  const disp=rsData.creditos_disponibles||0;
+  if(addCred>disp){err.textContent=`No tenés ${addCred.toLocaleString()} créditos disponibles (tenés ${disp.toLocaleString()})`;return;}
+  let finalCred=curCred+addCred;
+  let finalExp=curExp||null;
+  if(addDays>0){const base=finalExp?new Date(finalExp):new Date();base.setDate(base.getDate()+addDays);finalExp=base.toISOString();}
+  const upd={tokens_totales:finalCred,activo};
+  if(finalExp)upd.fecha_vencimiento=finalExp;if(pass)upd.clave=pass;
+  const{error}=await sb.from('usuario').update(upd).eq('id',id);
+  if(error){err.textContent='Error: '+error.message;return;}
+  if(addCred>0){
+    const newDisp=disp-addCred;const newDist=(rsData.creditos_distribuidos||0)+addCred;
+    await sb.from('revendedores').update({creditos_disponibles:newDisp,creditos_distribuidos:newDist}).eq('id',rsId);
+    rsData.creditos_disponibles=newDisp;rsData.creditos_distribuidos=newDist;
+    const uName=document.getElementById('rsEUser').value;
+    await sb.from('movimientos_creditos').insert({revendedor_id:rsId,usuario_id:id,tipo:'distribucion_usuario',cantidad:addCred,descripcion:`Recarga a usuario "${uName}"`});
+  }
+  showToast('Usuario actualizado','success');closeRsEdit();loadRsUsers();loadRsDash();
+}
+async function rsResetPass(id,user){
+  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
+  let p='';for(let i=0;i<8;i++)p+=chars[Math.floor(Math.random()*chars.length)];
+  if(!confirm(`¿Resetear contraseña de "${user}"?\nNueva: ${p}\n\nCopiala antes de confirmar.`))return;
+  await sb.from('usuario').update({clave:p}).eq('id',id);
+  alert(`Contraseña reseteada\nUsuario: ${user}\nNueva clave: ${p}`);
+  showToast('Contraseña reseteada','success');
+}
+async function openAddCredModal(revId,revNombre){
+  const{data:rev}=await sb.from('revendedores').select('creditos_disponibles').eq('id',revId).single();
+  document.getElementById('addCredRevId').value=revId;
+  document.getElementById('addCredTitle').textContent='Cargar créditos — '+revNombre;
+  document.getElementById('addCredCurrent').textContent=(rev?.creditos_disponibles||0).toLocaleString();
+  document.getElementById('addCredAmount').value=1000000;document.getElementById('addCredNote').value='';
+  document.getElementById('addCredErr').textContent='';document.getElementById('addCredModal').classList.remove('hidden');
+}
+function closeAddCredModal(){document.getElementById('addCredModal').classList.add('hidden');}
+async function confirmAddCred(){
+  const revId=document.getElementById('addCredRevId').value;
+  const amount=parseInt(document.getElementById('addCredAmount').value)||0;
+  const note=document.getElementById('addCredNote').value.trim();
+  const err=document.getElementById('addCredErr');
+  if(amount<=0){err.textContent='Ingresá una cantidad válida';return;}
+  const{data:rev}=await sb.from('revendedores').select('creditos_disponibles').eq('id',revId).single();
+  const newDisp=(rev?.creditos_disponibles||0)+amount;
+  await sb.from('revendedores').update({creditos_disponibles:newDisp}).eq('id',revId);
+  await sb.from('movimientos_creditos').insert({revendedor_id:revId,tipo:'asignacion_operador',cantidad:amount,descripcion:note||`Recarga del operador — ${amount.toLocaleString()} créditos`});
+  showToast(`+${amount.toLocaleString()} créditos cargados`,'success');closeAddCredModal();loadRevendedores();
 }
 </script>
 </body>
